@@ -3,7 +3,7 @@ import { Card } from 'my-react-component'
 import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IMovie } from 'types/interface'
-import './MovieList.scss'
+import './styles/MovieList.scss'
 
 interface MovieListProps {
   movies: IMovie[]
@@ -20,7 +20,7 @@ const MovieList = ({ movies }: MovieListProps) => {
           <div key={movie.id} onClick={() => goDetailPage(movie.id)}>
             <Card
               // key={movie.id}
-              imageUrl={import.meta.env.VITE_BASE_IMAGE_URL + movie.backdrop_path}
+              imageUrl={import.meta.env.VITE_BASE_IMAGE_URL + movie.backdrop_path ?? null}
               height="250px"
               objectFit="fill"
             />

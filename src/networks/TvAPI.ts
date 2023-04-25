@@ -1,0 +1,19 @@
+import { AxiosResponse } from 'axios'
+import FetchAPI from './FetchAPI'
+
+export default class TvAPI extends FetchAPI {
+  constructor(public baseUrl: string) {
+    super(baseUrl)
+  }
+  getTvItems = async <T>(category: string): Promise<AxiosResponse<T>> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/tv/${category}`,
+      query: {
+        language: 'ko-KR',
+        page: 1,
+      },
+    })
+    return response
+  }
+}

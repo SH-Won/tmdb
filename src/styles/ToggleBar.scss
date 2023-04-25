@@ -1,34 +1,37 @@
 @import 'my-react-component/src/styles/typeface.module.scss';
 @import 'my-react-component/src/styles/colors.module.scss';
 $item-padding: 10px;
-$underline-class : ("first" : 0 , "second" : 1, "third" : 2);
-$underline-base-width :33%;
-.toggle-bar{
-  padding:16px;
-  position : relative;
-  display:flex;
+$underline-class: (
+  'first': 0,
+  'second': 1,
+  'third': 2,
+);
+$underline-base-width: 33%;
+.toggle-bar {
+  padding: 16px;
+  position: relative;
+  display: flex;
   // background-color: color('white');
-  
+
   & > .toggle-item {
     text-align: center;
-    flex : 1;
-    padding:$item-padding;
-    color : color('grey_bbb');
+    flex: 1;
+    padding: $item-padding;
+    color: color('grey_bbb');
     &.selected {
-      color : color('grey_111');
+      color: color('grey_111');
     }
   }
   & > .underline {
-    width:calc($underline-base-width - $item-padding);
-    position : absolute;
-    bottom:16px;
-    border : 1px solid color('main');
-    transition : transform 0.6s;
+    width: calc($underline-base-width - $item-padding);
+    position: absolute;
+    bottom: 16px;
+    border: 1px solid color('main');
+    transition: transform 0.6s;
     @each $className, $transition in $underline-class {
       &.#{$className} {
-        transform : translate($transition * 100%)
+        transform: translate($transition * 100%);
       }
-
     }
   }
 }

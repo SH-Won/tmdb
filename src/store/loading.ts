@@ -1,6 +1,6 @@
-import { atom } from "recoil";
+import { atom } from 'recoil'
 
 export const loadingState = atom({
-  key : 'loading',
-  default : true
+  key: 'loading',
+  default: false,
 })
