@@ -1,0 +1,11 @@
+.movie-list {
+  // width: 100%;
+  display: flex;
+  // flex-wrap: nowrap;
+  padding: 16px;
+  overflow-x: scroll;
+  gap: 16px;
+  & > div {
+    flex: 0 0 167px;
+  }
+}

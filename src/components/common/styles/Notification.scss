@@ -1,0 +1,21 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+@import 'my-react-component/src/styles/typeface.module.scss';
+.notification {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: color('white');
+  & > .info {
+    padding: 16px;
+    // height:250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background-color: color('bg_noti');
+    border-radius: inherit;
+    & > span {
+      color: color('grey_999');
+      @include typeface('Paragraph_2');
+    }
+  }
+}

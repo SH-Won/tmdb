@@ -1,0 +1,26 @@
+{
+  "app": {
+    "navigation": {
+      "product": "상품",
+      "subProduct": "하위 상품"
+    },
+    "dashboard": {
+      "title": "내 목록",
+      "searchPlaceholder": "검색어를 입력해주세요"
+    },
+    "detail": {
+      "title": "상세",
+      "notification": "아직 정보가 없습니다. 해당 정보는 업데이트 예정입니다.",
+      "content": {
+        "toggleMenu": {
+          "info": "정보",
+          "sub": "하위 상품"
+        }
+      }
+    },
+    "button": {
+      "cancel": "닫기",
+      "confirm": "확인"
+    }
+  }
+}

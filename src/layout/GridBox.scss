@@ -1,0 +1,17 @@
+.grid-box{
+  padding:20px 30px;
+  display:grid;
+  grid-template-columns: auto auto 1fr auto;
+  gap : 20px;
+  & > div:nth-child(3){
+    grid-column-start: 4;
+    grid-column-end: 5;
+  }
+  &.mobile {
+    display:flex;
+    flex-direction: column-reverse;
+    > div {
+      align-self: flex-end;
+    }
+  }
+}

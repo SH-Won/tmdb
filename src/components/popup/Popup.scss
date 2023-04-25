@@ -1,0 +1,10 @@
+.popup-list-item {
+  display: flex;
+  padding: 1.5rem 2rem;
+  font-size: 18px;
+  justify-content: space-between;
+  align-items: center;
+  &.disabled {
+    opacity: 0.5;
+  }
+}

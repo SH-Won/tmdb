@@ -1,0 +1,1 @@
+export { MOVIE_CATEGORY } from './movie'

@@ -1,0 +1,10 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+@import 'my-react-component/src/styles/typeface.module.scss';
+.main-container {
+  min-height: 100vh;
+  /* padding-bottom: 50px; */
+  background-color: #f5f6f8;
+}
+.main-container.desktop {
+  padding-left: var(--navigation-padding);
+}

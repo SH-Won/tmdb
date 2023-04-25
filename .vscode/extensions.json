@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "arcanis.vscode-zipfs",
+    "syler.sass-indented",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "infeng.vscode-react-typescript"
+  ]
+}
