@@ -10,6 +10,7 @@ import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
+import { LoadingSpinner } from 'my-react-component'
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { media_type, id } = useParams()
@@ -48,7 +49,7 @@ const DetailPage = () => {
   const { data: recommends, isLoading: recommendLoading } = useQuery(
     [key, id, 'recommends'],
     async () => {
-      const url = `/movie/${id}/recommendations`
+      const url = `/${media_type}/${id}/recommendations`
       const response = await BackEnd.getInstance().common.getItems(url)
       return response
     }
@@ -69,7 +70,7 @@ const DetailPage = () => {
     }
   }, [credits])
   if (isLoading || creditsLoading || recommendLoading) {
-    return <div>...loading</div>
+    return <LoadingSpinner opacity={0.6} />
   }
   return (
     <div className={`detail-page ${breakPointsClass}`}>
