@@ -1,0 +1,34 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+.movie-list.loading {
+  display: flex;
+  // flex-wrap: nowrap;
+  padding: 16px;
+  overflow-x: scroll;
+  gap: 16px;
+  box-sizing: border-box;
+  height: 100%;
+  & > div {
+    flex: 0 0 167px;
+  }
+  &.loading {
+    & > div {
+      height: 250px;
+      background-color: color('main');
+      animation: fade-in-out 1s infinite;
+      border-radius: 8px;
+      -webkit-animation: fade-in-out 1s infinite;
+    }
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

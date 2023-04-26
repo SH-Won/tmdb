@@ -7,17 +7,21 @@ export default class MovieAPI extends FetchAPI {
   constructor(public baseUrl: string) {
     super(baseUrl)
   }
-  getMovies = async <T>(category: string): Promise<AxiosResponse<T>> => {
+  getMovies = async <T>(category: string): Promise<T> => {
     // page 를 parameter 로 받??
-    const response = await this.fetch({
-      method: 'GET',
-      url: `/movie/${category}`,
-      query: {
-        language: 'ko-KR',
-        page: 1,
-      },
-    })
-    return response
+    try {
+      const response = await this.fetch({
+        method: 'GET',
+        url: `/movie/${category}`,
+        query: {
+          language: 'ko-KR',
+          page: 1,
+        },
+      })
+      return response.data
+    } catch (e) {
+      throw new Error('error')
+    }
   }
   getTrendingMovies = async <T>(params: TrendingMovieParams): Promise<AxiosResponse<T>> => {
     const response = await this.fetch({

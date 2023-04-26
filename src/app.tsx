@@ -28,58 +28,58 @@ const App = () => {
   const goBack = () => {
     navigate(-1)
   }
-  const movieQueries = useQueries([
-    {
-      queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.POPULAR],
-      queryFn: async () => {
-        const response = await BackEnd.getInstance().movie.getMovies<IMovie[]>(
-          MOVIE_CATEGORY.POPULAR
-        )
-        return response.data
-      },
-      onSuccess: (response: any) => {
-        setPopularMovies(response.results)
-      },
-      staleTime: 50000,
-    },
-    {
-      queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.TOP_RATED],
-      queryFn: async () => {
-        const response = await BackEnd.getInstance().movie.getMovies(MOVIE_CATEGORY.TOP_RATED)
-        return response.data
-      },
-      onSuccess: (response: any) => {
-        setTopRatedMovies(response.results)
-      },
-      staleTime: 50000,
-    },
-    {
-      queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.TRENDING],
-      queryFn: async () => {
-        const response = await BackEnd.getInstance().movie.getTrendingMovies<IMovie[]>({
-          media_type: 'all',
-          time_window: 'day',
-        })
-        return response.data
-      },
-      onSuccess: (response: any) => {
-        setTrendingMovies(response.results)
-      },
-      staleTime: 50000,
-    },
-  ])
-  useEffect(() => {
-    if (!movieQueries.some((query) => query.isLoading)) {
-      setLoading(false)
-    }
-  }, [movieQueries])
+  // const movieQueries = useQueries([
+  //   {
+  //     queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.POPULAR],
+  //     queryFn: async () => {
+  //       const response = await BackEnd.getInstance().movie.getMovies<IMovie[]>(
+  //         MOVIE_CATEGORY.POPULAR
+  //       )
+  //       return response.data
+  //     },
+  //     onSuccess: (response: any) => {
+  //       setPopularMovies(response.results)
+  //     },
+  //     staleTime: 50000,
+  //   },
+  //   {
+  //     queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.TOP_RATED],
+  //     queryFn: async () => {
+  //       const response = await BackEnd.getInstance().movie.getMovies(MOVIE_CATEGORY.TOP_RATED)
+  //       return response.data
+  //     },
+  //     onSuccess: (response: any) => {
+  //       setTopRatedMovies(response.results)
+  //     },
+  //     staleTime: 50000,
+  //   },
+  //   {
+  //     queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.TRENDING],
+  //     queryFn: async () => {
+  //       const response = await BackEnd.getInstance().movie.getTrendingMovies<IMovie[]>({
+  //         media_type: 'all',
+  //         time_window: 'day',
+  //       })
+  //       return response.data
+  //     },
+  //     onSuccess: (response: any) => {
+  //       setTrendingMovies(response.results)
+  //     },
+  //     staleTime: 50000,
+  //   },
+  // ])
+  // useEffect(() => {
+  //   if (!movieQueries.some((query) => query.isLoading)) {
+  //     setLoading(false)
+  //   }
+  // }, [movieQueries])
 
   // if (!isLoading) {
   //   console.log(
   //     Object.fromEntries(Object.entries(data.results[0]).map(([key, value]) => [key, typeof value]))
   //   )
   // }
-
+  // setLoading(false)
   return (
     <div className={`main-container ${breakPointsClass}`}>
       <Navigation isNotDesktop={breakPointsClass !== 'desktop'} />

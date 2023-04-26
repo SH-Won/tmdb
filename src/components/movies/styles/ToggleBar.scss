@@ -1,0 +1,41 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+@import 'my-react-component/src/styles/typeface.module.scss';
+.toggle-bar {
+  position: relative;
+  display: inline-flex;
+  border-radius: 20px;
+  border: 1px solid color('grey_ccc');
+  background-color: color('white');
+  align-items: center;
+  margin-left: 15px;
+  // padding: 4px;
+  gap: 10px;
+  & > .toggle-item {
+    box-sizing: border-box;
+    padding: 10px 20px;
+    border-radius: 20px;
+    z-index: 100;
+    color: color('grey_111');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include typeface('Paragraph_1_sb');
+    &.selected {
+      color: color('white');
+    }
+  }
+  z-index: 50;
+  & > .item-background {
+    overflow: hidden;
+    position: absolute;
+    box-sizing: border-box;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 25%;
+    border-radius: 20px;
+    z-index: 30;
+    background-color: color('main');
+    transition: transform 0.5s ease;
+  }
+}

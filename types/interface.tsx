@@ -14,3 +14,6 @@ export interface IMovie {
   vote_average: number
   vote_count: number
 }
+export interface ITv extends Omit<IMovie, 'release_date'> {
+  first_air_date: string
+}
