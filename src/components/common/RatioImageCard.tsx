@@ -9,7 +9,6 @@ const RatioImageCard = (props: RatioImageCardProps) => {
       <div className="img-wrapper">
         <img src={props.imageUrl} />
       </div>
-      <span>{props.label}</span>
     </div>
   )
 }

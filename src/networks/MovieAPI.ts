@@ -30,7 +30,7 @@ export default class MovieAPI extends FetchAPI {
     })
     return response
   }
-  getDetailMovie = async <T>(movieId: IMovie['id']): Promise<AxiosResponse<T>> => {
+  getDetailMovie = async <T>(movieId: IMovie['id']): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
       url: `/movie/${movieId}`,
@@ -38,6 +38,16 @@ export default class MovieAPI extends FetchAPI {
         language: 'ko-KR',
       },
     })
-    return response
+    return response.data
+  }
+  getMovieCredits = async <T>(movieId: IMovie['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/movie/${movieId}/credits`,
+      query: {
+        language: 'ko-KR',
+      },
+    })
+    return response.data
   }
 }

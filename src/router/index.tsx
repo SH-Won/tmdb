@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider, Route, Link } from 'react-router-d
 import App from '@/app'
 import DashBoard from '@/views/DashBoard'
 import DetailPage from '@/views/DetailPage'
+import DetailPageTV from '@/views/DetailPageTV'
 
 export const router = createBrowserRouter(
   [
@@ -13,7 +14,7 @@ export const router = createBrowserRouter(
           element: <DashBoard />,
         },
         {
-          path: '/detail/:movieId',
+          path: '/:media_type/:id',
           element: <DetailPage />,
         },
       ],

@@ -1,3 +1,4 @@
+import { ITv } from './../../types/interface'
 import { AxiosResponse } from 'axios'
 import FetchAPI from './FetchAPI'
 
@@ -15,5 +16,15 @@ export default class TvAPI extends FetchAPI {
       },
     })
     return response
+  }
+  getDetailTv = async <T>(tvId: ITv['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/tv/${tvId}`,
+      query: {
+        language: 'ko-KR',
+      },
+    })
+    return response.data
   }
 }
