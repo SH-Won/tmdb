@@ -25,4 +25,12 @@ export default class CommponAPI extends FetchAPI {
     })
     return response.data
   }
+  getSearch = async <T>(params: any): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: params.url,
+      query: params.query,
+    })
+    return response.data
+  }
 }

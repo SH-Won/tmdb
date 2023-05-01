@@ -9,7 +9,6 @@ import { BaseItem, IMovie } from 'types/interface'
 import ItemList from '../common/ItemList'
 import RatioCard from '../common/RatioCard'
 import LoadingSpinner from './LoadingSpinner'
-import MovieList from './MovieList'
 import ToggleBar from './ToggleBar'
 
 interface Props {

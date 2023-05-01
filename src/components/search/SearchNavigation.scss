@@ -1,0 +1,21 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+@import 'my-react-component/src/styles/typeface.module.scss';
+.search-navigation {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid color('grey_bbb');
+  padding: 10px 0;
+  max-height: 100%;
+  & > .selected-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    @include typeface('Paragraph_1_sb');
+    &:hover {
+      background-color: color('grey_ccc');
+    }
+    &.selected {
+      color: color('white');
+      background-color: color('main');
+    }
+  }
+}
