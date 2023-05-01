@@ -1,0 +1,11 @@
+.trailer-iframe {
+  padding: 20px;
+  min-width: 640px;
+  height: 460px; // 360px;
+  box-sizing: border-box;
+  & > iframe {
+    box-sizing: border-box;
+    border: transparent;
+    border-radius: 8px;
+  }
+}

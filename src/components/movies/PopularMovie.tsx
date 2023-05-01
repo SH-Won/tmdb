@@ -14,8 +14,9 @@ import ToggleBar from './ToggleBar'
 interface Props {
   title: string
   toggleItems: ItemType[]
+  click: ((item: BaseItem) => void) | (() => void)
 }
-const PopularMovie = ({ toggleItems, title }: Props) => {
+const PopularMovie = ({ toggleItems, title, click }: Props) => {
   const navigate = useNavigate()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
@@ -32,14 +33,6 @@ const PopularMovie = ({ toggleItems, title }: Props) => {
     }
   )
 
-  const goDetailPage = (item: BaseItem) => {
-    // navigation(`detail/${movieId}`)
-    if (item.release_date) {
-      navigate(`/movie/${item.id}`)
-    } else {
-      navigate(`/tv/${item.id}`)
-    }
-  }
   const isValidImage = (imagePath: string) => {
     if (!imagePath) return imagePath
     return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
@@ -54,7 +47,7 @@ const PopularMovie = ({ toggleItems, title }: Props) => {
         <ItemList<BaseItem>
           items={data!.results}
           renderItem={(item) => (
-            <div key={item.id} onClick={() => goDetailPage(item)}>
+            <div key={item.id} onClick={() => click(item)}>
               {/* <Card imageUrl={isValidImage(item.poster_path)} height="250px" objectFit="fill" /> */}
               <RatioCard imageUrl={isValidImage(item.poster_path)} ratio={1.5 / 1} />
             </div>
