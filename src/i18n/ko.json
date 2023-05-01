@@ -1,11 +1,15 @@
 {
   "app": {
     "navigation": {
-      "product": "상품",
-      "subProduct": "하위 상품"
+      "product": "영화",
+      "subProduct": "TV"
+    },
+    "search": {
+      "title": "영화, TV 등을 검색해보세요",
+      "button": "검색"
     },
     "dashboard": {
-      "title": "내 목록",
+      "title": "TMDB",
       "searchPlaceholder": "검색어를 입력해주세요"
     },
     "detail": {

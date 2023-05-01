@@ -1,8 +1,8 @@
-import { createBrowserRouter, RouterProvider, Route, Link } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import App from '@/app'
 import DashBoard from '@/views/DashBoard'
 import DetailPage from '@/views/DetailPage'
-import DetailPageTV from '@/views/DetailPageTV'
+import SearchPage from '@/views/SearchPage'
 
 export const router = createBrowserRouter(
   [
@@ -16,6 +16,10 @@ export const router = createBrowserRouter(
         {
           path: '/:media_type/:id',
           element: <DetailPage />,
+        },
+        {
+          path: '/search',
+          element: <SearchPage />,
         },
       ],
     },
