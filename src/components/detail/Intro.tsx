@@ -1,4 +1,5 @@
 import { useBreakPoints } from '@/hooks'
+import { CircularProgressBar } from 'my-react-component'
 import { BaseCrew, BaseItemDetail } from 'types/interface'
 
 interface Props {
@@ -33,6 +34,7 @@ const Intro = ({ item, crews }: Props) => {
             {item.title}
             {/* ({item.release_date.split('-')[0]}) */}
           </h2>
+          <CircularProgressBar size={50} percent={Math.floor(item.vote_average * 10)} />
           <div className="intro-explain">
             <h3>개요</h3>
             <span>{item.overview}</span>
