@@ -1,5 +1,6 @@
 @import 'my-react-component/src/styles/colors.module.scss';
 @import 'my-react-component/src/styles/typeface.module.scss';
+@import '../components/common/styles/common.scss';
 .detail-page {
   height: 100%;
   padding-bottom: 150px;
@@ -121,6 +122,19 @@
           width: 100%;
         }
       }
+      // position: relative;
+      // &::after {
+      //   content: '';
+      //   width: 60px;
+      //   height: 100%;
+      //   position: absolute;
+      //   top: 0;
+      //   right: 0;
+      //   background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #f5f6f8 100%);
+      //   will-change: opacity;
+      //   pointer-events: none;
+      // }
+      @include rightFade;
     }
   }
 }

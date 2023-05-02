@@ -1,12 +1,19 @@
+@import '../components/common/styles/common.scss';
+@import 'my-react-component/src/styles/colors.module.scss';
+
 .dashboard {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 30px 30px 100px;
-  // padding-bottom: 100px;
 }
 .list-container {
-  ::after {
+  @include rightFade;
+  &:nth-child(1) {
+    background-image: url('/background.svg');
+    background-position: 50% 200px;
+    // background-size: var(--maxPrimaryPageWidth);
+    background-repeat: no-repeat;
   }
 }
 
@@ -14,7 +21,26 @@
   display: flex;
   padding: 16px;
   overflow-x: scroll;
+  position: relative;
   gap: 16px;
+  //239 248.5px 259px
+  &.loading {
+    & > div {
+      background-color: color('main_sub');
+      animation: fade-in-out 1s infinite;
+      border-radius: 8px;
+      -webkit-animation: fade-in-out 1s infinite;
+      .mobile & {
+        height: 248.5px;
+      }
+      .tablet & {
+        height: 239px;
+      }
+      .desktop & {
+        height: 259px;
+      }
+    }
+  }
   & > div {
     .mobile & {
       flex: 0 0 100px;
@@ -25,5 +51,17 @@
     .desktop & {
       flex: 0 0 150px;
     }
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.2;
   }
 }

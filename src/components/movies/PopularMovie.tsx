@@ -1,14 +1,13 @@
 import { ItemType } from '@/const/toggleBar'
 import BackEnd from '@/networks'
 import { MovieResponse } from '@/types/network/response'
-import { Card, PosterCard } from 'my-react-component'
+import { PosterCard } from 'my-react-component'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { BaseItem, IMovie } from 'types/interface'
+import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
-import RatioCard from '../common/RatioCard'
-import LoadingSpinner from './LoadingSpinner'
+import SkeletonItemList from './SkeletonItemList'
 import ToggleBar from './ToggleBar'
 
 interface Props {
@@ -42,7 +41,7 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
       <h3>{title}</h3>
       <ToggleBar items={toggleItems} onSelect={setSelectedItem} />
       {isLoading ? (
-        <LoadingSpinner />
+        <SkeletonItemList ratio={1.2} />
       ) : (
         <ItemList<BaseItem>
           items={data!.results}
@@ -51,14 +50,15 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
               <PosterCard
                 imageUrl={isValidImage(item.poster_path)}
                 ratio={1.2}
-                voteAverage={Math.floor(item.vote_average * 10)}
                 title={item.title ?? item.name}
+                voteAverage={Math.floor(item.vote_average * 10)}
                 releaseDate={item.release_date ?? item.first_air_date}
               />
             </div>
           )}
         />
       )}
+      {/* {<SkeletonItemList ratio={1.2} />} */}
     </div>
   )
 }
