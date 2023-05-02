@@ -1,4 +1,6 @@
 // selectedItem.tsx
+@import 'my-react-component/src/styles/typeface.module.scss';
+@import 'my-react-component/src/styles/colors.module.scss';
 .selected-item {
   padding: 10px 16px;
   cursor: pointer;
@@ -21,5 +23,15 @@
   & > img {
     width: 94px;
     height: 140px;
+  }
+}
+
+// ColumnExplain.tsx
+.column-explain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  & > span:nth-child(1) {
+    @include typeface('Paragraph_1_m');
   }
 }

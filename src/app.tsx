@@ -11,6 +11,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { MOVIE_CATEGORY } from '@/const/movie'
 import { loadingState } from './store/loading'
 import '@/styles/app.scss'
+import '@/components/common/styles/common.scss'
 import { IMovie } from 'types/interface'
 const App = () => {
   const { t } = useI18nTypes()
