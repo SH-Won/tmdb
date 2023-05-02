@@ -50,7 +50,7 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
             <div key={item.id} onClick={() => click(item)}>
               <PosterCard
                 imageUrl={isValidImage(item.poster_path)}
-                ratio={1.5}
+                ratio={1.2}
                 voteAverage={Math.floor(item.vote_average * 10)}
                 title={item.title ?? item.name}
                 releaseDate={item.release_date ?? item.first_air_date}
