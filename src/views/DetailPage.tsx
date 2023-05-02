@@ -14,7 +14,6 @@ import { LoadingSpinner } from 'my-react-component'
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { media_type, id } = useParams()
-  console.log(media_type, id)
   const key = media_type === MOVIE_CATEGORY.prefix ? MOVIE_CATEGORY.prefix : TV_CATEGORY.prefix
   const { data: item, isLoading } = useQuery(
     [key, id],

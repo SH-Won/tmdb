@@ -33,7 +33,6 @@ const ToggleBar = ({ items, onSelect }: ToggleBarProps) => {
   }
   useLayoutEffect(() => {
     const width = bar.current?.children[selected].clientWidth as number
-    console.log('toggle item width is =>', width)
     const left = bar.current?.getBoundingClientRect().left as number
     const moveLeft = (bar.current?.children[selected].getBoundingClientRect().left as number) - left
     setBackgroundStyle({

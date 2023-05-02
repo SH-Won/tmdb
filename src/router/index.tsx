@@ -3,6 +3,7 @@ import App from '@/app'
 import DashBoard from '@/views/DashBoard'
 import DetailPage from '@/views/DetailPage'
 import SearchPage from '@/views/SearchPage'
+import ActorPage from '@/views/ActorPage'
 
 export const router = createBrowserRouter(
   [
@@ -20,6 +21,10 @@ export const router = createBrowserRouter(
         {
           path: '/search',
           element: <SearchPage />,
+        },
+        {
+          path: '/person/:personId',
+          element: <ActorPage />,
         },
       ],
     },
