@@ -1,4 +1,5 @@
 import { ItemType } from '@/const/toggleBar'
+import { useBreakPoints } from '@/hooks'
 import { useLayoutEffect, useRef, useState } from 'react'
 import './styles/ToggleBar.scss'
 // popular toprated trending
@@ -12,6 +13,7 @@ interface ToggleBarProps {
   onSelect: (item: ItemType) => void
 }
 const ToggleBar = ({ items, onSelect }: ToggleBarProps) => {
+  const { breakPointsClass } = useBreakPoints()
   const bar = useRef<HTMLDivElement>(null)
   const [selected, setSelected] = useState<number>(0)
   const [backgroundStyle, setBackgroundStyle] = useState<object>({})
@@ -30,11 +32,15 @@ const ToggleBar = ({ items, onSelect }: ToggleBarProps) => {
     })
   }
   useLayoutEffect(() => {
-    const width = bar.current?.children[selected].clientWidth
+    const width = bar.current?.children[selected].clientWidth as number
+    console.log('toggle item width is =>', width)
+    const left = bar.current?.getBoundingClientRect().left as number
+    const moveLeft = (bar.current?.children[selected].getBoundingClientRect().left as number) - left
     setBackgroundStyle({
       width,
+      transform: `translate(${moveLeft - 1}px)`,
     })
-  }, [])
+  }, [breakPointsClass])
   return (
     <div className="toggle-bar" ref={bar}>
       {items.map((item) => (

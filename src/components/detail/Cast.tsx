@@ -1,3 +1,4 @@
+import { RatioImage } from 'my-react-component'
 import { BaseCast, BaseItemDetail } from 'types/interface'
 import ItemList from '../common/ItemList'
 import RatioCard from '../common/RatioCard'
@@ -14,11 +15,10 @@ const Cast = ({ casts }: Props) => {
         items={casts}
         renderItem={(item) => (
           <div key={item.id} className="cast-item-container">
-            {/* <RatioCard
+            <RatioImage
               imageUrl={import.meta.env.VITE_BASE_IMAGE_URL + item.profile_path}
-              ratio={1.5 / 1}
-            /> */}
-            <img src={import.meta.env.VITE_BASE_IMAGE_URL + item.profile_path}></img>
+              ratio={1.3}
+            />
             <div className="cast-info">
               <span>{item.name}</span>
               <span>{item.character}</span>

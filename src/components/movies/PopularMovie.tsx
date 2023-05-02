@@ -1,7 +1,7 @@
 import { ItemType } from '@/const/toggleBar'
 import BackEnd from '@/networks'
 import { MovieResponse } from '@/types/network/response'
-import { Card } from 'my-react-component'
+import { Card, PosterCard } from 'my-react-component'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -48,8 +48,13 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
           items={data!.results}
           renderItem={(item) => (
             <div key={item.id} onClick={() => click(item)}>
-              {/* <Card imageUrl={isValidImage(item.poster_path)} height="250px" objectFit="fill" /> */}
-              <RatioCard imageUrl={isValidImage(item.poster_path)} ratio={1.5 / 1} />
+              <PosterCard
+                imageUrl={isValidImage(item.poster_path)}
+                ratio={1.5}
+                voteAverage={Math.floor(item.vote_average * 10)}
+                title={item.title ?? item.name}
+                releaseDate={item.release_date ?? item.first_air_date}
+              />
             </div>
           )}
         />

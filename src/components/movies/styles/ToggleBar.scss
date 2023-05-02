@@ -20,6 +20,10 @@
     justify-content: center;
     align-items: center;
     @include typeface('Paragraph_1_sb');
+    .mobile & {
+      padding: 5px 10px;
+      @include typeface('Paragraph_2b');
+    }
     &.selected {
       color: color('white');
     }
