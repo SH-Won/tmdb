@@ -45,8 +45,6 @@ const ActorPage = () => {
       enabled: !!personId,
     }
   )
-  // console.log(data)
-  // console.log(movies)
 
   const biography = useRef<HTMLDivElement>(null)
   const readMore = useRef<HTMLDivElement>(null)
@@ -62,21 +60,16 @@ const ActorPage = () => {
   }
   const sortMovies = useMemo(() => {
     if (!movies) return []
-    console.log(movies)
-    return [...movies!.cast].sort((a, b) => b.popularity - a.popularity)
-  }, [loading])
-  // const popularMovies = useMemo(() => {
-  //   // console.log(sortMovies)
-  //   return sortMovies
-  // }, [breakPointsClass, sortMovies])
+    return [...movies!.cast].sort((a, b) => b.popularity - a.popularity).slice(0, 10)
+  }, [movies])
+
   const RenderPopularMovies = useCallback(() => {
-    console.log('render popular movies')
     return (
       <div className="appearance-work">
         <ItemList
-          items={sortMovies!.slice(0, 10)}
+          items={sortMovies}
           renderItem={(item) => (
-            <div key={item.id}>
+            <div key={item.id + item.popularity}>
               <RatioCardImage imageUrl={isValidImage(item.backdrop_path)} ratio={1.5} />
               <div>{item.title ?? item.name}</div>
             </div>
@@ -85,7 +78,9 @@ const ActorPage = () => {
       </div>
     )
   }, [sortMovies])
+
   if (loading || isLoading) return <PageLoadingSpinner />
+
   return (
     <div className={`actor-page ${breakPointsClass}`}>
       <div className="actor-profile">
