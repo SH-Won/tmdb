@@ -1,5 +1,5 @@
 import BackEnd from '@/networks'
-import { PageLoadingSpinner } from 'my-react-component'
+import { Notification, PageLoadingSpinner } from 'my-react-component'
 import { useQuery } from 'react-query'
 import { BaseItem } from 'types/interface'
 import './UpcommingPopup.scss'
@@ -27,7 +27,7 @@ const UpcommingVideo = ({ item }: UpcommingVideoProps) => {
   )
   const Trailer = () => {
     const result = !isLoading ? data?.results[0] : ''
-    if (!result) return <div>트레일러가 없습니다.</div>
+    if (!result) return <Notification text="트레일러가 없습니다!" height="300px" />
     return (
       <div className="trailer-iframe">
         <iframe
