@@ -4,13 +4,15 @@ import { useBreakPoints } from '@/hooks'
 import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { BaseItemDetail, IMovie, ITv } from 'types/interface'
+import { BaseCrew, BaseItem, BaseItemDetail } from 'types/interface'
 import '@/styles/DetailPage.scss'
 import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
 import { LoadingSpinner } from 'my-react-component'
+import Recommned from '@/components/detail/Recommned'
+import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { media_type, id } = useParams()
@@ -49,8 +51,22 @@ const DetailPage = () => {
     [key, id, 'recommends'],
     async () => {
       const url = `/${media_type}/${id}/recommendations`
-      const response = await BackEnd.getInstance().common.getItems(url)
+      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>(url)
       return response
+    }
+  )
+  const { data: keyword, isLoading: keywordLoading } = useQuery(
+    [key, id, 'keword'],
+    async () => {
+      const url = `/${media_type}/${id}/keywords`
+      const response = await BackEnd.getInstance().common.getSearch<KeyWordResponse>({
+        url,
+      })
+      return response
+    },
+    {
+      staleTime: Infinity,
+      enabled: !!id,
     }
   )
   // if (!isLoading)
@@ -60,23 +76,27 @@ const DetailPage = () => {
   console.log(item!)
   console.log(credits)
   console.log(recommends)
+  console.log(keyword)
   const crews = useMemo(() => {
-    const directors = credits?.crew.filter((crew: any) => crew.job === 'Director')
-    const writers = credits?.crew.filter((crew: any) => crew.job === 'Writer')
+    const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director')
+    const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer')
     return {
       directors,
       writers,
     }
   }, [credits])
-  if (isLoading || creditsLoading || recommendLoading) {
+  if (isLoading || creditsLoading || recommendLoading || keywordLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
       <div className="detail-content">
-        <Cast casts={credits.cast} />
-        <Information item={item!} />
+        <div className="content-cast-recommend">
+          <Cast casts={credits.cast} />
+          <Recommned items={recommends!.results} />
+        </div>
+        <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>
     </div>
   )

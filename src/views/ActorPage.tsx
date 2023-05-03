@@ -4,11 +4,13 @@ import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { BaseActorItem, BaseCast, BaseCombineCredit } from 'types/interface'
 import '@/styles/ActorPage.scss'
-import { useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
+import { useBreakPoints } from '@/hooks'
 const ActorPage = () => {
   const { personId } = useParams()
+  const { breakPointsClass } = useBreakPoints()
 
   const { data, isLoading } = useQuery(
     ['actor', personId],
@@ -43,8 +45,6 @@ const ActorPage = () => {
       enabled: !!personId,
     }
   )
-  console.log(data)
-  console.log(movies)
 
   const biography = useRef<HTMLDivElement>(null)
   const readMore = useRef<HTMLDivElement>(null)
@@ -58,10 +58,31 @@ const ActorPage = () => {
     if (!imagePath) return imagePath
     return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
   }
+  const sortMovies = useMemo(() => {
+    if (!movies) return []
+    return [...movies!.cast].sort((a, b) => b.popularity - a.popularity).slice(0, 10)
+  }, [movies])
+
+  const RenderPopularMovies = useCallback(() => {
+    return (
+      <div className="appearance-work">
+        <ItemList
+          items={sortMovies}
+          renderItem={(item) => (
+            <div key={item.id + item.popularity}>
+              <RatioCardImage imageUrl={isValidImage(item.backdrop_path)} ratio={1.5} />
+              <div>{item.title ?? item.name}</div>
+            </div>
+          )}
+        />
+      </div>
+    )
+  }, [sortMovies])
+
   if (loading || isLoading) return <PageLoadingSpinner />
-  const sortMovies = [...movies!.cast].sort((a, b) => b.popularity - a.popularity)
+
   return (
-    <div className="actor-page">
+    <div className={`actor-page ${breakPointsClass}`}>
       <div className="actor-profile">
         <RatioImage
           imageUrl={import.meta.env.VITE_BASE_IMAGE_URL + data?.profile_path}
@@ -88,17 +109,7 @@ const ActorPage = () => {
             <span onClick={onClickReadMore}>더보기 {'>'} </span>
           </div>
         </div>
-        <div className="appearance-work">
-          <ItemList
-            items={sortMovies!.slice(0, 10)}
-            renderItem={(item) => (
-              <div>
-                <RatioCardImage imageUrl={isValidImage(item.backdrop_path)} ratio={1.5} />
-                <div>{item.title ?? item.name}</div>
-              </div>
-            )}
-          />
-        </div>
+        <RenderPopularMovies />
       </div>
     </div>
   )

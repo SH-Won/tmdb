@@ -5,6 +5,10 @@
   display: grid;
   grid-template-columns: 1fr 1.95fr;
   gap: 16px;
+  &.mobile {
+    display: flex;
+    flex-direction: column;
+  }
   & > .actor-profile {
     & > .actor-explain {
       padding: 16px 0;

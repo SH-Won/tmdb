@@ -1,28 +1,25 @@
-import React from 'react'
+import { IKeyWord } from '@/types/network/response'
 import { BaseItemDetail } from 'types/interface'
+import ColumnExplain from '../common/ColumnExplain'
 interface Props {
   item: BaseItemDetail
+  keywords: IKeyWord[] | undefined
 }
-const Information = ({ item }: Props) => {
+const Information = ({ item, keywords }: Props) => {
+  console.log(keywords)
+  console.log(item)
   return (
     <div className="content-info">
+      <h3>사항</h3>
       <div className="info-overview">
-        <div className="explain-box">
+        {/* <div className="explain-box">
           <span>원제</span>
           <span>{item.original_title}</span>
-        </div>
-        <div className="explain-box">
-          <span>상태</span>
-          <span>{item.status}</span>
-        </div>
-        <div className="explain-box">
-          <span>원어</span>
-          <span>{item.original_language}</span>
-        </div>
-        <div className="explain-box">
-          <span>제작비</span>
-          <span>{item.budget ?? '-'}</span>
-        </div>
+        </div> */}
+        <ColumnExplain title="원제" explain={item.original_title ?? item.original_name} />
+        <ColumnExplain title="상태" explain={item.status} />
+        <ColumnExplain title="원어" explain={item.original_language} />
+        <ColumnExplain title="제작비" explain={item.budget ? item.budget.toString() : '-'} />
         {/* <div className="explain-box">
           <span>수익</span>
           <span>{item.original_title}</span>
@@ -31,6 +28,12 @@ const Information = ({ item }: Props) => {
           <span>키워드</span>
           <span>{item.original_title}</span>
         </div> */}
+        <div className="keyword-container">
+          <strong>키워드</strong>
+          <div className="keyword-box">
+            {keywords && keywords.map((keyword) => <span key={keyword.id}>{keyword.name}</span>)}
+          </div>
+        </div>
       </div>
     </div>
   )
