@@ -35,6 +35,7 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
     if (!imagePath) return imagePath
     return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
   }
+
   return (
     <div className="list-container">
       <h3>{title}</h3>

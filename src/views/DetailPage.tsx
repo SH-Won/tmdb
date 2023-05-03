@@ -96,7 +96,7 @@ const DetailPage = () => {
           <Cast casts={credits.cast} />
           <Recommned items={recommends!.results} />
         </div>
-        <Information item={item!} keywords={keyword!.keywords} />
+        <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>
     </div>
   )
