@@ -4,6 +4,19 @@
   min-height: 100vh;
   padding-bottom: 70px;
   background-color: #f5f6f8;
+  & > .search {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    cursor: pointer;
+  }
+  & > .app-bar-search {
+    position: absolute;
+    display: flex;
+    gap: 10px;
+    top: 72px;
+    right: 15px;
+  }
 }
 .main-container.desktop {
   padding-left: var(--navigation-padding);

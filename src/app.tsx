@@ -1,18 +1,19 @@
 import { HeaderBar, LoadingSpinner } from 'my-react-component'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useQueries } from 'react-query'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import { useBreakPoints } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
-import BackEnd from './networks'
+// import BackEnd from './networks'
 import { _popularMovies, _topRatedMovies, _trendingMovies } from './store/movie'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { MOVIE_CATEGORY } from '@/const/movie'
+// import { MOVIE_CATEGORY } from '@/const/movie'
 import { loadingState } from './store/loading'
 import '@/styles/app.scss'
 import '@/components/common/styles/common.scss'
-import { IMovie } from 'types/interface'
+import HeaderSearchBox from './components/common/HeaderSearchBox'
+// import { IMovie } from 'types/interface'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -81,6 +82,7 @@ const App = () => {
   //   )
   // }
   // setLoading(false)
+
   return (
     <div className={`main-container ${breakPointsClass}`}>
       <Navigation isNotDesktop={breakPointsClass !== 'desktop'} />
@@ -89,6 +91,7 @@ const App = () => {
         isMobile={breakPointsClass === 'mobile'}
         back={isNotDashBoardPage ? goBack : undefined}
       />
+      <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
       <Outlet />
       {loading && <LoadingSpinner opacity={0.6} />}
     </div>
