@@ -16,7 +16,6 @@ interface Props {
   click: ((item: BaseItem) => void) | (() => void)
 }
 const PopularMovie = ({ toggleItems, title, click }: Props) => {
-  const navigate = useNavigate()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
     [selectedItem.id],
@@ -49,7 +48,7 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
             <div key={item.id} onClick={() => click(item)}>
               <PosterCard
                 imageUrl={isValidImage(item.poster_path)}
-                ratio={1.2}
+                ratio={1.5}
                 title={item.title ?? item.name}
                 voteAverage={Math.floor(item.vote_average * 10)}
                 releaseDate={item.release_date ?? item.first_air_date}

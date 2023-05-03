@@ -41,15 +41,21 @@
       }
     }
   }
+  // & > div {
+  //   flex: 1;
+  // }
   & > div {
     .mobile & {
       flex: 0 0 100px;
+      // flex: 0 0 40%;
     }
     .tablet & {
       flex: 0 0 125px;
+      // flex: 0 0 30%;
     }
     .desktop & {
       flex: 0 0 150px;
+      // flex: 1;
     }
   }
 }

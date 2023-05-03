@@ -4,3 +4,10 @@ export interface MovieResponse<T> {
   total_pages: number
   total_results: number
 }
+export interface KeyWordResponse {
+  id: number
+  keywords: {
+    id: number
+    name: string
+  }[]
+}
