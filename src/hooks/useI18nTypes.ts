@@ -1,8 +1,7 @@
-import { useTranslation } from "react-i18next"
-import type ko from '@/i18n/ko.json'
+import { useTranslation } from 'react-i18next'
 
 const useI18nTypes = () => {
-  const {t} = useTranslation()
-  return {t}
+  const { t } = useTranslation()
+  return { t }
 }
-export {useI18nTypes}
+export { useI18nTypes }

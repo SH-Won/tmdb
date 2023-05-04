@@ -1,4 +1,3 @@
-// import './styles/LoadingSpinner.scss'
 interface SkeletonItemListProps {
   ratio: number
 }

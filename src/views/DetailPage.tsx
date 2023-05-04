@@ -11,7 +11,7 @@ import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
 import { LoadingSpinner } from 'my-react-component'
-import Recommned from '@/components/detail/Recommned'
+import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
@@ -53,6 +53,10 @@ const DetailPage = () => {
       const url = `/${media_type}/${id}/recommendations`
       const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>(url)
       return response
+    },
+    {
+      staleTime: Infinity,
+      enabled: !!id,
     }
   )
   const { data: keyword, isLoading: keywordLoading } = useQuery(
@@ -69,14 +73,6 @@ const DetailPage = () => {
       enabled: !!id,
     }
   )
-  // if (!isLoading)
-  //   console.log(
-  //     Object.fromEntries(Object.entries(item!).map(([key, value]) => [key, typeof value]))
-  //   )
-  console.log(item!)
-  console.log(credits)
-  console.log(recommends)
-  console.log(keyword)
   const crews = useMemo(() => {
     const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director')
     const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer')
@@ -94,7 +90,7 @@ const DetailPage = () => {
       <div className="detail-content">
         <div className="content-cast-recommend">
           <Cast casts={credits.cast} />
-          <Recommned items={recommends!.results} />
+          <Recommend items={recommends!.results} />
         </div>
         <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>

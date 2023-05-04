@@ -1,4 +1,4 @@
-import React, { ClassAttributes, StyleHTMLAttributes, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 interface TransitionProps {
   forceRender?: boolean
   className?: string

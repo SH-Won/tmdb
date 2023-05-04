@@ -1,17 +1,18 @@
 import BackEnd from '@/networks'
-import { PageLoadingSpinner, PosterCard, RatioCardImage, RatioImage } from 'my-react-component'
+import { PageLoadingSpinner, RatioCardImage, RatioImage } from 'my-react-component'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { BaseActorItem, BaseCast, BaseCombineCredit } from 'types/interface'
+import { BaseActorItem, BaseCombineCredit } from 'types/interface'
 import '@/styles/ActorPage.scss'
 import { useCallback, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
-import { useBreakPoints } from '@/hooks'
+import { useBreakPoints, useHelper } from '@/hooks'
 const ActorPage = () => {
   const { personId } = useParams()
   const { breakPointsClass } = useBreakPoints()
-
+  const { goDetailPage, isValidImage } = useHelper()
+  // http://localhost:3000/person/3857938
   const { data, isLoading } = useQuery(
     ['actor', personId],
     async () => {
@@ -54,10 +55,6 @@ const ActorPage = () => {
       readMore.current?.classList.add('hide')
     }
   }
-  const isValidImage = (imagePath: string) => {
-    if (!imagePath) return imagePath
-    return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
-  }
   const sortMovies = useMemo(() => {
     if (!movies) return []
     return [...movies!.cast].sort((a, b) => b.popularity - a.popularity).slice(0, 10)
@@ -65,11 +62,11 @@ const ActorPage = () => {
 
   const RenderPopularMovies = useCallback(() => {
     return (
-      <div className="appearance-work">
+      <div className="list-container appearance">
         <ItemList
           items={sortMovies}
           renderItem={(item) => (
-            <div key={item.id + item.popularity}>
+            <div key={item.id + item.popularity} onClick={() => goDetailPage(item)}>
               <RatioCardImage imageUrl={isValidImage(item.backdrop_path)} ratio={1.5} />
               <div>{item.title ?? item.name}</div>
             </div>
@@ -80,7 +77,6 @@ const ActorPage = () => {
   }, [sortMovies])
 
   if (loading || isLoading) return <PageLoadingSpinner />
-
   return (
     <div className={`actor-page ${breakPointsClass}`}>
       <div className="actor-profile">

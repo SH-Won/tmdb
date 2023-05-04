@@ -1,6 +1,5 @@
 import './styles/BasicBottomButtons.scss'
 import { Button as PopupButton, Colors } from 'my-react-component'
-import React from 'react'
 import { useI18nTypes } from '@/hooks/useI18nTypes'
 interface BasicBottomButtonsProps {
   close?: () => void

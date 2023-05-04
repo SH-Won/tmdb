@@ -1,5 +1,6 @@
 @import 'my-react-component/src/styles/typeface.module.scss';
 @import 'my-react-component/src/styles/colors.module.scss';
+@import '../styles/common.scss';
 .actor-page {
   padding: 16px;
   display: grid;
@@ -20,16 +21,15 @@
   & > .actor-detail-info {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 16px;
     & > h2 {
       margin: 0;
     }
     & > .actor-biography-container {
       position: relative;
-      // max-height: 30%;
-      // overflow: hidden;
       & > .actor-biography-show {
         max-height: none;
+        margin: 0;
         @include typeface('Paragraph_1_m');
       }
       & > .actor-biography {
@@ -38,18 +38,7 @@
         max-height: 195px;
         overflow: hidden;
         @include typeface('Paragraph_1_m');
-        &::after {
-          content: '';
-          width: 100%;
-          // height: 22px;
-          height: 30px;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          // background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 85%);
-          background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #f5f6f8 85%);
-          pointer-events: none;
-        }
+        @include rightFade(100%, 30px, false, 85%);
       }
       & > .read-more {
         &.hide {
@@ -65,9 +54,6 @@
         height: 30px;
         @include typeface('Buttons_1_b');
       }
-    }
-
-    .appearance-work {
     }
   }
 }

@@ -1,29 +1,72 @@
-@import '../components/common/styles/common.scss';
+// @import '../components/common/styles/common.scss';
+@import '../styles/common.scss';
 @import 'my-react-component/src/styles/colors.module.scss';
 
 .dashboard {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 30px 30px 100px;
+  padding: 0px 0px 100px;
 }
 .list-container {
+  padding: 30px 0px 0px;
   @include rightFade;
+  .header {
+    display: flex;
+    position: relative;
+    z-index: 3;
+    align-items: center;
+    & > h2 {
+      margin: 0;
+    }
+    display: flex;
+    padding-left: 40px;
+  }
   &:nth-child(1) {
     background-image: url('/background.svg');
     background-position: 50% 200px;
     // background-size: var(--maxPrimaryPageWidth);
     background-repeat: no-repeat;
   }
+  &.upcomming {
+    position: relative;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    transition: all 0.5s;
+
+    .background {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(to right, rgba(3, 37, 65, 0.75) 0%, rgba(3, 37, 65, 0.75) 100%);
+      z-index: 0;
+    }
+  }
+  &.recommend {
+    padding: 20px;
+  }
 }
 
 .item-list {
-  display: flex;
-  padding: 16px;
-  overflow-x: scroll;
-  position: relative;
-  gap: 16px;
-  //239 248.5px 259px
+  z-index: 1;
+  @include responsiveFlexList(100px, 125px, 150px);
+  .upcomming & {
+    @include responsiveFlexList(200px, 250px, 300px, true);
+    padding: 20px 0px 60px 40px;
+  }
+  .recommend & {
+    @include responsiveFlexList(175px, 200px, 250px);
+  }
+  .cast & {
+    padding: 16px;
+  }
+  .appearance & {
+    padding: 16px;
+  }
+  padding: 20px 0px 20px 40px;
   &.loading {
     & > div {
       background-color: color('main_sub');
@@ -39,23 +82,6 @@
       .desktop & {
         height: 259px;
       }
-    }
-  }
-  // & > div {
-  //   flex: 1;
-  // }
-  & > div {
-    .mobile & {
-      flex: 0 0 100px;
-      // flex: 0 0 40%;
-    }
-    .tablet & {
-      flex: 0 0 125px;
-      // flex: 0 0 30%;
-    }
-    .desktop & {
-      flex: 0 0 150px;
-      // flex: 1;
     }
   }
 }

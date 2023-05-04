@@ -1,0 +1,52 @@
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flexColumnCenter {
+  @include flexCenter();
+  flex-direction: column;
+}
+@mixin rightFade($width: 60px, $height: 100%, $isTop: true, $gradientPercent: 100%) {
+  position: relative;
+  &::after {
+    content: '';
+    width: $width;
+    height: $height;
+    position: absolute;
+    z-index: 100;
+    @if ($isTop) {
+      top: 0;
+    } @else {
+      bottom: 0;
+      z-index: 0;
+    }
+    right: 0;
+    background-image: linear-gradient(to right, rgb(255, 255, 255, 0) 0%, #f5f6f8 $gradientPercent);
+    will-change: opacity;
+    pointer-events: none;
+  }
+}
+@mixin responsiveFlexList($mobileWidth, $tabletWidth, $desktopWidth, $hoverEffect: false) {
+  display: flex;
+  padding: 16px;
+  overflow-x: scroll;
+  position: relative;
+  gap: 20px;
+  & > div {
+    @if ($hoverEffect) {
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    .mobile & {
+      flex: 0 0 $mobileWidth;
+    }
+    .tablet & {
+      flex: 0 0 $tabletWidth;
+    }
+    .desktop & {
+      flex: 0 0 $desktopWidth;
+    }
+  }
+}
