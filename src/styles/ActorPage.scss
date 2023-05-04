@@ -21,7 +21,7 @@
   & > .actor-detail-info {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 16px;
     & > h2 {
       margin: 0;
     }
@@ -29,6 +29,7 @@
       position: relative;
       & > .actor-biography-show {
         max-height: none;
+        margin: 0;
         @include typeface('Paragraph_1_m');
       }
       & > .actor-biography {

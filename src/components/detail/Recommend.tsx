@@ -1,6 +1,5 @@
-import Transition from '@/layout/Transition'
+import { useHelper } from '@/hooks'
 import { Notification, PosterCard } from 'my-react-component'
-import { useNavigate } from 'react-router-dom'
 import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
 
@@ -9,16 +8,7 @@ interface RecommendProps {
 }
 
 const Recommend = ({ items }: RecommendProps) => {
-  const navigate = useNavigate()
-  const goDetailPage = (item: BaseItem) => {
-    let url = item.release_date ? '/movie/' : '/tv/'
-    url += item.id
-    navigate(url)
-  }
-  const isValidImage = (imagePath: string) => {
-    if (!imagePath) return '/noImage.svg'
-    return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
-  }
+  const { goDetailPage, isValidImage } = useHelper()
   return (
     <div className="list-container recommend">
       <h3>추천</h3>

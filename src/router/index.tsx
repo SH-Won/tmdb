@@ -4,6 +4,7 @@ import DashBoard from '@/views/DashBoard'
 import DetailPage from '@/views/DetailPage'
 import SearchPage from '@/views/SearchPage'
 import ActorPage from '@/views/ActorPage'
+// import WidgetPage from '@/views/WidgetPage'
 
 export const router = createBrowserRouter(
   [
@@ -26,6 +27,10 @@ export const router = createBrowserRouter(
           path: '/person/:personId',
           element: <ActorPage />,
         },
+        // {
+        //   path: '/widget',
+        //   element: <WidgetPage />,
+        // },
       ],
     },
     {},

@@ -1,27 +1,19 @@
 import { HeaderBar, LoadingSpinner } from 'my-react-component'
 import { useMemo } from 'react'
-import { useQueries } from 'react-query'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import { useBreakPoints } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
-// import BackEnd from './networks'
-import { _popularMovies, _topRatedMovies, _trendingMovies } from './store/movie'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-// import { MOVIE_CATEGORY } from '@/const/movie'
+import { useRecoilState } from 'recoil'
 import { loadingState } from './store/loading'
 import '@/styles/app.scss'
 import '@/components/common/styles/common.scss'
 import HeaderSearchBox from './components/common/HeaderSearchBox'
-// import { IMovie } from 'types/interface'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
   const location = useLocation()
   const navigate = useNavigate()
-  const setPopularMovies = useSetRecoilState(_popularMovies)
-  const setTopRatedMovies = useSetRecoilState(_topRatedMovies)
-  const setTrendingMovies = useSetRecoilState(_trendingMovies)
   const [loading, setLoading] = useRecoilState(loadingState)
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'

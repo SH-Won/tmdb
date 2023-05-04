@@ -1,6 +1,6 @@
 import { useSearch } from '@/hooks/useSearch'
 import { Button, Colors, Element } from 'my-react-component'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import InputBox from '../search/InputBox'
 

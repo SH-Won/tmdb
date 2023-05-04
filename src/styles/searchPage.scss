@@ -31,12 +31,10 @@
   & > .search-item {
     display: flex;
     border-radius: 8px;
-    // justify-content: space-between;
     border: 1px solid color('grey_bbb');
     overflow: hidden;
     & > img {
       width: 94px;
-      // height: 140px;
       height: 100%;
     }
     & > .explain {
@@ -44,7 +42,6 @@
       display: flex;
       padding: 10px 15px;
       flex-direction: column;
-      // justify-content: center;
       box-sizing: border-box;
       .title {
         display: flex;

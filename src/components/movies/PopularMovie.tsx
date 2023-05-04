@@ -1,10 +1,10 @@
 import { ItemType } from '@/const/toggleBar'
+import { useHelper } from '@/hooks/useHelper'
 import BackEnd from '@/networks'
 import { MovieResponse } from '@/types/network/response'
 import { PosterCard } from 'my-react-component'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { useNavigate } from 'react-router-dom'
 import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
 import SkeletonItemList from './SkeletonItemList'
@@ -16,6 +16,7 @@ interface Props {
   click: ((item: BaseItem) => void) | (() => void)
 }
 const PopularMovie = ({ toggleItems, title, click }: Props) => {
+  const { isValidImage } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
     [selectedItem.id],
@@ -30,11 +31,6 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
       enabled: !!selectedItem,
     }
   )
-
-  const isValidImage = (imagePath: string) => {
-    if (!imagePath) return '/noImage.svg'
-    return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
-  }
 
   return (
     <div className="list-container">

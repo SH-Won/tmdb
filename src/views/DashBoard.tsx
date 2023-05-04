@@ -1,5 +1,5 @@
 import '@/styles/DashBoard.scss'
-import { useBreakPoints, usePopup } from '@/hooks'
+import { useBreakPoints, useHelper, usePopup } from '@/hooks'
 import PopularMovie from '@/components/movies/PopularMovie'
 import {
   TOGGLE_MOVIE_ITEM,
@@ -8,23 +8,16 @@ import {
   TOGGLE_UPCOMMING,
 } from '@/const/toggleBar'
 import SearchBox from '@/components/main/SearchBox'
-import { useNavigate } from 'react-router-dom'
 import { BaseItem } from 'types/interface'
 import upCommingPopupConfig from './upcomming_popup/upCommingPopupConfig'
 import UpcommingMovie from '@/components/movies/UpcommingMovie'
 
 const DashBoard = () => {
   const { breakPointsClass } = useBreakPoints()
-  const navigate = useNavigate()
+  const { goDetailPage } = useHelper()
   const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
     usePopup(upCommingPopupConfig)
-  const goDetailPage = (item: BaseItem) => {
-    if (item.release_date) {
-      navigate(`/movie/${item.id}`)
-    } else {
-      navigate(`/tv/${item.id}`)
-    }
-  }
+
   const openUpcommingPopup = (item: BaseItem) => {
     openTrailerPopup({
       name: 'UpcommingVideo',

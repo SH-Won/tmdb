@@ -10,27 +10,24 @@
   border-radius: 8px;
   border: 1px solid color('grey_ccc');
   background-color: color('white');
-  font-size : 16px;
+  font-size: 16px;
   & > input {
-    font-size:16px;
+    font-size: 16px;
   }
   &.mobile {
     width: 100%;
   }
   &.focus {
     border-color: color('main_sub');
-    font-size:16px;
+    font-size: 16px;
   }
   & > .input-search {
     @include typeface('Buttons_1_m');
     width: 100%;
     border: 0;
-    /* outline: transparent; */
     background-color: transparent;
     &:focus {
       outline: none;
     }
-
   }
-
 }

@@ -1,8 +1,8 @@
 import BackEnd from '@/networks'
-import { PageLoadingSpinner, PosterCard, RatioCardImage, RatioImage } from 'my-react-component'
+import { PageLoadingSpinner, RatioCardImage, RatioImage } from 'my-react-component'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { BaseActorItem, BaseCast, BaseCombineCredit } from 'types/interface'
+import { BaseActorItem, BaseCombineCredit } from 'types/interface'
 import '@/styles/ActorPage.scss'
 import { useCallback, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
@@ -65,7 +65,7 @@ const ActorPage = () => {
 
   const RenderPopularMovies = useCallback(() => {
     return (
-      <div className="appearance-work">
+      <div className="list-container appearance">
         <ItemList
           items={sortMovies}
           renderItem={(item) => (

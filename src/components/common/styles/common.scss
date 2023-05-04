@@ -2,20 +2,6 @@
 @import 'my-react-component/src/styles/typeface.module.scss';
 @import 'my-react-component/src/styles/colors.module.scss';
 
-// @mixin rightFade {
-//   position: relative;
-//   &::after {
-//     content: '';
-//     width: 60px;
-//     height: 100%;
-//     position: absolute;
-//     top: 0;
-//     right: 0;
-//     background-image: linear-gradient(to right, rgb(255, 255, 255, 0) 20%, #f5f6f8 100%);
-//     will-change: opacity;
-//     pointer-events: none;
-//   }
-// }
 .selected-item {
   padding: 10px 16px;
   cursor: pointer;
