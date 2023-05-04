@@ -5,6 +5,8 @@ export const MOVIE_CATEGORY = {
   TRENDING: 'trending',
   UPCOMMING: 'upcoming',
   NOW_PLAYING: 'now_playing',
+  LATEST: 'latest',
+  DISCOVER: 'discover',
   DETAIL: '',
 }
 
@@ -15,6 +17,8 @@ export const TV_CATEGORY = {
   TRENDING: 'trending',
   AIR_TODAY: 'airing_today',
   ON_THE_AIR: 'on_the_air',
+  LATEST: 'latest',
+  DISCOVER: 'discover',
   DETAIL: '',
 }
 

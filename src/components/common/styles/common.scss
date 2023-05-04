@@ -2,20 +2,20 @@
 @import 'my-react-component/src/styles/typeface.module.scss';
 @import 'my-react-component/src/styles/colors.module.scss';
 
-@mixin rightFade {
-  position: relative;
-  &::after {
-    content: '';
-    width: 60px;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-image: linear-gradient(to right, rgb(255, 255, 255, 0) 20%, #f5f6f8 100%);
-    will-change: opacity;
-    pointer-events: none;
-  }
-}
+// @mixin rightFade {
+//   position: relative;
+//   &::after {
+//     content: '';
+//     width: 60px;
+//     height: 100%;
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     background-image: linear-gradient(to right, rgb(255, 255, 255, 0) 20%, #f5f6f8 100%);
+//     will-change: opacity;
+//     pointer-events: none;
+//   }
+// }
 .selected-item {
   padding: 10px 16px;
   cursor: pointer;
@@ -48,5 +48,30 @@
   gap: 2px;
   & > span:nth-child(1) {
     @include typeface('Paragraph_1_m');
+  }
+}
+// CastItem.tsx
+.cast-container {
+  padding: 20px;
+  .cast-item-container {
+    .cast-info {
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      & > span:nth-child(1) {
+        @include typeface('Paragraph_2b');
+      }
+      & > span:nth-child(2) {
+        @include typeface('Paragraph_3');
+      }
+    }
+    background-color: color('white');
+    border-radius: 8px;
+    border: 0.5px solid color('grey_ccc');
+    > img {
+      border-radius: 8px 8px 0 0;
+      width: 100%;
+    }
   }
 }

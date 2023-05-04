@@ -1,6 +1,6 @@
 @import 'my-react-component/src/styles/colors.module.scss';
 @import 'my-react-component/src/styles/typeface.module.scss';
-@import '../components/common/styles/common.scss';
+@import '../styles/common.scss';
 .detail-page {
   height: 100%;
   padding-bottom: 150px;
@@ -47,7 +47,6 @@
             > img {
               position: absolute;
               width: 30%;
-              // height: 70%;
               left: 30px;
               top: 30px;
               border-radius: 8px;
@@ -102,58 +101,6 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      // gap: 20px;
-      .cast-list {
-        padding: 20px;
-        .cast-item-container {
-          .cast-info {
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            & > span:nth-child(1) {
-              @include typeface('Paragraph_2b');
-            }
-            & > span:nth-child(2) {
-              @include typeface('Paragraph_3');
-            }
-          }
-          background-color: color('white');
-          border-radius: 8px;
-          border: 0.5px solid color('grey_ccc');
-          > img {
-            border-radius: 8px 8px 0 0;
-            width: 100%;
-          }
-        }
-        // @include rightFade;
-      }
-      & > .recommend-container {
-        padding: 20px;
-        .recommend-list {
-          padding: 20px;
-          display: flex;
-          gap: 20px;
-          overflow-x: scroll;
-          & > div {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            .mobile & {
-              flex: 0 0 175px;
-              // flex: 0 0 50%;
-            }
-            .tablet & {
-              flex: 0 0 200px;
-              // flex: 0 0 50%;
-            }
-            .desktop & {
-              flex: 0 0 250px;
-              // flex: 0 0 30%;
-            }
-          }
-        }
-      }
     }
   }
 }
@@ -163,23 +110,8 @@
   & > .info-overview {
     display: flex;
     flex-direction: column;
-    // gap: 20px;
     gap: 30px;
-    // & > .explain-box {
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: space-between;
-    //   & > span:nth-child(1) {
-    //     @include typeface('Heading_3');
-    //   }
-    //   & > span:nth-child(2) {
-    //     @include typeface('Paragraph_1_m');
-    //   }
-    // }
-
     & > .keyword-container {
-      // display:flex;
-      // flex-direction: column;
       & > .keyword-box {
         margin-top: 10px;
         display: flex;

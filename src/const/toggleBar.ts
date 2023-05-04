@@ -76,15 +76,28 @@ export const TOGGLE_TRENDING_ITEMS: ItemType[] = [
 // 임시 토글바 config
 export const TOGGLE_UPCOMMING: ItemType[] = [
   {
-    id: MOVIE_CATEGORY.prefix + '_' + MOVIE_CATEGORY.UPCOMMING,
+    id: MOVIE_CATEGORY.prefix + '_' + MOVIE_CATEGORY.DISCOVER,
     name: '영화',
     order: 0,
-    url: '/' + MOVIE_CATEGORY.prefix + '/' + MOVIE_CATEGORY.UPCOMMING,
+    url:
+      '/' +
+      MOVIE_CATEGORY.DISCOVER +
+      '/' +
+      MOVIE_CATEGORY.prefix +
+      '?release_date.gte=2023-05-05&release_date.lte=2023-05-07&sort_by=popularity.desc',
   },
   {
-    id: TV_CATEGORY.prefix + '_' + TV_CATEGORY.AIR_TODAY,
+    id: TV_CATEGORY.prefix + '_' + TV_CATEGORY.DISCOVER,
     name: 'TV',
     order: 1,
-    url: '/' + TV_CATEGORY.prefix + '/' + TV_CATEGORY.AIR_TODAY,
+    url:
+      '/' +
+      TV_CATEGORY.DISCOVER +
+      '/' +
+      TV_CATEGORY.prefix +
+      '?air_date.gte=2023-05-05&air_date.lte=2023-05-07&sort_by=popularity.desc',
   },
 ]
+
+//&sort_by=first_air_date.desc
+//&sort_by=release_date.desc

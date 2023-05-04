@@ -11,7 +11,7 @@ import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
 import { LoadingSpinner } from 'my-react-component'
-import Recommned from '@/components/detail/Recommned'
+import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
@@ -94,7 +94,7 @@ const DetailPage = () => {
       <div className="detail-content">
         <div className="content-cast-recommend">
           <Cast casts={credits.cast} />
-          <Recommned items={recommends!.results} />
+          <Recommend items={recommends!.results} />
         </div>
         <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>
