@@ -53,6 +53,10 @@ const DetailPage = () => {
       const url = `/${media_type}/${id}/recommendations`
       const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>(url)
       return response
+    },
+    {
+      staleTime: Infinity,
+      enabled: !!id,
     }
   )
   const { data: keyword, isLoading: keywordLoading } = useQuery(
@@ -69,14 +73,6 @@ const DetailPage = () => {
       enabled: !!id,
     }
   )
-  // if (!isLoading)
-  //   console.log(
-  //     Object.fromEntries(Object.entries(item!).map(([key, value]) => [key, typeof value]))
-  //   )
-  console.log(item!)
-  console.log(credits)
-  console.log(recommends)
-  console.log(keyword)
   const crews = useMemo(() => {
     const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director')
     const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer')

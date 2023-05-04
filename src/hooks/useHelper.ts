@@ -9,6 +9,9 @@ const useHelper = () => {
     url += item.id
     navigate(url)
   }
+  const goSearchPage = (searchText: string) => {
+    navigate(`/search?language=ko&query=${searchText}`)
+  }
   const goActorPage = (id: BaseCast['id']) => {
     navigate(`/person/${id}`)
   }

@@ -11,6 +11,8 @@
     cursor: pointer;
   }
   & > .app-bar-search {
+    width: 100%;
+    justify-content: flex-end;
     position: absolute;
     display: flex;
     gap: 10px;

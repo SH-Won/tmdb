@@ -37,7 +37,7 @@ export const TOGGLE_TV_ITEM: ItemType[] = [
     id: TV_CATEGORY.prefix + '_' + TV_CATEGORY.POPULAR,
     name: '인기',
     order: 0,
-    url: '/' + TV_CATEGORY.prefix + '/' + TV_CATEGORY.POPULAR,
+    url: '/' + TV_CATEGORY.prefix + '/' + TV_CATEGORY.POPULAR + '?vote_average.gte=7',
   },
   {
     id: TV_CATEGORY.prefix + '_' + TV_CATEGORY.TOP_RATED,
