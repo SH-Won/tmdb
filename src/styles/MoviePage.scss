@@ -2,7 +2,7 @@
 @import 'my-react-component/src/styles/colors.module.scss';
 .movie-page {
   display: grid;
-  grid-template-columns: 1fr 2.5fr;
+  grid-template-columns: 200px 2.5fr;
   & > .sort-filter {
     display: flex;
     flex-direction: column;

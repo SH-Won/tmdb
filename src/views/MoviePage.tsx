@@ -10,15 +10,21 @@ import { OPTION_FILTER } from '@/const/filter'
 import '../styles/MoviePage.scss'
 import FilterDownFall from '@/components/filter/FilterDownFall'
 import FilterOption from '@/components/filter/FilterOption'
+
+const mapper = {
+  popular: '',
+  top_rated: 300,
+}
 const MoviePage = () => {
   const [searchParam] = useSearchParams()
   const { isValidImage, goDetailPage } = useHelper()
-  const category = searchParam.get('category')
+  const category = searchParam.get('category') as string
   const [items, setItems] = useState<BaseItem[]>([])
   const [page, setPage] = useState(1)
   const [isUserSelectFilter, setIsUserSelectFilter] = useState(false)
   const [filter, setFilter] = useState({
     sort_by: null,
+    'vote_count.gte': 300,
   })
   const query = Object.entries(filter)
     .map(([key, value]) => {
@@ -51,11 +57,13 @@ const MoviePage = () => {
       // },
     }
   )
+  console.log(data)
   const onChangeFilter = (key: any, value: any) => {
     setFilter((prev) => ({
       ...prev,
       [key]: value,
     }))
+    setItems([])
     setIsUserSelectFilter(true)
     setPage(1)
   }

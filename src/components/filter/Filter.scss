@@ -29,33 +29,34 @@
     flex-direction: column;
     // align-items: center;
     @include typeface('Paragraph_2');
+    cursor: pointer;
     & > .option-selected {
       // width: 80%;
       border-radius: 4px;
       padding: 6px 12px;
       background-color: color('grey_ccc');
     }
-    & > .option-items {
-      width: 100%;
-      position: absolute;
-      top: 100%;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      padding: 10px 0px;
-      border-radius: 4px;
-      border: 0.5px solid color('grey_ccc');
-      background-color: color('grey_f4');
-      & > span {
-        padding: 4px 10px;
-        &:hover {
-          &.selected {
-            background-color: color('main');
-            color: color('white');
-          }
-          background-color: color('grey_ccc');
-        }
-      }
-    }
+    // & > .option-items {
+    //   width: 100%;
+    //   position: absolute;
+    //   top: 100%;
+    //   z-index: 10;
+    //   display: flex;
+    //   flex-direction: column;
+    //   padding: 10px 0px;
+    //   border-radius: 4px;
+    //   border: 0.5px solid color('grey_ccc');
+    //   background-color: color('grey_f4');
+    //   & > span {
+    //     padding: 4px 10px;
+    //     &:hover {
+    //       &.selected {
+    //         background-color: color('main');
+    //         color: color('white');
+    //       }
+    //       background-color: color('grey_ccc');
+    //     }
+    //   }
+    // }
   }
 }
