@@ -6,6 +6,8 @@ import SearchPage from '@/views/SearchPage'
 import ActorPage from '@/views/ActorPage'
 import MoviePage from '@/views/MoviePage'
 import TVPage from '@/views/TVPage'
+import Overall from '@/overall'
+import WidgetPage from '@/views/WidgetPage'
 // import WidgetPage from '@/views/WidgetPage'
 
 export const router = createBrowserRouter(
@@ -29,18 +31,24 @@ export const router = createBrowserRouter(
           path: '/person/:personId',
           element: <ActorPage />,
         },
+
         {
-          path: '/movie',
+          path: '/widget',
+          element: <WidgetPage />,
+        },
+      ],
+    },
+    {
+      element: <Overall />,
+      children: [
+        {
           element: <MoviePage />,
+          path: '/movie',
         },
         {
-          path: '/tv',
           element: <TVPage />,
+          path: '/tv',
         },
-        // {
-        //   path: '/widget',
-        //   element: <WidgetPage />,
-        // },
       ],
     },
   ],

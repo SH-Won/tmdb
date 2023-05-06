@@ -17,11 +17,12 @@ interface Props {
 const UpcommingMovie = ({ toggleItems, title, click }: Props) => {
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
-    [selectedItem.id],
+    [selectedItem.id, 1],
     async () => {
-      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>(
-        selectedItem?.url
-      )
+      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
+        url: selectedItem?.url,
+        page: 1,
+      })
       return response
     },
     {
@@ -38,7 +39,6 @@ const UpcommingMovie = ({ toggleItems, title, click }: Props) => {
   }
   const container = useRef<HTMLDivElement>(null)
   const onMouseEnter = (item: BaseItem) => {
-    console.log('enter')
     if (container.current?.style) {
       container.current.style.backgroundImage = getBackGroundImageUrl(item.backdrop_path)
     }

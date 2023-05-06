@@ -19,11 +19,12 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
   const { isValidImage } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
-    [selectedItem.id],
+    [selectedItem.id, 1],
     async () => {
-      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>(
-        selectedItem?.url
-      )
+      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
+        url: selectedItem?.url,
+        page: 1,
+      })
       return response
     },
     {
@@ -31,7 +32,6 @@ const PopularMovie = ({ toggleItems, title, click }: Props) => {
       enabled: !!selectedItem,
     }
   )
-
   return (
     <div className="list-container">
       <div className="header">
