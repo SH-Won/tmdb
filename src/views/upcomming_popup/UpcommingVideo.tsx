@@ -44,8 +44,9 @@ const UpcommingVideo = ({ item }: UpcommingVideoProps) => {
   useLayoutEffect(() => {
     // 이 방법은 옳지않은방법 같지만.....
     const popupWrapper = document.querySelector('.wrapper')
-    console.log(popupWrapper)
-    popupWrapper?.setAttribute('style', 'width:80%')
+    const isMobile = popupWrapper?.classList.contains('mobile')
+    if (!isMobile) popupWrapper?.setAttribute('style', 'width:80%')
+
     //
   }, [])
   return (

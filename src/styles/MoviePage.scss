@@ -3,6 +3,10 @@
 .movie-page {
   display: grid;
   grid-template-columns: 200px 2.5fr;
+  .mobile & {
+    display: flex;
+    flex-direction: column;
+  }
   & > .sort-filter {
     display: flex;
     flex-direction: column;
