@@ -13,6 +13,7 @@ import FilterOption from '@/components/filter/FilterOption'
 import FilterSelect from '@/components/filter/FilterSelect'
 import FilterSearchButton from '@/components/filter/FilterSearchButton'
 
+type Media = 'movie' | 'tv'
 const getFormatDate = (isLastDay = false) => {
   const date = new Date()
   const year = date.getFullYear()
@@ -24,6 +25,8 @@ const getFormatDate = (isLastDay = false) => {
 const mapper = {
   popular: {
     sort_by: null,
+    // 'vote_count.gte': 300,
+    'vote_average.gte': 5,
     with_genres: null,
   },
   top_rated: {
@@ -45,18 +48,34 @@ const mapper = {
     'primary_release_date.lte': getFormatDate(true),
     with_genres: null,
   },
+  on_the_air: {
+    // sort_by: 'first_air_date.desc',
+    // with_status: '1',
+    'vote_count.gte': 300,
+    'air_date.gte': getFormatDate(),
+    with_genres: null,
+  },
+  airing_today: {
+    sort_by: 'popularity.desc',
+    'air_date.gte': getFormatDate(),
+    'air_date.lte': getFormatDate(),
+    // 'vote_count.gte': 50,
+    width_type: '3',
+    with_genres: null,
+  },
 }
+
 const MoviePage = () => {
-  const { category } = useParams<{ category: keyof typeof mapper }>()
+  const { media, category } = useParams<{ media: Media; category: keyof typeof mapper }>()
   const { isValidImage, goDetailPage } = useHelper()
   const [items, setItems] = useState<BaseItem[]>([])
   const [page, setPage] = useState(1)
-  const [isUserSelectFilter, setIsUserSelectFilter] = useState(false)
   const [genres, setGenres] = useState<{ [key: string]: boolean }>({})
   const [filter, setFilter] = useState({
     ...mapper[category!],
   })
   console.log(filter)
+  console.log(media, category)
   const query = Object.entries(filter)
     .map(([key, value]) => {
       if (!value) return ''
@@ -65,11 +84,11 @@ const MoviePage = () => {
     .filter((el) => !!el)
     .join('&')
   const { data, isLoading } = useQuery(
-    [`movie_${category}`, page, query],
+    [`${media}_${category}`, page, query],
     async () => {
       const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
         // url: `/movie/${category}?${query}`,
-        url: `/discover/movie?${query}`,
+        url: `/discover/${media}?${query}`,
         page,
       })
       return response
@@ -80,9 +99,9 @@ const MoviePage = () => {
     }
   )
   const { data: movieGenre, isLoading: movieLoading } = useQuery(
-    ['movie', 'genre'],
+    [media, 'genre'],
     async () => {
-      const response = await BackEnd.getInstance().common.getGenre<GenreResponse>('movie')
+      const response = await BackEnd.getInstance().common.getGenre<GenreResponse>(media as Media)
       return response.genres
     },
     {
@@ -144,7 +163,7 @@ const MoviePage = () => {
   useEffect(() => {
     setFilter(mapper[category!])
   }, [category])
-
+  console.log(data)
   return (
     <div className="movie-page">
       <div className="sort-filter">
