@@ -11,7 +11,8 @@ const Navigation = (props: any) => {
       id: '1',
       name: t('app.navigation.product'),
       onClick() {
-        navigate('/movie?category=popular')
+        // navigate('/movie?category=popular')
+        navigate('/movie/popular')
       },
     },
     {

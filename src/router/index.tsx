@@ -43,7 +43,7 @@ export const router = createBrowserRouter(
       children: [
         {
           element: <MoviePage />,
-          path: '/movie',
+          path: '/movie/:category',
         },
         {
           element: <TVPage />,

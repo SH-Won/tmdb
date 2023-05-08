@@ -25,20 +25,7 @@ const FilterOption = ({ items, title, onChangeFilter }: FilterOptionProps) => {
         <div className="option-selected" onClick={() => setOpen((prev) => !prev)}>
           {selected}
         </div>
-        {open && (
-          // <div className="option-items">
-          //   {items.map((item) => (
-          //     <span
-          //       key={item.name}
-          //       className={selected === item.name ? 'selected' : ''}
-          //       onClick={() => onClickOption(item)}
-          //     >
-          //       {item.name}
-          //     </span>
-          //   ))}
-          // </div>
-          <OptionItemList items={items} selected={selected} click={onClickOption} />
-        )}
+        {open && <OptionItemList items={items} selected={selected} click={onClickOption} />}
       </div>
     </div>
   )

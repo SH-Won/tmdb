@@ -3,19 +3,19 @@ export const MOVIE_CONFIG = []
 export const HEADER_MOVIE_OPTION = [
   {
     name: '인기',
-    value: '/movie?category=popular',
+    value: '/movie/popular',
   },
   {
     name: '현재 상영중',
-    value: '/movie?category=now_playing',
+    value: '/movie/now_playing',
   },
   {
     name: '개봉 예정',
-    value: '/movie?category=upcomming',
+    value: '/movie/upcomming',
   },
   {
     name: '높은 평점',
-    value: '/movie?category=top_rated',
+    value: '/movie/top_rated',
   },
 ]
 export const HEADER_TV_OPTION = [

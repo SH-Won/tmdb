@@ -60,3 +60,23 @@
     // }
   }
 }
+.filter-select-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 14px 16px 16px;
+  gap: 10px;
+  & > span {
+    padding: 4px 10px;
+    @include typeface('Paragraph_2');
+    border-radius: 8px;
+    border: 1px solid color('grey_bbb');
+    cursor: pointer;
+
+    &:hover,
+    &.selected {
+      color: color('white');
+      background-color: color('main');
+      border: 1px solid color('white');
+    }
+  }
+}

@@ -33,4 +33,14 @@ export default class CommponAPI extends FetchAPI {
     })
     return response.data
   }
+  getGenre = async <T>(category: string): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/genre/${category}/list`,
+      query: {
+        lauguage: 'ko-KR',
+      },
+    })
+    return response.data
+  }
 }

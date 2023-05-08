@@ -1,7 +1,12 @@
+type CreateType<T> = {
+  [Property in keyof T]: T[Property]
+}
 export type IKeyWord = {
   id: number
   name: string
 }
+export type IGenre = CreateType<IKeyWord>
+
 export interface MovieResponse<T> {
   page: number
   results: T
@@ -12,4 +17,7 @@ export interface KeyWordResponse {
   id: number
   keywords?: IKeyWord[]
   results?: IKeyWord[]
+}
+export interface GenreResponse {
+  genres: IGenre[]
 }
