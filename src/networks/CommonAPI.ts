@@ -38,7 +38,17 @@ export default class CommponAPI extends FetchAPI {
       method: 'GET',
       url: `/genre/${category}/list`,
       query: {
-        lauguage: 'ko-KR',
+        lauguage: 'ko',
+      },
+    })
+    return response.data
+  }
+  getProviders = async <T>(params: { media: string; watch_region: string }): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/watch/providers/${params.media}`,
+      query: {
+        watch_region: params.watch_region,
       },
     })
     return response.data

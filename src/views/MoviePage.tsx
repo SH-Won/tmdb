@@ -1,81 +1,35 @@
 import { useHelper } from '@/hooks'
 import BackEnd from '@/networks'
-import { GenreResponse, MovieResponse } from '@/types/network/response'
+import { CommonResponse, GenreResponse, MovieResponse } from '@/types/network/response'
 import { Button, Colors, PageLoadingSpinner, PosterCard } from 'my-react-component'
-import React, { useEffect, useMemo, useState, MouseEvent } from 'react'
+import { useEffect, useMemo, useState, MouseEvent } from 'react'
 import { useQuery } from 'react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { BaseItem } from 'types/interface'
+import { useParams } from 'react-router-dom'
+import { BaseItem, BaseProvider } from 'types/interface'
 import { OPTION_FILTER } from '@/const/filter'
 import '../styles/MoviePage.scss'
 import FilterDownFall from '@/components/filter/FilterDownFall'
 import FilterOption from '@/components/filter/FilterOption'
-import FilterSelect from '@/components/filter/FilterSelect'
+import FilterGenre from '@/components/filter/FilterGenre'
 import FilterSearchButton from '@/components/filter/FilterSearchButton'
+import { type Media, queryMapper as mapper } from '@/const/overall'
+import FilterProvider from '@/components/filter/FilterProvider'
 
-type Media = 'movie' | 'tv'
-const getFormatDate = (isLastDay = false) => {
-  const date = new Date()
-  const year = date.getFullYear()
-  const month = ('0' + (date.getMonth() + 1)).slice(-2)
-  const day = ('0' + (date.getDate() + 0)).slice(-2)
-  const lastDay = new Date(year, parseInt(month), 0).getDate()
-  return year + '-' + month + '-' + (!isLastDay ? day : lastDay)
+const convertedUserSelectItems = (items: { [key: number]: boolean }) => {
+  return Object.entries(items)
+    .filter(([key, value]) => value)
+    .map(([key, value]) => key)
 }
-const mapper = {
-  popular: {
-    sort_by: null,
-    // 'vote_count.gte': 300,
-    'vote_average.gte': 5,
-    with_genres: null,
-  },
-  top_rated: {
-    sort_by: 'vote_average.desc',
-    'vote_count.gte': 300,
-    with_genres: null,
-  },
-  now_playing: {
-    sort_by: 'release_date.desc',
-    with_release_type: '3',
-    'vote_count.gte': 500,
-    with_genres: null,
-  },
-  upcomming: {
-    // sort_by: 'release_date.desc',
-    // 'vote_count.gte': 500,
-    // with_release_type: '3',
-    'primary_release_date.gte': getFormatDate(),
-    'primary_release_date.lte': getFormatDate(true),
-    with_genres: null,
-  },
-  on_the_air: {
-    // sort_by: 'first_air_date.desc',
-    // with_status: '1',
-    'vote_count.gte': 300,
-    'air_date.gte': getFormatDate(),
-    with_genres: null,
-  },
-  airing_today: {
-    sort_by: 'popularity.desc',
-    'air_date.gte': getFormatDate(),
-    'air_date.lte': getFormatDate(),
-    // 'vote_count.gte': 50,
-    width_type: '3',
-    with_genres: null,
-  },
-}
-
 const MoviePage = () => {
-  const { media, category } = useParams<{ media: Media; category: keyof typeof mapper }>()
+  const { media, category } = useParams<{ media: Media; category: keyof (typeof mapper)[Media] }>()
   const { isValidImage, goDetailPage } = useHelper()
   const [items, setItems] = useState<BaseItem[]>([])
   const [page, setPage] = useState(1)
-  const [genres, setGenres] = useState<{ [key: string]: boolean }>({})
+  const [genres, setGenres] = useState<number[]>([])
+  const [providers, setProviders] = useState<number[]>([])
   const [filter, setFilter] = useState({
-    ...mapper[category!],
+    ...mapper[media!][category!],
   })
-  console.log(filter)
-  console.log(media, category)
   const query = Object.entries(filter)
     .map(([key, value]) => {
       if (!value) return ''
@@ -83,11 +37,35 @@ const MoviePage = () => {
     })
     .filter((el) => !!el)
     .join('&')
+  const { data: watchProviders, isLoading: providerLoading } = useQuery(
+    [media, 'provider'],
+    async () => {
+      const response = await BackEnd.getInstance().common.getProviders<
+        CommonResponse<BaseProvider[]>
+      >({
+        media: media!,
+        watch_region: 'KR',
+      })
+      return response.results
+    },
+    {
+      staleTime: Infinity,
+      enabled: !!media,
+      onSuccess: (payload) => {
+        // const providerIds = payload.map((provider) => provider.provider_id).join('|')
+        setFilter((prev) => ({
+          ...prev,
+          // with_watch_providers: providerIds,
+          watch_region: 'KR',
+        }))
+        // setProviders(payload.results)
+      },
+    }
+  )
   const { data, isLoading } = useQuery(
     [`${media}_${category}`, page, query],
     async () => {
       const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
-        // url: `/movie/${category}?${query}`,
         url: `/discover/${media}?${query}`,
         page,
       })
@@ -95,7 +73,7 @@ const MoviePage = () => {
     },
     {
       staleTime: Infinity,
-      enabled: !!category,
+      enabled: !!watchProviders,
     }
   )
   const { data: movieGenre, isLoading: movieLoading } = useQuery(
@@ -108,52 +86,68 @@ const MoviePage = () => {
       staleTime: Infinity,
     }
   )
-  // console.log(data)
   const onChangeFilter = (key: any, value: any) => {
     setFilter((prev) => ({
       ...prev,
       [key]: value,
     }))
     setItems([])
-    // setIsUserSelectFilter(true)
     setPage(1)
   }
   const selectGenre = (e: MouseEvent<HTMLElement>, id: number) => {
     const element = e.target as Element
     if (element.classList.contains('selected')) {
       element.classList.remove('selected')
-      setGenres((prev) => ({
-        ...prev,
-        [id]: false,
-      }))
+      setGenres((prev) => prev.filter((genreId) => genreId !== id))
     } else {
       element.classList.add('selected')
-      setGenres((prev) => ({
-        ...prev,
-        [id]: true,
-      }))
+      setGenres((prev) => [...prev, id])
     }
   }
-  const getSelectGenres = () => {
-    return Object.entries(genres)
-      .filter(([key, value]) => value)
-      .map(([key, value]) => key)
-  }
-  const prevGenresLength = useMemo(() => {
-    return getSelectGenres().length
-  }, [filter])
+  const prevGenres = useMemo(() => {
+    if (!filter['with_genres']) return []
+    return filter['with_genres'].split(',').map(Number)
+  }, [filter, watchProviders])
 
-  const showSearchButton = useMemo(() => {
-    const isExistSelectedGenre = Object.values(genres).filter((val) => !!val)
-    if (isExistSelectedGenre.length === prevGenresLength) return false
-    return true
-  }, [genres, onChangeFilter])
+  const selectProvider = (e: MouseEvent<HTMLElement>, id: number) => {
+    const element = e.target as Element
+    if (element.classList.contains('selected')) {
+      element.classList.remove('selected')
+      setProviders((prev) => prev.filter((providerId) => providerId !== id))
+    } else {
+      element.classList.add('selected')
+      setProviders((prev) => [...prev, id])
+    }
+  }
+  const prevProviders = useMemo(() => {
+    if (!watchProviders || !filter['with_watch_providers']) return []
+    const filterProviders = filter['with_watch_providers'].split('|')
+    return filterProviders.length === watchProviders.length ? [] : filterProviders.map(Number)
+  }, [filter, watchProviders])
+
+  const isGenreChange = useMemo(() => {
+    const isUserAlreadySelect = genres.some((genreId) => prevGenres.includes(genreId))
+    return genres.length !== prevGenres.length || (!isUserAlreadySelect && prevGenres.length !== 0)
+  }, [genres])
+
+  const isProviderChange = useMemo(() => {
+    const isUserAlreadySelect = providers.some((providerId) => prevProviders.includes(providerId))
+    // 고른게 있어도 length 가 다르면 true
+    // 고른게 있고 length 도 같으면 false
+    return (
+      providers.length !== prevProviders.length ||
+      (!isUserAlreadySelect && prevProviders.length !== 0)
+    )
+  }, [providers])
+
+  const isShowSearchButton = useMemo(() => {
+    return isGenreChange || isProviderChange
+  }, [isGenreChange, isProviderChange])
 
   useEffect(() => {
     if (data) {
       if (page === 1) {
         setItems(data.results)
-        // setIsUserSelectFilter(false)
       } else {
         setItems((prev) => [...prev, ...data.results])
       }
@@ -161,22 +155,38 @@ const MoviePage = () => {
   }, [page, data])
 
   useEffect(() => {
-    setFilter(mapper[category!])
-  }, [category])
-  console.log(data)
+    if (!watchProviders) return
+    setFilter((prev) => ({
+      ...mapper[media!][category!],
+      with_watch_providers: watchProviders!.map((provider) => provider.provider_id).join('|'),
+      watch_region: 'KR',
+    }))
+    setPage(1)
+    setProviders([])
+    setGenres([])
+  }, [category, media, watchProviders])
   return (
     <div className="movie-page">
-      <div className="sort-filter">
-        <FilterDownFall title="정렬">
-          <FilterOption
-            title="Sort Results By"
-            items={OPTION_FILTER}
-            onChangeFilter={(value) => onChangeFilter('sort_by', value)}
-          />
-        </FilterDownFall>
-        <FilterDownFall title="장르">
-          <FilterSelect items={movieGenre!} selectGenre={selectGenre} />
-        </FilterDownFall>
+      <div className="filter-total-container">
+        <div className="sort-filter">
+          <FilterDownFall title="정렬">
+            <FilterOption
+              title="Sort Results By"
+              items={OPTION_FILTER}
+              onChangeFilter={(value) => onChangeFilter('sort_by', value)}
+            />
+          </FilterDownFall>
+          <FilterDownFall title="Where To Watch">
+            <FilterProvider
+              items={watchProviders!}
+              selectProvider={selectProvider}
+              media={media!}
+            />
+          </FilterDownFall>
+          <FilterDownFall title="장르">
+            <FilterGenre items={movieGenre!} selectGenre={selectGenre} media={media!} />
+          </FilterDownFall>
+        </div>
       </div>
       <div className="movie-item-container">
         <div className="item-grid">
@@ -192,7 +202,7 @@ const MoviePage = () => {
             </div>
           ))}
         </div>
-        {isLoading ? (
+        {providerLoading || isLoading ? (
           <PageLoadingSpinner customHeight="100px" />
         ) : (
           <Button
@@ -206,8 +216,16 @@ const MoviePage = () => {
         )}
       </div>
       <FilterSearchButton
-        show={showSearchButton}
-        click={() => onChangeFilter('with_genres', getSelectGenres().join(','))}
+        show={isShowSearchButton}
+        click={() => {
+          onChangeFilter('with_genres', genres.join(','))
+          onChangeFilter(
+            'with_watch_providers',
+            !providers.length
+              ? watchProviders?.map((provider) => provider.provider_id).join('|')
+              : providers.join('|')
+          )
+        }}
       />
     </div>
   )

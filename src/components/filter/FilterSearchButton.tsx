@@ -7,7 +7,6 @@ interface FilterSearchButtonProps {
 }
 const FilterSearchButton = ({ show, click }: FilterSearchButtonProps) => {
   const searchButton = useRef<HTMLDivElement>(null)
-  console.log(show)
   useEffect(() => {
     //
   }, [])

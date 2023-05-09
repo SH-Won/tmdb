@@ -1,9 +1,16 @@
 import { Button, Element } from 'my-react-component'
+import { ComponentType } from 'react'
 
+interface IconProps {
+  name: string
+  size: 'big' | 'medium' | 'small' | 'custom'
+  color: string
+}
 interface IconButtonProps {
   iconName: string
   iconSize: 'big' | 'medium' | 'small' | 'custom'
   iconColor: string
+  // Icon : ComponentType<IconProps>
   ButtonColor?: string
   fontColor?: string
   buttonBorder?: string
@@ -12,16 +19,6 @@ interface IconButtonProps {
   click: (() => void) | (() => Promise<void>)
 }
 const Iconbutton = (props: IconButtonProps) => {
-  // const {
-  //   iconName,
-  //   iconSize,
-  //   iconColor,
-  //   buttonColor,
-  //   fontcolor,
-  //   buttonBorder,
-  //   buttonWidth,
-  //   click,
-  // } = props
   return (
     <Button
       click={props.click}

@@ -7,9 +7,11 @@ export type IKeyWord = {
 }
 export type IGenre = CreateType<IKeyWord>
 
-export interface MovieResponse<T> {
-  page: number
+export interface CommonResponse<T> {
   results: T
+}
+export interface MovieResponse<T> extends CommonResponse<T> {
+  page: number
   total_pages: number
   total_results: number
 }
