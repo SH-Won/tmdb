@@ -1,6 +1,6 @@
 import { useHelper } from '@/hooks'
 import BackEnd from '@/networks'
-import { CommonResponse, GenreResponse, MovieResponse } from '@/types/network/response'
+import { CommonResponse, GenreResponse, IGenre, MovieResponse } from '@/types/network/response'
 import { Button, Colors, PageLoadingSpinner, PosterCard } from 'my-react-component'
 import { useEffect, useMemo, useState, MouseEvent } from 'react'
 import { useQuery } from 'react-query'
@@ -15,18 +15,18 @@ import FilterSearchButton from '@/components/filter/FilterSearchButton'
 import { type Media, queryMapper as mapper } from '@/const/overall'
 import FilterProvider from '@/components/filter/FilterProvider'
 
-const convertedUserSelectItems = (items: { [key: number]: boolean }) => {
-  return Object.entries(items)
-    .filter(([key, value]) => value)
-    .map(([key, value]) => key)
-}
+// const convertedUserSelectItems = (items: { [key: number]: boolean }) => {
+//   return Object.entries(items)
+//     .filter(([key, value]) => value)
+//     .map(([key, value]) => key)
+// }
 const MoviePage = () => {
   const { media, category } = useParams<{ media: Media; category: keyof (typeof mapper)[Media] }>()
   const { isValidImage, goDetailPage } = useHelper()
   const [items, setItems] = useState<BaseItem[]>([])
   const [page, setPage] = useState(1)
-  const [genres, setGenres] = useState<number[]>([])
-  const [providers, setProviders] = useState<number[]>([])
+  const [genres, setGenres] = useState<IGenre['id'][]>([])
+  const [providers, setProviders] = useState<BaseProvider['provider_id'][]>([])
   const [filter, setFilter] = useState({
     ...mapper[media!][category!],
   })
@@ -86,7 +86,10 @@ const MoviePage = () => {
       staleTime: Infinity,
     }
   )
-  const onChangeFilter = (key: any, value: any) => {
+  const onChangeFilter = <T extends keyof typeof filter>(
+    key: T,
+    value: (typeof filter)[T]
+  ): void => {
     setFilter((prev) => ({
       ...prev,
       [key]: value,
@@ -104,7 +107,7 @@ const MoviePage = () => {
       setGenres((prev) => [...prev, id])
     }
   }
-  const prevGenres = useMemo(() => {
+  const prevGenres = useMemo<IGenre['id'][]>(() => {
     if (!filter['with_genres']) return []
     return filter['with_genres'].split(',').map(Number)
   }, [filter, watchProviders])
@@ -119,18 +122,18 @@ const MoviePage = () => {
       setProviders((prev) => [...prev, id])
     }
   }
-  const prevProviders = useMemo(() => {
+  const prevProviders = useMemo<BaseProvider['provider_id'][]>(() => {
     if (!watchProviders || !filter['with_watch_providers']) return []
     const filterProviders = filter['with_watch_providers'].split('|')
     return filterProviders.length === watchProviders.length ? [] : filterProviders.map(Number)
   }, [filter, watchProviders])
 
-  const isGenreChange = useMemo(() => {
+  const isGenreChange = useMemo<boolean>(() => {
     const isUserAlreadySelect = genres.some((genreId) => prevGenres.includes(genreId))
     return genres.length !== prevGenres.length || (!isUserAlreadySelect && prevGenres.length !== 0)
   }, [genres])
 
-  const isProviderChange = useMemo(() => {
+  const isProviderChange = useMemo<boolean>(() => {
     const isUserAlreadySelect = providers.some((providerId) => prevProviders.includes(providerId))
     // 고른게 있어도 length 가 다르면 true
     // 고른게 있고 length 도 같으면 false
@@ -140,7 +143,7 @@ const MoviePage = () => {
     )
   }, [providers])
 
-  const isShowSearchButton = useMemo(() => {
+  const isShowSearchButton = useMemo<boolean>(() => {
     return isGenreChange || isProviderChange
   }, [isGenreChange, isProviderChange])
 
@@ -173,7 +176,7 @@ const MoviePage = () => {
             <FilterOption
               title="Sort Results By"
               items={OPTION_FILTER}
-              onChangeFilter={(value) => onChangeFilter('sort_by', value)}
+              onChangeFilter={(value) => onChangeFilter<'sort_by'>('sort_by', value)}
             />
           </FilterDownFall>
           <FilterDownFall title="Where To Watch">
@@ -218,11 +221,11 @@ const MoviePage = () => {
       <FilterSearchButton
         show={isShowSearchButton}
         click={() => {
-          onChangeFilter('with_genres', genres.join(','))
-          onChangeFilter(
+          onChangeFilter<'with_genres'>('with_genres', genres.join(','))
+          onChangeFilter<'with_watch_providers'>(
             'with_watch_providers',
             !providers.length
-              ? watchProviders?.map((provider) => provider.provider_id).join('|')
+              ? watchProviders!.map((provider) => provider.provider_id).join('|')
               : providers.join('|')
           )
         }}

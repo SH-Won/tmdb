@@ -112,3 +112,15 @@ export const queryMapper = {
     },
   },
 }
+export const FILTER = {
+  SORT: 'sort_by',
+  GENRES: 'with_genres',
+  PROVIDER: 'with_watch_providers',
+  REGION: 'watch_region',
+  VOTE_AVERAGE: 'vote_count.gte',
+  RELEASE_TYPE: 'with_release_type',
+  PRIMARY_RELEASE_DATE_GTE: 'primary_release_date.gte',
+  PRIMARY_RELEASE_DATE_LTE: 'primary_release_date.lte',
+  AIR_DATE_GTE: 'air_date.gte',
+  AIR_DATE_LTE: 'air_date.lte',
+}
