@@ -1,0 +1,96 @@
+@import 'my-react-component/src/styles/typeface.module.scss';
+@import 'my-react-component/src/styles/colors.module.scss';
+@mixin background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/check.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgb(100, 64, 221, 0.8);
+  border-radius: 8px;
+}
+.filter-downfall-container {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 100%;
+  & > .header {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include typeface('Paragraph_1_b');
+  }
+}
+
+.option-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px 16px;
+  & > .title {
+    @include typeface('Paragraph_1_m');
+    color: color('grey_bbb');
+  }
+
+  & > .option-toggle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    @include typeface('Paragraph_2');
+    cursor: pointer;
+    & > .option-selected {
+      border-radius: 4px;
+      padding: 6px 12px;
+      background-color: color('grey_ccc');
+    }
+  }
+}
+.filter-select-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 14px 16px 16px;
+  gap: 10px;
+  & > span {
+    padding: 4px 10px;
+    @include typeface('Paragraph_2');
+    border-radius: 8px;
+    border: 1px solid color('grey_bbb');
+    cursor: pointer;
+
+    &:hover,
+    &.selected {
+      color: color('white');
+      background-color: color('main');
+      border: 1px solid color('white');
+    }
+  }
+}
+.filter-provider-container {
+  padding: 14px 16px 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  .mobile & {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  & > .provider-image-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    & > img {
+      border-radius: 8px;
+      width: 100%;
+    }
+    & > .background.selected {
+      @include background();
+    }
+    &:hover {
+      & > .background {
+        @include background();
+      }
+    }
+  }
+}

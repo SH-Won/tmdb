@@ -51,7 +51,10 @@ const DetailPage = () => {
     [key, id, 'recommends'],
     async () => {
       const url = `/${media_type}/${id}/recommendations`
-      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>(url)
+      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
+        url,
+        page: 1,
+      })
       return response
     },
     {
@@ -81,6 +84,7 @@ const DetailPage = () => {
       writers,
     }
   }, [credits])
+  console.log(recommends)
   if (isLoading || creditsLoading || recommendLoading || keywordLoading) {
     return <LoadingSpinner opacity={0.6} />
   }

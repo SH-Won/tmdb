@@ -6,7 +6,7 @@ interface SearchNavigationProps {
     name: string
   }[]
   selected: string
-  onSelect: (id: string) => void
+  onSelect: ((id: string) => void) | any
 }
 const SearchNavigation = (props: SearchNavigationProps) => {
   return (

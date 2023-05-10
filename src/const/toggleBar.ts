@@ -1,5 +1,10 @@
 import { MOVIE_CATEGORY } from '@/const'
 import { TRENDING_CATEGORY, TV_CATEGORY } from './movie'
+
+const DEFAULT_MOVIE_PROVIDER =
+  '8|119|337|356|97|350|96|3|11|100|190|521|475|538|546|551|554|559|444|567|569|315|677|692|701|1771|309|445|1796|283'
+const DEFAULT_TV_PROVIDER =
+  '8|119|337|356|97|350|96|190|475|538|546|551|554|444|315|692|701|309|445|1796|283'
 export interface ItemType {
   id: string
   name: string
@@ -37,7 +42,12 @@ export const TOGGLE_TV_ITEM: ItemType[] = [
     id: TV_CATEGORY.prefix + '_' + TV_CATEGORY.POPULAR,
     name: '인기',
     order: 0,
-    url: '/' + TV_CATEGORY.prefix + '/' + TV_CATEGORY.POPULAR + '?vote_average.gte=7',
+    url:
+      '/' +
+      TV_CATEGORY.prefix +
+      '/' +
+      TV_CATEGORY.POPULAR +
+      '?vote_average.gte=7&watch_region=KR&with_watch_providers=8|119|337|356|97|350|96|190|475|538|546|551|554|444|315|692|701|309|445|1796|283',
   },
   {
     id: TV_CATEGORY.prefix + '_' + TV_CATEGORY.TOP_RATED,
@@ -84,7 +94,8 @@ export const TOGGLE_UPCOMMING: ItemType[] = [
       MOVIE_CATEGORY.DISCOVER +
       '/' +
       MOVIE_CATEGORY.prefix +
-      '?release_date.gte=2023-05-05&release_date.lte=2023-05-07&sort_by=popularity.desc',
+      '?release_date.gte=2023-05-10&sort_by=popularity.desc&with_watch_providers=8|119|337|356|97|350|96|3|11|100|190|521|475|538|546|551|554|559|444|567|569|315|677|692|701|1771|309|445|1796|283&watch_region=KR',
+    // '?release_date.gte=2023-05-07&watch_region=KR&with_watch_monetization_types=flatrate',
   },
   {
     id: TV_CATEGORY.prefix + '_' + TV_CATEGORY.DISCOVER,
@@ -95,7 +106,8 @@ export const TOGGLE_UPCOMMING: ItemType[] = [
       TV_CATEGORY.DISCOVER +
       '/' +
       TV_CATEGORY.prefix +
-      '?air_date.gte=2023-05-05&air_date.lte=2023-05-07&sort_by=popularity.desc',
+      // '?air_date.gte=2023-05-10&sort_by=popularity.desc&with_watch_providers=8|119|337|356|97|350|96|190|475|538|546|551|554|444|315|692|701|309|445|1796|283&watch_region=KR&with_watch_monetization_types=flatrate',
+      '?sort_by=air_date.desc&with_watch_providers=8|119|337|356|97|350|96|190|475|538|546|551|554|444|315|692|701|309|445|1796|283&watch_region=KR&with_watch_monetization_types=flatrate',
   },
 ]
 

@@ -1,23 +1,6 @@
 export interface IMovie extends BaseItem {
-  // adult: boolean
-  // backdrop_path: string
-  // genre_ids: object
-  // id: number
-  // original_language: string
-  // original_title: string
-  // overview: string
-  // popularity: number
-  // poster_path: string
-  // release_date: string
-  // title: string
-  // video: boolean
-  // vote_average: number
-  // vote_count: number
   release_date: string
 }
-// export interface ITv extends Omit<IMovie, 'release_date' | 'video'> {
-//   first_air_date: string
-// }
 export interface ITv extends BaseItem {
   first_air_date: string
 }
@@ -154,4 +137,14 @@ export interface BaseCombineCredit {
   cast: BaseItem[]
   crew: BaseCrew[]
   id: number
+}
+export interface BaseProvider {
+  display_priorities: { [key: string]: number }
+  display_priority: number
+  logo_path: string
+  provider_id: number
+  provider_name: string
+}
+export interface IFilter {
+  sort_by: string
 }
