@@ -1,0 +1,85 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+@import 'my-react-component/src/styles/typeface.module.scss';
+.signup-terms {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  & > .scroll {
+    display: block;
+    width: 100%;
+    min-height: 180px;
+    padding: 16px;
+    box-sizing: border-box;
+    border: 1px solid color('grey_ccc');
+    border-radius: 8px;
+    resize: none;
+    @include typeface('Paragraph_1_m');
+    color: color('grey_666');
+  }
+  & > .checkbox-wrapper {
+    position: relative;
+    display: flex;
+    // flex-direction: row-reverse;
+    justify-content: space-between;
+    & > input {
+      display: none;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      outline: none;
+      overflow: hidden;
+      position: relative;
+    }
+    & > input:checked + label {
+      &::after {
+        content: url('/check.svg');
+        background-color: color('main');
+        // background-image: url('/check.svg');
+        // background-repeat: no-repeat;
+        // background-position: center;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        right: 0;
+        border-radius: 50%;
+        border: 1px solid color('grey_bbb');
+      }
+    }
+    & > label {
+      &::after {
+        content: '';
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        right: 0;
+        border-radius: 50%;
+        border: 1px solid color('grey_bbb');
+      }
+    }
+  }
+}
+
+.signup-user-info {
+  padding: 0px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  & > .user-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    :nth-child(1) {
+      @include typeface('Paragraph_1_b');
+      margin-left: 5px;
+    }
+    :nth-child(2) {
+      // align-self: center;
+      width: unset;
+    }
+  }
+}
