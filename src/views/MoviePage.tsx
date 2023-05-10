@@ -52,13 +52,10 @@ const MoviePage = () => {
       staleTime: Infinity,
       enabled: !!media,
       onSuccess: (payload) => {
-        // const providerIds = payload.map((provider) => provider.provider_id).join('|')
         setFilter((prev) => ({
           ...prev,
-          // with_watch_providers: providerIds,
           watch_region: 'KR',
         }))
-        // setProviders(payload.results)
       },
     }
   )
@@ -123,6 +120,7 @@ const MoviePage = () => {
     }
   }
   const prevProviders = useMemo<BaseProvider['provider_id'][]>(() => {
+    console.log(filter['with_watch_providers'])
     if (!watchProviders || !filter['with_watch_providers']) return []
     const filterProviders = filter['with_watch_providers'].split('|')
     return filterProviders.length === watchProviders.length ? [] : filterProviders.map(Number)
@@ -159,9 +157,9 @@ const MoviePage = () => {
 
   useEffect(() => {
     if (!watchProviders) return
-    setFilter((prev) => ({
+    setFilter(() => ({
       ...mapper[media!][category!],
-      with_watch_providers: watchProviders!.map((provider) => provider.provider_id).join('|'),
+      with_watch_providers: watchProviders.map((provider) => provider.provider_id).join('|'),
       watch_region: 'KR',
     }))
     setPage(1)

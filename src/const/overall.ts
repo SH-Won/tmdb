@@ -96,7 +96,7 @@ export const queryMapper = {
       watch_region: '',
     },
     on_the_air: {
-      'vote_count.gte': 300,
+      // 'vote_count.gte': 300,
       'air_date.gte': getFormatDate(),
       with_genres: '',
       with_watch_providers: '',
