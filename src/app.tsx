@@ -1,14 +1,16 @@
-import { HeaderBar, LoadingSpinner } from 'my-react-component'
+import { Button, Colors, HeaderBar, LoadingSpinner } from 'my-react-component'
 import { useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
-import { useBreakPoints } from './hooks'
+import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
 import { useRecoilState } from 'recoil'
 import { loadingState } from './store/loading'
 import '@/styles/app.scss'
 import '@/components/common/styles/common.scss'
 import HeaderSearchBox from './components/common/HeaderSearchBox'
+import signupPopupConfig from './views/signup_popup/signupPopupConfig'
+import loginPopupConfig from './views/login_popup/loginPopupConfig'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -75,6 +77,8 @@ const App = () => {
   // }
   // setLoading(false)
 
+  const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
+
   return (
     <div className={`main-container ${breakPointsClass}`}>
       <Navigation isNotDesktop={breakPointsClass !== 'desktop'} />
@@ -82,9 +86,25 @@ const App = () => {
         title={t('app.dashboard.title')}
         isMobile={breakPointsClass === 'mobile'}
         back={isNotDashBoardPage ? goBack : undefined}
-      />
-      <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+      >
+        <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+
+        <Button
+          color={Colors.white}
+          fontColor={Colors.grey_111}
+          border={Colors.grey_bbb}
+          click={() =>
+            signup({
+              name: 'Signup',
+            })
+          }
+        >
+          회원가입
+        </Button>
+      </HeaderBar>
+      {/* <Button color={Colors.white} ></Button> */}
       <Outlet />
+      <SignUpPopupRouter />
       {loading && <LoadingSpinner opacity={0.6} />}
     </div>
   )

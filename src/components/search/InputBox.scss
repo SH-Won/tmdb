@@ -21,6 +21,9 @@
     border-color: color('main_sub');
     font-size: 16px;
   }
+  &.error {
+    border-color: color('notice');
+  }
   & > .input-search {
     @include typeface('Buttons_1_m');
     width: 100%;

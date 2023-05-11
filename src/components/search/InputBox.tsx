@@ -6,8 +6,11 @@ interface SearchInputProps {
   screen?: 'desktop' | 'tablet' | 'mobile' | ''
   children?: JSX.Element | JSX.Element[] | string
   placeholder?: string
+  type?: string
+  validator?: (text: string) => boolean
 }
 const InputBox = (props: SearchInputProps) => {
+  const type = props.type ?? 'text'
   const [focus, setFocus] = useState(false)
   const computedClass = useMemo(() => {
     let className = ''
@@ -19,11 +22,20 @@ const InputBox = (props: SearchInputProps) => {
     }
     return className
   }, [focus, props.screen])
+
+  const computed = useMemo(() => {
+    let className = computedClass
+    if (typeof props.validator === 'function' && !props.validator?.(props.searchText)) {
+      className += ' error'
+    }
+    return className
+  }, [computedClass, props.searchText])
+
   return (
-    <div className={'input-wrapper' + computedClass}>
+    <div className={'input-wrapper' + computed}>
       {props.children}
       <input
-        type="text"
+        type={type}
         className="input-search"
         onChange={props.onChange}
         placeholder={props.placeholder}
