@@ -78,6 +78,7 @@ const App = () => {
   // setLoading(false)
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
+  const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
 
   return (
     <div className={`main-container ${breakPointsClass}`}>
@@ -87,23 +88,36 @@ const App = () => {
         isMobile={breakPointsClass === 'mobile'}
         back={isNotDashBoardPage ? goBack : undefined}
       >
-        <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
-
-        <Button
-          color={Colors.white}
-          fontColor={Colors.grey_111}
-          border={Colors.grey_bbb}
-          click={() =>
-            signup({
-              name: 'Signup',
-            })
-          }
-        >
-          회원가입
-        </Button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <Button
+            color={Colors.main}
+            fontColor={Colors.white}
+            click={() =>
+              login({
+                name: 'Login',
+              })
+            }
+          >
+            로그인
+          </Button>
+          <Button
+            color={Colors.white}
+            fontColor={Colors.grey_111}
+            border={Colors.grey_bbb}
+            click={() =>
+              signup({
+                name: 'Signup',
+              })
+            }
+          >
+            회원가입
+          </Button>
+          <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+        </div>
       </HeaderBar>
       {/* <Button color={Colors.white} ></Button> */}
       <Outlet />
+      <LoginPopupRouter />
       <SignUpPopupRouter />
       {loading && <LoadingSpinner opacity={0.6} />}
     </div>

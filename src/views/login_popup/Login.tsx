@@ -3,6 +3,7 @@ import { useSearch } from '@/hooks'
 import BackEnd from '@/networks'
 import { RouterPushParams } from '@/types/popup/RouterTypes'
 import { Button, Colors } from 'my-react-component'
+import { useState } from 'react'
 
 interface RouterProps {
   close: () => void
@@ -20,14 +21,16 @@ const passwordValidator = (password: string) => {
 const Login = (props: RouterProps) => {
   const { searchText: email, onChangeText: onChangeEmail } = useSearch()
   const { searchText: password, onChangeText: onChangePassword } = useSearch()
-
-  const login = () => {
-    const auth = BackEnd.getInstance().user.login()
-    console.log(auth)
+  const [userLogin, setUserLogin] = useState(false)
+  const login = async () => {
+    const result = await BackEnd.getInstance().user.login('google')
+    if (result.user) {
+      setUserLogin(true)
+    }
   }
   return (
     <div className="login">
-      <div className="user-info-column">
+      {/* <div className="user-info-column">
         <span>이메일</span>
         <InputBox
           searchText={email}
@@ -45,10 +48,14 @@ const Login = (props: RouterProps) => {
           validator={passwordValidator}
           placeholder="특수문자를 포함해서 비밀번호를 입력해주세요"
         />
-      </div>
-      <Button border={Colors.grey_bbb} color={Colors.white} click={login}>
-        google
-      </Button>
+      </div> */}
+      {!userLogin ? (
+        <Button border={Colors.grey_bbb} color={Colors.white} click={login}>
+          google
+        </Button>
+      ) : (
+        <div>login 성공</div>
+      )}
     </div>
   )
 }

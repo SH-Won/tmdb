@@ -1,4 +1,10 @@
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import {
+  AuthProvider,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+} from 'firebase/auth'
 import FetchAPI from './FetchAPI'
 export default class UserAPI extends FetchAPI {
   constructor() {
@@ -11,9 +17,18 @@ export default class UserAPI extends FetchAPI {
     }
     //provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
   }
-  login = () => {
+  login = async (providerName: string) => {
     //
     const auth = getAuth()
-    return auth
+    const provider = this.getProvider(providerName) as AuthProvider
+    const result = await signInWithPopup(auth, provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      const token = credential?.accessToken
+      // The signed-in user info.
+      const user = result.user
+
+      return { token, credential, user }
+    })
+    return result
   }
 }

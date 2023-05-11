@@ -8,6 +8,7 @@ import '@/i18n'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { OverLay } from 'my-react-component'
 import { RecoilRoot } from 'recoil'
+import { auth } from './networks/firebase'
 const rootElement = document.querySelector('#root')
 
 if (!rootElement) {
@@ -15,6 +16,7 @@ if (!rootElement) {
 }
 const queryClient = new QueryClient()
 const root = createRoot(rootElement)
+console.log(auth)
 root.render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>

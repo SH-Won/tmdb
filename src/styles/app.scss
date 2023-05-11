@@ -26,10 +26,11 @@
   padding-left: var(--navigation-padding);
 }
 .search {
-  position: absolute;
-  top: 16px;
-  right: 24px;
-  justify-self: flex-end;
+  // position: absolute;
+  // top: 16px;
+  // right: 24px;
+  // justify-self: flex-end;
+  align-self: center;
   cursor: pointer;
 }
 .app-bar-search {
