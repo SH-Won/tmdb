@@ -1,10 +1,13 @@
 import InputBox from '@/components/search/InputBox'
 import { useSearch } from '@/hooks'
 import BackEnd from '@/networks'
+import { toastState } from '@/store/toast'
+import { user } from '@/store/user'
 import { RouterPushParams } from '@/types/popup/RouterTypes'
-import { Button, Colors } from 'my-react-component'
-import { useState } from 'react'
-
+import { Button, Colors, Element } from 'my-react-component'
+import React, { useEffect, useState } from 'react'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import './LoginPopup.scss'
 interface RouterProps {
   close: () => void
   push: (route: RouterPushParams) => void
@@ -19,14 +22,73 @@ const passwordValidator = (password: string) => {
   return password === '' || reg.test(password)
 }
 const Login = (props: RouterProps) => {
-  const { searchText: email, onChangeText: onChangeEmail } = useSearch()
-  const { searchText: password, onChangeText: onChangePassword } = useSearch()
-  const [userLogin, setUserLogin] = useState(false)
-  const login = async () => {
-    const result = await BackEnd.getInstance().user.login('google')
+  // const { searchText: email, onChangeText: onChangeEmail } = useSearch()
+  // const { searchText: password, onChangeText: onChangePassword } = useSearch()
+  const [loginUser, setLoginUser] = useRecoilState(user)
+  const setToast = useSetRecoilState(toastState)
+  const login = async (providerName: string) => {
+    const result = await BackEnd.getInstance().user.login(providerName)
     if (result.user) {
-      setUserLogin(true)
+      const { user } = result
+      const obj = {
+        displayName: user.displayName as string,
+        email: user.email as string,
+        emailVerified: user.emailVerified as boolean,
+        uid: user.uid as string,
+        accessToken: user.stsTokenManager.accessToken as string,
+        expirationTime: user.stsTokenManager.expirationTime as number,
+        refreshToken: user.stsTokenManager.refreshToken as string,
+      }
+      setLoginUser(obj)
+      props.close?.()
+      setToast({
+        key: 'login',
+        value: '로그인 되었습니다',
+      })
     }
+  }
+  useEffect(() => {
+    // const user = BackEnd.getInstance().user.getUser()
+    if (loginUser) {
+      alert('이미 로그인 되었습니다')
+      props.close?.()
+    }
+  }, [])
+
+  const loginItems = [
+    {
+      name: 'Google',
+      svgPath: '/google.svg',
+      providerName: 'google',
+      onClick: (providerName: string) => login(providerName),
+    },
+    {
+      name: 'FaceBook',
+      svgPath: '/facebook.svg',
+      providerName: 'facebook',
+      onClick: () => alert('아직 준비 중입니다'),
+    },
+  ]
+  const RenderLoginItmes = () => {
+    return (
+      <>
+        {loginItems.map((item) => (
+          <React.Fragment key={item.name}>
+            <Button
+              border={Colors.grey_bbb}
+              color={Colors.white}
+              click={() => item.onClick(item.providerName)}
+            >
+              <div className="login-item">
+                <img src={item.svgPath} />
+                <span>{item.name} 로 계속하기</span>
+                <Element name="Right" color={Colors.grey_bbb} size="medium" />
+              </div>
+            </Button>
+          </React.Fragment>
+        ))}
+      </>
+    )
   }
   return (
     <div className="login">
@@ -49,13 +111,7 @@ const Login = (props: RouterProps) => {
           placeholder="특수문자를 포함해서 비밀번호를 입력해주세요"
         />
       </div> */}
-      {!userLogin ? (
-        <Button border={Colors.grey_bbb} color={Colors.white} click={login}>
-          google
-        </Button>
-      ) : (
-        <div>login 성공</div>
-      )}
+      {!loginUser ? <RenderLoginItmes /> : <div>login 성공</div>}
     </div>
   )
 }

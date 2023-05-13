@@ -3,7 +3,8 @@ import Login from './Login'
 export default [
   {
     name: 'Login',
-    component: (props: any) => () => {
+    title: '로그인',
+    component: () => (props: any) => {
       return <Login {...props} />
     },
   },

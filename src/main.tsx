@@ -8,15 +8,19 @@ import '@/i18n'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { OverLay } from 'my-react-component'
 import { RecoilRoot } from 'recoil'
-import { auth } from './networks/firebase'
+import { initializeApp } from 'firebase/app'
+import { firebaseConfig } from './networks/firebase'
+// import { auth } from './networks/firebase'
 const rootElement = document.querySelector('#root')
 
+// console.log(auth)
+initializeApp(firebaseConfig)
 if (!rootElement) {
   throw new Error('Failed to find the root element')
 }
 const queryClient = new QueryClient()
 const root = createRoot(rootElement)
-console.log(auth)
+
 root.render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>

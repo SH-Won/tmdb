@@ -1,0 +1,22 @@
+@import 'my-react-component/src/styles/typeface.module.scss';
+
+.login {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  .login-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    & > img {
+      width: 30px;
+      height: 30px;
+    }
+    & > span {
+      flex: 1;
+      margin-left: 10px;
+      @include typeface('Paragraph_1_b');
+    }
+  }
+}

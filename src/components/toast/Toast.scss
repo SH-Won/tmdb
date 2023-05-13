@@ -1,0 +1,37 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+.toast {
+  position: absolute;
+  width: 100%;
+  // top: -100%;
+  visibility: hidden;
+  top: 60px;
+  display: flex;
+  justify-content: center;
+  animation: appearAndHide 3s linear;
+  -webkit-animation: appearAndHide 3s linear;
+
+  & > .toast-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px;
+    background-color: color('green');
+    border-radius: 8px;
+  }
+}
+@keyframes appearAndHide {
+  0% {
+    visibility: visible;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

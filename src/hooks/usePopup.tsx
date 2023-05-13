@@ -44,7 +44,7 @@ const usePopup = (registedRoutes: RegisterRouter[]) => {
     // setProgress(history.length - 1)
     setTitle(history[calcIndex].title)
   }
-  const back = (index: number = -1) => {
+  const back = (index = -1) => {
     go(-1)
   }
   const close = () => {

@@ -1,22 +1,27 @@
 import { Button, Colors, HeaderBar, LoadingSpinner } from 'my-react-component'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { loadingState } from './store/loading'
 import '@/styles/app.scss'
 import '@/components/common/styles/common.scss'
 import HeaderSearchBox from './components/common/HeaderSearchBox'
 import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
+import { user } from './store/user'
+import { toastState } from './store/toast'
+import Toast from './components/toast/Toast'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
   const location = useLocation()
   const navigate = useNavigate()
   const [loading, setLoading] = useRecoilState(loadingState)
+  const loginUser = useRecoilValue(user)
+  const [toast, setToast] = useRecoilState(toastState)
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
@@ -76,7 +81,14 @@ const App = () => {
   //   )
   // }
   // setLoading(false)
-
+  useEffect(() => {
+    if (loginUser) {
+      setToast({
+        key: 'alreadyLogin',
+        value: '로그인 된 상태 입니다',
+      })
+    }
+  }, [])
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
 
@@ -120,6 +132,7 @@ const App = () => {
       <LoginPopupRouter />
       <SignUpPopupRouter />
       {loading && <LoadingSpinner opacity={0.6} />}
+      {toast.value && <Toast toastState={toast} />}
     </div>
   )
 }
