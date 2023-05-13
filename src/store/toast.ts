@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil'
 
 export const _toastState = atom({
-  key: '_toastState',
+  key: 'toastObject',
   default: {
     key: '',
     value: '',
@@ -13,7 +13,8 @@ export const toastState = selector({
   get: ({ get }) => {
     return get(_toastState)
   },
-  set: ({ set }, newToastState) => {
+  set: ({ set, get }, newToastState) => {
+    // const toast = get(_toastState)
     set(_toastState, newToastState)
   },
 })

@@ -6,6 +6,8 @@
   visibility: hidden;
   top: 60px;
   display: flex;
+  left: 50%;
+  transform: translate(-50%, 0);
   justify-content: center;
   animation: appearAndHide 3s linear;
   -webkit-animation: appearAndHide 3s linear;

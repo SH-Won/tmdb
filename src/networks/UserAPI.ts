@@ -8,6 +8,10 @@ import {
   signInWithRedirect,
 } from 'firebase/auth'
 import FetchAPI from './FetchAPI'
+
+const isMobile = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}
 export default class UserAPI extends FetchAPI {
   constructor() {
     super()
@@ -31,6 +35,8 @@ export default class UserAPI extends FetchAPI {
         const user = result.user
         return { token, credential, user }
       })
+
+      //signInWithRedirect
     })
     return result
   }

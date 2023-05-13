@@ -1,5 +1,5 @@
 import { Button, Colors, HeaderBar, LoadingSpinner } from 'my-react-component'
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import { useBreakPoints, usePopup } from './hooks'
@@ -14,13 +14,14 @@ import loginPopupConfig from './views/login_popup/loginPopupConfig'
 import { user } from './store/user'
 import { toastState } from './store/toast'
 import Toast from './components/toast/Toast'
+import BackEnd from './networks'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
   const location = useLocation()
   const navigate = useNavigate()
   const [loading, setLoading] = useRecoilState(loadingState)
-  const loginUser = useRecoilValue(user)
+  const [loginUser, setLoginUser] = useRecoilState(user)
   const [toast, setToast] = useRecoilState(toastState)
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
@@ -81,6 +82,14 @@ const App = () => {
   //   )
   // }
   // setLoading(false)
+  const logout = async () => {
+    await BackEnd.getInstance().user.logout()
+    setToast({
+      key: 'logout',
+      value: '로그아웃 되었습니다',
+    })
+    setLoginUser(null)
+  }
   useEffect(() => {
     if (loginUser) {
       setToast({
@@ -89,6 +98,11 @@ const App = () => {
       })
     }
   }, [])
+  const RenderToast = useCallback(() => {
+    if (!toast.value) return null
+    return <Toast toastState={toast} />
+  }, [toast.value])
+
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
 
@@ -100,39 +114,53 @@ const App = () => {
         isMobile={breakPointsClass === 'mobile'}
         back={isNotDashBoardPage ? goBack : undefined}
       >
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <Button
-            color={Colors.main}
-            fontColor={Colors.white}
-            click={() =>
-              login({
-                name: 'Login',
-              })
-            }
-          >
-            로그인
-          </Button>
-          <Button
-            color={Colors.white}
-            fontColor={Colors.grey_111}
-            border={Colors.grey_bbb}
-            click={() =>
-              signup({
-                name: 'Signup',
-              })
-            }
-          >
-            회원가입
-          </Button>
-          <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
-        </div>
+        {!loginUser ? (
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <Button
+              color={Colors.main}
+              fontColor={Colors.white}
+              click={() =>
+                login({
+                  name: 'Login',
+                })
+              }
+            >
+              로그인
+            </Button>
+            <Button
+              color={Colors.white}
+              fontColor={Colors.grey_111}
+              border={Colors.grey_bbb}
+              click={() =>
+                signup({
+                  name: 'Signup',
+                })
+              }
+            >
+              회원가입
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <Button
+              color={Colors.white}
+              fontColor={Colors.grey_111}
+              border={Colors.grey_bbb}
+              click={logout}
+            >
+              로그아웃
+            </Button>
+            <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+          </div>
+        )}
       </HeaderBar>
       {/* <Button color={Colors.white} ></Button> */}
       <Outlet />
       <LoginPopupRouter />
       <SignUpPopupRouter />
       {loading && <LoadingSpinner opacity={0.6} />}
-      {toast.value && <Toast toastState={toast} />}
+      <RenderToast />
+      {/* {toast.value && <Toast toastState={toast} />} */}
     </div>
   )
 }
