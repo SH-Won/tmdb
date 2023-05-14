@@ -8,6 +8,7 @@ import { Button, Colors, Element } from 'my-react-component'
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import './LoginPopup.scss'
+import { toast } from '@/components/toast/Toast'
 interface RouterProps {
   close: () => void
   push: (route: RouterPushParams) => void
@@ -25,7 +26,7 @@ const Login = (props: RouterProps) => {
   // const { searchText: email, onChangeText: onChangeEmail } = useSearch()
   // const { searchText: password, onChangeText: onChangePassword } = useSearch()
   const [loginUser, setLoginUser] = useRecoilState(user)
-  const setToast = useSetRecoilState(toastState)
+  // const setToast = useSetRecoilState(toastState)
   const login = async (providerName: string) => {
     const result = await BackEnd.getInstance().user.login(providerName)
     if (result.user) {
@@ -41,10 +42,11 @@ const Login = (props: RouterProps) => {
       }
       setLoginUser(obj)
       props.close?.()
-      setToast({
-        key: 'login',
-        value: '로그인 되었습니다',
-      })
+      // setToast({
+      //   key: 'login',
+      //   value: '로그인 되었습니다',
+      // })
+      toast.login()
     }
   }
   useEffect(() => {

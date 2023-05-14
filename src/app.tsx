@@ -13,7 +13,7 @@ import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
 import { user } from './store/user'
 import { toastState } from './store/toast'
-import Toast from './components/toast/Toast'
+import { Toast, toast } from './components/toast/Toast'
 import BackEnd from './networks'
 const App = () => {
   const { t } = useI18nTypes()
@@ -22,7 +22,7 @@ const App = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useRecoilState(loadingState)
   const [loginUser, setLoginUser] = useRecoilState(user)
-  const [toast, setToast] = useRecoilState(toastState)
+  // const [toast, setToast] = useRecoilState(toastState)
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
@@ -84,24 +84,29 @@ const App = () => {
   // setLoading(false)
   const logout = async () => {
     await BackEnd.getInstance().user.logout()
-    setToast({
-      key: 'logout',
-      value: '로그아웃 되었습니다',
-    })
+    // setToast({
+    //   key: 'logout',
+    //   value: '로그아웃 되었습니다',
+    // })
+    toast.logout()
     setLoginUser(null)
+  }
+  const onClick = () => {
+    toast.login()
   }
   useEffect(() => {
     if (loginUser) {
-      setToast({
-        key: 'alreadyLogin',
-        value: '로그인 된 상태 입니다',
-      })
+      // setToast({
+      //   key: 'alreadyLogin',
+      //   value: '로그인 된 상태 입니다',
+      // })
+      toast.login()
     }
   }, [])
-  const RenderToast = useCallback(() => {
-    if (!toast.value) return null
-    return <Toast toastState={toast} />
-  }, [toast.value])
+  // const RenderToast = useCallback(() => {
+  //   if (!toast.value) return null
+  //   return <Toast toastState={toast} />
+  // }, [toast.value])
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
@@ -139,6 +144,14 @@ const App = () => {
             >
               회원가입
             </Button>
+            <Button
+              color={Colors.white}
+              fontColor={Colors.grey_111}
+              border={Colors.grey_bbb}
+              click={onClick}
+            >
+              Test
+            </Button>
           </div>
         ) : (
           <div>
@@ -159,7 +172,8 @@ const App = () => {
       <LoginPopupRouter />
       <SignUpPopupRouter />
       {loading && <LoadingSpinner opacity={0.6} />}
-      <RenderToast />
+      {/* <RenderToast /> */}
+      <Toast />
       {/* {toast.value && <Toast toastState={toast} />} */}
     </div>
   )
