@@ -6,6 +6,7 @@ import {
   setPersistence,
   browserSessionPersistence,
   signInWithRedirect,
+  GithubAuthProvider,
 } from 'firebase/auth'
 import FetchAPI from './FetchAPI'
 
@@ -20,6 +21,8 @@ export default class UserAPI extends FetchAPI {
     switch (providerName) {
       case 'google':
         return new GoogleAuthProvider()
+      case 'github':
+        return new GithubAuthProvider()
     }
     //provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
   }
@@ -33,6 +36,8 @@ export default class UserAPI extends FetchAPI {
         const token = credential?.accessToken
         // The signed-in user info.
         const user = result.user
+        console.log(result.user)
+        console.log(credential)
         return { token, credential, user }
       })
 
@@ -48,7 +53,6 @@ export default class UserAPI extends FetchAPI {
   logout = async () => {
     const auth = getAuth()
     const result = await auth.signOut().then((result) => result)
-    console.log(result)
     return result
   }
 }

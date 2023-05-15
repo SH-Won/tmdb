@@ -1,7 +1,6 @@
 import InputBox from '@/components/search/InputBox'
 import { useSearch } from '@/hooks'
 import BackEnd from '@/networks'
-import { toastState } from '@/store/toast'
 import { user } from '@/store/user'
 import { RouterPushParams } from '@/types/popup/RouterTypes'
 import { Button, Colors, Element } from 'my-react-component'
@@ -26,10 +25,10 @@ const Login = (props: RouterProps) => {
   // const { searchText: email, onChangeText: onChangeEmail } = useSearch()
   // const { searchText: password, onChangeText: onChangePassword } = useSearch()
   const [loginUser, setLoginUser] = useRecoilState(user)
-  // const setToast = useSetRecoilState(toastState)
   const login = async (providerName: string) => {
     const result = await BackEnd.getInstance().user.login(providerName)
     if (result.user) {
+      console.log(result)
       const { user } = result
       const obj = {
         displayName: user.displayName as string,
@@ -42,17 +41,11 @@ const Login = (props: RouterProps) => {
       }
       setLoginUser(obj)
       props.close?.()
-      // setToast({
-      //   key: 'login',
-      //   value: '로그인 되었습니다',
-      // })
       toast.login()
     }
   }
   useEffect(() => {
-    // const user = BackEnd.getInstance().user.getUser()
     if (loginUser) {
-      alert('이미 로그인 되었습니다')
       props.close?.()
     }
   }, [])
@@ -70,6 +63,12 @@ const Login = (props: RouterProps) => {
       providerName: 'facebook',
       onClick: () => alert('아직 준비 중입니다'),
     },
+    // {
+    //   name: 'GitHub',
+    //   svgPath: '',
+    //   providerName: 'github',
+    //   onClick: (providerName: string) => login(providerName),
+    // },
   ]
   const RenderLoginItmes = () => {
     return (

@@ -58,4 +58,10 @@ export default class ToastController implements IToast {
       type: 'logout',
     })
   }
+  test = () => {
+    this.add({
+      text: '테스트 토스트 입니다',
+      type: 'test',
+    })
+  }
 }
