@@ -1,0 +1,49 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+.toast {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  top: 60px;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, 0);
+  justify-content: center;
+  animation: appearAndHide 3s linear;
+  -webkit-animation: appearAndHide 3s linear;
+  box-sizing: border-box;
+  .desktop & {
+    padding-left: var(--navigation-padding);
+  }
+  & > .toast-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px;
+    background-color: color('green');
+    border-radius: 8px;
+    animation: appearAndHide 3s linear;
+    -webkit-animation: appearAndHide 3s linear;
+    & > span {
+      flex: 1;
+    }
+  }
+}
+@keyframes appearAndHide {
+  0% {
+    // visibility: visible;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  // 70% {
+  //   opacity: 1;
+  // }
+  100% {
+    opacity: 0;
+    // visibility: hidden;
+  }
+}

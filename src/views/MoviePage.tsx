@@ -120,7 +120,6 @@ const MoviePage = () => {
     }
   }
   const prevProviders = useMemo<BaseProvider['provider_id'][]>(() => {
-    console.log(filter['with_watch_providers'])
     if (!watchProviders || !filter['with_watch_providers']) return []
     const filterProviders = filter['with_watch_providers'].split('|')
     return filterProviders.length === watchProviders.length ? [] : filterProviders.map(Number)
@@ -129,7 +128,7 @@ const MoviePage = () => {
   const isGenreChange = useMemo<boolean>(() => {
     const isUserAlreadySelect = genres.some((genreId) => prevGenres.includes(genreId))
     return genres.length !== prevGenres.length || (!isUserAlreadySelect && prevGenres.length !== 0)
-  }, [genres])
+  }, [genres, prevGenres])
 
   const isProviderChange = useMemo<boolean>(() => {
     const isUserAlreadySelect = providers.some((providerId) => prevProviders.includes(providerId))
@@ -139,7 +138,7 @@ const MoviePage = () => {
       providers.length !== prevProviders.length ||
       (!isUserAlreadySelect && prevProviders.length !== 0)
     )
-  }, [providers])
+  }, [providers, prevProviders])
 
   const isShowSearchButton = useMemo<boolean>(() => {
     return isGenreChange || isProviderChange

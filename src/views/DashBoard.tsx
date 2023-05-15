@@ -11,21 +11,26 @@ import SearchBox from '@/components/main/SearchBox'
 import { BaseItem } from 'types/interface'
 import upCommingPopupConfig from './upcomming_popup/upCommingPopupConfig'
 import UpcommingMovie from '@/components/movies/UpcommingMovie'
+import { useOutletContext } from 'react-router-dom'
 
+type ContextProps = {
+  openTrailerPopup: (item: BaseItem) => void
+}
 const DashBoard = () => {
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage } = useHelper()
-  const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
-    usePopup(upCommingPopupConfig)
+  const { openTrailerPopup } = useOutletContext<ContextProps>()
+  // const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
+  //   usePopup(upCommingPopupConfig)
 
-  const openUpcommingPopup = (item: BaseItem) => {
-    openTrailerPopup({
-      name: 'UpcommingVideo',
-      props: {
-        item,
-      },
-    })
-  }
+  // const openUpcommingPopup = (item: BaseItem) => {
+  //   openTrailerPopup({
+  //     name: 'UpcommingVideo',
+  //     props: {
+  //       item,
+  //     },
+  //   })
+  // }
   return (
     <div>
       <SearchBox />
@@ -34,12 +39,12 @@ const DashBoard = () => {
         <UpcommingMovie
           toggleItems={TOGGLE_UPCOMMING}
           title={'최신 예고편'}
-          click={openUpcommingPopup}
+          click={openTrailerPopup}
         />
         <PopularMovie toggleItems={TOGGLE_MOVIE_ITEM} title={'영화'} click={goDetailPage} />
         <PopularMovie toggleItems={TOGGLE_TV_ITEM} title={'TV'} click={goDetailPage} />
       </div>
-      <UpCommingTrailerPopupRouter />
+      {/* <UpCommingTrailerPopupRouter /> */}
     </div>
   )
 }
