@@ -1,10 +1,10 @@
 import { Button, Colors, HeaderBar, LoadingSpinner } from 'my-react-component'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { loadingState } from './store/loading'
 import '@/styles/app.scss'
 import '@/components/common/styles/common.scss'
@@ -12,11 +12,11 @@ import HeaderSearchBox from './components/common/HeaderSearchBox'
 import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
 import { user } from './store/user'
-import { toastState } from './store/toast'
-import { Toast, toast } from './components/toast/Toast'
+import { Toast } from './components/toast/Toast'
 import BackEnd from './networks'
 import upCommingPopupConfig from './views/upcomming_popup/upCommingPopupConfig'
 import { BaseItem } from 'types/interface'
+import { toast } from './store/toast'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -24,7 +24,7 @@ const App = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useRecoilState(loadingState)
   const [loginUser, setLoginUser] = useRecoilState(user)
-  // const [toast, setToast] = useRecoilState(toastState)
+  const toastInstance = useRecoilValue(toast)
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
@@ -32,83 +32,18 @@ const App = () => {
   const goBack = () => {
     navigate(-1)
   }
-  // const movieQueries = useQueries([
-  //   {
-  //     queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.POPULAR],
-  //     queryFn: async () => {
-  //       const response = await BackEnd.getInstance().movie.getMovies<IMovie[]>(
-  //         MOVIE_CATEGORY.POPULAR
-  //       )
-  //       return response.data
-  //     },
-  //     onSuccess: (response: any) => {
-  //       setPopularMovies(response.results)
-  //     },
-  //     staleTime: 50000,
-  //   },
-  //   {
-  //     queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.TOP_RATED],
-  //     queryFn: async () => {
-  //       const response = await BackEnd.getInstance().movie.getMovies(MOVIE_CATEGORY.TOP_RATED)
-  //       return response.data
-  //     },
-  //     onSuccess: (response: any) => {
-  //       setTopRatedMovies(response.results)
-  //     },
-  //     staleTime: 50000,
-  //   },
-  //   {
-  //     queryKey: [MOVIE_CATEGORY.prefix, MOVIE_CATEGORY.TRENDING],
-  //     queryFn: async () => {
-  //       const response = await BackEnd.getInstance().movie.getTrendingMovies<IMovie[]>({
-  //         media_type: 'all',
-  //         time_window: 'day',
-  //       })
-  //       return response.data
-  //     },
-  //     onSuccess: (response: any) => {
-  //       setTrendingMovies(response.results)
-  //     },
-  //     staleTime: 50000,
-  //   },
-  // ])
-  // useEffect(() => {
-  //   if (!movieQueries.some((query) => query.isLoading)) {
-  //     setLoading(false)
-  //   }
-  // }, [movieQueries])
 
-  // if (!isLoading) {
-  //   console.log(
-  //     Object.fromEntries(Object.entries(data.results[0]).map(([key, value]) => [key, typeof value]))
-  //   )
-  // }
-  // setLoading(false)
   const logout = async () => {
     await BackEnd.getInstance().user.logout()
-    // setToast({
-    //   key: 'logout',
-    //   value: '로그아웃 되었습니다',
-    // })
-    toast.logout()
+    toastInstance.logout()
     setLoginUser(null)
   }
-  const onClick = () => {
-    toast.keepLogin()
-  }
   useEffect(() => {
-    if (loginUser) {
-      // setToast({
-      //   key: 'alreadyLogin',
-      //   value: '로그인 된 상태 입니다',
-      // })
-      toast.keepLogin()
+    if (loginUser && toastInstance) {
+      toastInstance.keepLogin()
     }
-  }, [])
-  // const RenderToast = useCallback(() => {
-  //   if (!toast.value) return null
-  //   return <Toast toastState={toast} />
-  // }, [toast.value])
+  }, [toastInstance])
+
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
   const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
@@ -160,11 +95,11 @@ const App = () => {
               >
                 회원가입
               </Button>
-              <Button
+              {/* <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}
                 border={Colors.grey_bbb}
-                click={toast.login}
+                click={toastInstance?.login}
               >
                 Test1
               </Button>
@@ -172,10 +107,11 @@ const App = () => {
                 color={Colors.white}
                 fontColor={Colors.grey_111}
                 border={Colors.grey_bbb}
-                click={toast.test}
+                // click={toast.test}
+                click={toastInstance?.login}
               >
                 Test2
-              </Button>
+              </Button> */}
             </div>
           ) : (
             <div style={{ display: 'flex', gap: '10px' }}>
@@ -191,16 +127,13 @@ const App = () => {
             </div>
           )}
         </HeaderBar>
-        {/* <Button color={Colors.white} ></Button> */}
         <Outlet context={outletContext} />
         <LoginPopupRouter />
         <SignUpPopupRouter />
-        {loading && <LoadingSpinner opacity={0.6} />}
-        {/* <RenderToast /> */}
+        <UpCommingTrailerPopupRouter />
         <Toast />
-        {/* {toast.value && <Toast toastState={toast} />} */}
+        {loading && <LoadingSpinner opacity={0.6} />}
       </div>
-      <UpCommingTrailerPopupRouter />
     </>
   )
 }

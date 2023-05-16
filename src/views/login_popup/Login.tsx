@@ -1,13 +1,14 @@
 import InputBox from '@/components/search/InputBox'
 import { useSearch } from '@/hooks'
 import BackEnd from '@/networks'
+import { toast } from '@/store/toast'
 import { user } from '@/store/user'
 import { RouterPushParams } from '@/types/popup/RouterTypes'
 import { Button, Colors, Element } from 'my-react-component'
-import React, { useEffect, useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import React, { useEffect } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import './LoginPopup.scss'
-import { toast } from '@/components/toast/Toast'
+// import { toast } from '@/components/toast/Toast'
 interface RouterProps {
   close: () => void
   push: (route: RouterPushParams) => void
@@ -25,10 +26,10 @@ const Login = (props: RouterProps) => {
   // const { searchText: email, onChangeText: onChangeEmail } = useSearch()
   // const { searchText: password, onChangeText: onChangePassword } = useSearch()
   const [loginUser, setLoginUser] = useRecoilState(user)
+  const toastInatance = useRecoilValue(toast)
   const login = async (providerName: string) => {
     const result = await BackEnd.getInstance().user.login(providerName)
     if (result.user) {
-      console.log(result)
       const { user } = result
       const obj = {
         displayName: user.displayName as string,
@@ -41,14 +42,14 @@ const Login = (props: RouterProps) => {
       }
       setLoginUser(obj)
       props.close?.()
-      toast.login()
+      toastInatance.login()
     }
   }
-  useEffect(() => {
-    if (loginUser) {
-      props.close?.()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (loginUser) {
+  //     props.close?.()
+  //   }
+  // }, [])
 
   const loginItems = [
     {

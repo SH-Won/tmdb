@@ -8,6 +8,7 @@ interface OptionfilterProps {
 }
 const FilterDownFall = ({ title, children }: OptionfilterProps) => {
   const [open, isOpen] = useState<boolean>(false)
+
   return (
     <div className="filter-downfall-container">
       <div className="header">
@@ -17,7 +18,7 @@ const FilterDownFall = ({ title, children }: OptionfilterProps) => {
           {'>'}
         </div>
       </div>
-      {open && children}
+      <div className={`children ${open ? 'act' : ''}`}>{children}</div>
     </div>
   )
 }
