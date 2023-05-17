@@ -1,49 +1,59 @@
-import { toastStack } from '@/store/toast'
+import { toast } from '@/store/toast'
 import ToastController, { ToastItem } from '@/types/toast'
 import { Colors, Element } from 'my-react-component'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import './Toast.scss'
-interface ToastProps {
-  toastState: {
-    key: string
-    value: string
-  }
-}
 interface ToastItemProps {
   item: ToastItem
+  duration?: number
+  isStartAnimation: boolean
   deleteItem: (id: ToastItem['id']) => void
 }
-export let toast: ToastController = new ToastController(null)
-const ToastItemComponent = ({ deleteItem, item }: ToastItemProps) => {
-  const duration = 2500
+// export let toast: ToastController = new ToastController(null)
+const ToastItemComponent = ({ deleteItem, item, isStartAnimation }: ToastItemProps) => {
+  const duration = 3000
+
   useEffect(() => {
-    const removeTimer = setTimeout(() => {
-      deleteItem(item.id)
-    }, duration - 200)
+    let removeTimer: NodeJS.Timeout
+    if (isStartAnimation) {
+      removeTimer = setTimeout(() => {
+        deleteItem(item.id)
+      }, duration - 200)
+    }
 
     return () => {
       clearTimeout(removeTimer)
     }
-  }, [item, deleteItem])
+  }, [isStartAnimation])
+  const animation = {
+    animation: 'appearAndHide 3s linear',
+    WebkitAnimation: 'appearAndHide 3s linear',
+  }
   return (
-    <div className="toast-item">
+    <div className="toast-item" style={isStartAnimation ? animation : {}}>
       <Element name="Check" size="medium" color={Colors.white} />
       <span>{item.text}</span>
     </div>
   )
 }
 export const Toast = () => {
-  const [toastItem, setToastItem] = useRecoilState(toastStack)
-
+  const [toastInstance, setToastInstance] = useRecoilState(toast)
+  const [toastItems, setToastItems] = useState<ToastItem[]>([])
   useEffect(() => {
-    toast = new ToastController(setToastItem)
+    setToastInstance(new ToastController(setToastItems))
   }, [])
   return (
     <div className="toast">
-      {toastItem.map((item) => (
-        <ToastItemComponent key={item.id} item={item} deleteItem={toast.delete} />
-      ))}
+      {toastItems.length > 0 &&
+        toastItems.map((item, index) => (
+          <ToastItemComponent
+            key={item.id}
+            item={item}
+            deleteItem={toastInstance.delete}
+            isStartAnimation={index === 0}
+          />
+        ))}
     </div>
   )
 }

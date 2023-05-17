@@ -21,7 +21,7 @@ const Transition = (props: TransitionProps) => {
     )
     container.current?.childNodes.forEach((element: any) => {
       element.style.opacity = '0'
-      element.style.transition = 'all 0.3s'
+      element.style.transition = 'opacity 0.3s'
       io.observe(element)
     })
   }, [])

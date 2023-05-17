@@ -12,18 +12,6 @@
   background-color: rgb(100, 64, 221, 0.8);
   border-radius: 8px;
 }
-.filter-downfall-container {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  width: 100%;
-  & > .header {
-    padding: 14px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    @include typeface('Paragraph_1_b');
-  }
-}
 
 .option-container {
   display: flex;
@@ -45,6 +33,15 @@
       border-radius: 4px;
       padding: 6px 12px;
       background-color: color('grey_ccc');
+    }
+    & > .option-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.2s cubic-bezier(0.1, 1.19, 1, 1);
+      &.slide {
+        max-height: 100vw;
+        transition: all 0.35s cubic-bezier(0.93, -0.19, 1, 1);
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { SetterOrUpdater } from 'recoil'
+import { RecoilState, SetterOrUpdater } from 'recoil'
 
 interface IToast {
   add: ({ text, type }: Omit<ToastItem, 'id'>) => void
@@ -14,11 +14,14 @@ export interface ToastItem {
 }
 
 export default class ToastController implements IToast {
+  // state
   setState: SetterOrUpdater<ToastItem[]> = () => {
     return null
   }
+  //state: RecoilState<ToastItem[]>,
   constructor(setState: SetterOrUpdater<ToastItem[]> | null) {
     if (setState) {
+      // this.state = state
       this.setState = setState
     }
   }

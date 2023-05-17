@@ -18,7 +18,7 @@ interface IconButtonProps {
   children?: JSX.Element | JSX.Element[] | string
   click: (() => void) | (() => Promise<void>)
 }
-const Iconbutton = (props: IconButtonProps) => {
+const IconButton = (props: IconButtonProps) => {
   return (
     <Button
       click={props.click}
@@ -42,4 +42,4 @@ const Iconbutton = (props: IconButtonProps) => {
   )
 }
 
-export default Iconbutton
+export default IconButton

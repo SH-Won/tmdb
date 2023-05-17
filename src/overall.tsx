@@ -24,12 +24,14 @@ const Overall = () => {
   return (
     <div className={`${breakPointsClass}`}>
       <HeaderBar title={t('app.dashboard.title')} back={isNotDashBoardPage ? goBack : undefined}>
-        <HeaderItem
-          items={HEADER_MOVIE_OPTION}
-          click={(item) => navigate(item.value)}
-          title="영화"
-        />
-        <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <HeaderItem
+            items={HEADER_MOVIE_OPTION}
+            click={(item) => navigate(item.value)}
+            title="영화"
+          />
+          <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
+        </div>
       </HeaderBar>
       <Outlet />
     </div>
