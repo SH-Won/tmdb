@@ -1,14 +1,13 @@
 import { useHelper } from '@/hooks'
 import BackEnd from '@/networks'
 import { CommonResponse, GenreResponse, IGenre, MovieResponse } from '@/types/network/response'
-import { Button, Colors, PageLoadingSpinner, PosterCard } from 'my-react-component'
+import { BasicAccordion, Button, Colors, PageLoadingSpinner, PosterCard } from 'my-react-component'
 import { useEffect, useMemo, useState, MouseEvent } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { BaseItem, BaseProvider } from 'types/interface'
 import { OPTION_FILTER } from '@/const/filter'
 import '../styles/MoviePage.scss'
-import FilterDownFall from '@/components/filter/FilterDownFall'
 import FilterOption from '@/components/filter/FilterOption'
 import FilterGenre from '@/components/filter/FilterGenre'
 import FilterSearchButton from '@/components/filter/FilterSearchButton'
@@ -169,23 +168,23 @@ const MoviePage = () => {
     <div className="movie-page">
       <div className="filter-total-container">
         <div className="sort-filter">
-          <FilterDownFall title="정렬">
+          <BasicAccordion title="정렬">
             <FilterOption
               title="Sort Results By"
               items={OPTION_FILTER}
               onChangeFilter={(value) => onChangeFilter<'sort_by'>('sort_by', value)}
             />
-          </FilterDownFall>
-          <FilterDownFall title="Where To Watch">
+          </BasicAccordion>
+          <BasicAccordion title="Where To Watch">
             <FilterProvider
               items={watchProviders!}
               selectProvider={selectProvider}
               media={media!}
             />
-          </FilterDownFall>
-          <FilterDownFall title="장르">
+          </BasicAccordion>
+          <BasicAccordion title="장르">
             <FilterGenre items={movieGenre!} selectGenre={selectGenre} media={media!} />
-          </FilterDownFall>
+          </BasicAccordion>
         </div>
       </div>
       <div className="movie-item-container">

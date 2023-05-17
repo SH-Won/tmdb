@@ -7,6 +7,17 @@
   @include flexCenter();
   flex-direction: column;
 }
+
+@mixin flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+@mixin flexColumnCenterPaddingGap($padding: 16px, $gap: 16px) {
+  @include flexColumn();
+  padding: $padding;
+  gap: $gap;
+}
+
 @mixin rightFade($width: 60px, $height: 100%, $isTop: true, $gradientPercent: 100%) {
   position: relative;
   &::after {

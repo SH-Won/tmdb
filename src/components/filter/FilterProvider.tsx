@@ -8,7 +8,6 @@ interface FilterProviderProps {
 }
 
 const FilterProvider = ({ items, selectProvider, media }: FilterProviderProps) => {
-  console.log('re render')
   return (
     <div className="filter-provider-container">
       {items &&

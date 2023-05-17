@@ -1,23 +1,17 @@
 @import 'my-react-component/src/styles/typeface.module.scss';
 @import 'my-react-component/src/styles/colors.module.scss';
+@import '../styles/common.scss';
 .movie-page {
   display: grid;
   grid-template-columns: 300px 2.5fr;
   .mobile & {
-    display: flex;
-    flex-direction: column;
+    @include flexColumn();
   }
   & > .filter-total-container {
     position: relative;
     width: 100%;
-
     & > .sort-filter {
-      // position: fixed;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 16px;
-      gap: 16px;
+      @include flexColumnCenterPaddingGap(16px, 16px);
     }
   }
   & > .movie-item-container {

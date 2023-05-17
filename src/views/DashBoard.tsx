@@ -1,5 +1,5 @@
 import '@/styles/DashBoard.scss'
-import { useBreakPoints, useHelper, usePopup } from '@/hooks'
+import { useBreakPoints, useHelper } from '@/hooks'
 import PopularMovie from '@/components/movies/PopularMovie'
 import {
   TOGGLE_MOVIE_ITEM,
@@ -9,7 +9,6 @@ import {
 } from '@/const/toggleBar'
 import SearchBox from '@/components/main/SearchBox'
 import { BaseItem } from 'types/interface'
-import upCommingPopupConfig from './upcomming_popup/upCommingPopupConfig'
 import UpcommingMovie from '@/components/movies/UpcommingMovie'
 import { useOutletContext } from 'react-router-dom'
 
@@ -20,17 +19,7 @@ const DashBoard = () => {
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage } = useHelper()
   const { openTrailerPopup } = useOutletContext<ContextProps>()
-  // const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
-  //   usePopup(upCommingPopupConfig)
 
-  // const openUpcommingPopup = (item: BaseItem) => {
-  //   openTrailerPopup({
-  //     name: 'UpcommingVideo',
-  //     props: {
-  //       item,
-  //     },
-  //   })
-  // }
   return (
     <div>
       <SearchBox />
@@ -44,7 +33,6 @@ const DashBoard = () => {
         <PopularMovie toggleItems={TOGGLE_MOVIE_ITEM} title={'영화'} click={goDetailPage} />
         <PopularMovie toggleItems={TOGGLE_TV_ITEM} title={'TV'} click={goDetailPage} />
       </div>
-      {/* <UpCommingTrailerPopupRouter /> */}
     </div>
   )
 }
