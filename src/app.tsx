@@ -22,7 +22,7 @@ const App = () => {
   const { breakPointsClass } = useBreakPoints()
   const location = useLocation()
   const navigate = useNavigate()
-  const [loading, setLoading] = useRecoilState(loadingState)
+  const loading = useRecoilValue(loadingState)
   const [loginUser, setLoginUser] = useRecoilState(user)
   const toastInstance = useRecoilValue(toast)
   const isNotDashBoardPage = useMemo(() => {
@@ -95,6 +95,7 @@ const App = () => {
               >
                 회원가입
               </Button>
+              <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
               {/* <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}

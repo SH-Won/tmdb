@@ -1,12 +1,8 @@
 import { BasicBottomButtons as BBB } from '@/components/common/BasicBottomButtons'
 import InputBox from '@/components/search/InputBox'
 import { useSearch } from '@/hooks'
-import { RouterPushParams } from '@/types/popup/RouterTypes'
+import { PopupComponentProps } from '@/types/popup/RouterTypes'
 import React from 'react'
-interface RouterProps {
-  close: () => void
-  push: (route: RouterPushParams) => void
-}
 
 const emailValidator = (email: string) => {
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
@@ -31,7 +27,7 @@ const nameValidator = (name: string) => {
   const en = /^[a-zA-Z]*$/
   return name === '' || ko.test(name) || en.test(name)
 }
-const SignupUserInfo = (props: RouterProps) => {
+const SignupUserInfo = (props: PopupComponentProps) => {
   const { searchText: name, onChangeText: onChangeName } = useSearch()
   const { searchText: birthday, onChangeText: onChangeBirthDay } = useSearch()
   const { searchText: email, onChangeText: onChangeEmail } = useSearch()

@@ -84,7 +84,7 @@ const DetailPage = () => {
       writers,
     }
   }, [credits])
-  console.log(recommends)
+
   if (isLoading || creditsLoading || recommendLoading || keywordLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
