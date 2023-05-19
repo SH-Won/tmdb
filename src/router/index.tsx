@@ -32,10 +32,10 @@ export const router = createBrowserRouter(
           element: <ActorPage />,
         },
 
-        {
-          path: '/widget',
-          element: <WidgetPage />,
-        },
+        // {
+        //   path: '/widget',
+        //   element: <WidgetPage />,
+        // },
       ],
     },
     {
