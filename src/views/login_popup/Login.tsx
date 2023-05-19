@@ -26,7 +26,7 @@ const Login = (props: PopupComponentProps) => {
   const login = async (providerName: string) => {
     const result = await BackEnd.getInstance().user.login(providerName)
     if (result.user) {
-      const { user } = result
+      const { user }: { user: any } = result
       const obj = {
         displayName: user.displayName as string,
         email: user.email as string,
