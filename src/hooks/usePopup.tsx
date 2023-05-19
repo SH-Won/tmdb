@@ -44,6 +44,9 @@ const usePopup = (registedRoutes: RegisterRouter[]) => {
     setTitle(history[calcIndex].title)
   }
   const back = (index = -1) => {
+    if (currentIndex === 0) {
+      return
+    }
     go(-1)
   }
   const close = () => {
