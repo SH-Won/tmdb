@@ -4,6 +4,10 @@
 .movie-page {
   display: grid;
   grid-template-columns: 300px 2.5fr;
+  // transition: all 0.2s linear;
+  .tablet & {
+    grid-template-columns: 250px 2.5fr;
+  }
   .mobile & {
     @include flexColumn;
   }
@@ -16,7 +20,6 @@
   }
   & > .movie-item-container {
     @include flexColumnCenterPaddingGap(16px, 16px);
-
     & > .item-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -40,5 +43,10 @@
     bottom: 0;
     width: 100%;
     z-index: 100;
+  }
+}
+@media screen and (max-width: 720px) {
+  .movie-page {
+    @include flexColumn;
   }
 }

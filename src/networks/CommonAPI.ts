@@ -53,4 +53,15 @@ export default class CommponAPI extends FetchAPI {
     })
     return response.data
   }
+  getPopularPerson = async <T>(params: { page: number }): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: '/person/popular',
+      query: {
+        language: 'ko-KR',
+        page: params.page,
+      },
+    })
+    return response.data
+  }
 }

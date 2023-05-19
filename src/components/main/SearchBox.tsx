@@ -28,7 +28,11 @@ const SearchBox = () => {
       */}
       <h2>{t('app.search.title')}</h2>
       <div className="search-area">
-        <InputBox searchText={searchText} onChange={onChangeText}>
+        <InputBox
+          searchText={searchText}
+          onChange={onChangeText}
+          placeholder="영화, TV프로그램 검색.."
+        >
           <Element name="Search" size="small" color={Colors.grey_bbb} />
         </InputBox>
         <Button fontColor={Colors.white} color={Colors.main} width="50px" click={goSearchPage}>

@@ -1,4 +1,5 @@
 interface OptionItemListProps {
+  open?: boolean
   items: {
     name: string
     value: string
@@ -6,18 +7,20 @@ interface OptionItemListProps {
   selected?: string
   click?: (item: any) => void
 }
-const OptionItemList = ({ items, selected, click }: OptionItemListProps) => {
+const OptionItemList = ({ items, selected, click, open }: OptionItemListProps) => {
   return (
-    <div className="option-items">
-      {items.map((item) => (
-        <span
-          key={item.name}
-          className={selected === item.name ? 'selected' : ''}
-          onClick={() => click?.(item)}
-        >
-          {item.name}
-        </span>
-      ))}
+    <div className={`option-list ${open ? 'slide' : ''}`}>
+      <div className="option-items">
+        {items.map((item) => (
+          <span
+            key={item.name}
+            className={selected === item.name ? 'selected' : ''}
+            onClick={() => click?.(item)}
+          >
+            {item.name}
+          </span>
+        ))}
+      </div>
     </div>
   )
 }

@@ -29,8 +29,13 @@ const App = () => {
     return location.pathname !== '/'
   }, [location.pathname])
 
-  const goBack = () => {
-    navigate(-1)
+  const goBack = (isMain: boolean) => {
+    if (isMain) {
+      navigate('/')
+    } else {
+      navigate(-1)
+    }
+    window.scrollTo(0, 0)
   }
 
   const logout = async () => {
@@ -71,7 +76,7 @@ const App = () => {
           back={isNotDashBoardPage ? goBack : undefined}
         >
           {!loginUser ? (
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
               <Button
                 color={Colors.main}
                 fontColor={Colors.white}
@@ -115,7 +120,7 @@ const App = () => {
               </Button> */}
             </div>
           ) : (
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
               <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}

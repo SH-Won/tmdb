@@ -145,6 +145,16 @@ export interface BaseProvider {
   provider_id: number
   provider_name: string
 }
+export interface BasePopularPerson {
+  adult: boolean
+  gender: number
+  id: number
+  known_for: BaseItem[]
+  known_for_department: string
+  name: string
+  popularity: number
+  profile_path: string
+}
 export interface IFilter {
   sort_by: string
 }

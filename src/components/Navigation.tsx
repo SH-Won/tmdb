@@ -21,6 +21,13 @@ const Navigation = (props: any) => {
         navigate('/overall/tv/popular')
       },
     },
+    {
+      id: '3',
+      name: t('app.navigation.person'),
+      onClick() {
+        navigate('/person')
+      },
+    },
   ]
   return (
     <div className={`navigation ${props.isNotDesktop ? 'footer' : ''}`}>

@@ -34,15 +34,18 @@
       padding: 6px 12px;
       background-color: color('grey_ccc');
     }
-    & > .option-list {
-      max-height: 0;
-      overflow: hidden;
-      transition: all 0.2s cubic-bezier(0.1, 1.19, 1, 1);
-      &.slide {
-        max-height: 100vw;
-        transition: all 0.35s cubic-bezier(0.93, -0.19, 1, 1);
-      }
-    }
+    // & > .option-list {
+    //   max-height: 0;
+    //   overflow: hidden;
+    //   width: 100%;
+    //   top: 100%;
+    //   position: absolute;
+    //   transition: all 0.2s cubic-bezier(0.1, 1.19, 1, 1);
+    //   &.slide {
+    //     max-height: 100vw;
+    //     transition: all 0.35s cubic-bezier(0.93, -0.19, 1, 1);
+    //   }
+    // }
   }
 }
 .filter-select-container {

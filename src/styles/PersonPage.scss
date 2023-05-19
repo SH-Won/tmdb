@@ -1,0 +1,32 @@
+@import 'my-react-component/src/styles/colors.module.scss';
+.person-page {
+  padding: 40px;
+  .tablet & {
+    padding: 30px;
+  }
+  .mobile & {
+    padding: 20px;
+  }
+  & > .person-container {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    .tablet & {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .mobile & {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    & > .person-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-radius: 8px 8px 0 0;
+      border: 0.5px solid color('grey_ccc');
+      box-shadow: 0 2px 8px color('grey_ccc');
+      & > .person-item-explain {
+        padding: 8px 10px;
+      }
+    }
+  }
+}

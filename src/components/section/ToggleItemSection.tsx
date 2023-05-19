@@ -16,7 +16,7 @@ interface Props {
   click: ((item: BaseItem) => void) | (() => void)
 }
 const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
-  const { isValidImage } = useHelper()
+  const { isValidImage, getConvertedDate } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
     [selectedItem.id, 1],
@@ -51,7 +51,7 @@ const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
                 ratio={1.5}
                 title={item.title ?? item.name}
                 voteAverage={Math.floor(item.vote_average * 10)}
-                releaseDate={item.release_date ?? item.first_air_date}
+                releaseDate={getConvertedDate(item.release_date ?? item.first_air_date)}
               />
             </div>
           )}
