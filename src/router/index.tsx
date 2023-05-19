@@ -6,7 +6,7 @@ import SearchPage from '@/views/SearchPage'
 import ActorPage from '@/views/ActorPage'
 import MoviePage from '@/views/MoviePage'
 import Overall from '@/overall'
-import WidgetPage from '@/views/WidgetPage'
+// import WidgetPage from '@/views/WidgetPage'
 import PersonPage from '@/views/PersonPage'
 // import WidgetPage from '@/views/WidgetPage'
 
