@@ -137,7 +137,7 @@ const App = () => {
         <LoginPopupRouter />
         <SignUpPopupRouter />
         <UpCommingTrailerPopupRouter />
-        <Toast />
+        {/* <Toast /> */}
         {loading && <LoadingSpinner opacity={0.6} />}
       </div>
     </>

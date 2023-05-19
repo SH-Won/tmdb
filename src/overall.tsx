@@ -5,19 +5,27 @@ import { useBreakPoints, useI18nTypes } from './hooks'
 import '@/components/filter/Filter.scss'
 import HeaderItem from './components/header/HeaderItem'
 import { HEADER_MOVIE_OPTION, HEADER_PERSON_OPTION, HEADER_TV_OPTION } from './const/overall'
+// import { useRecoilValue } from 'recoil'
+// import { toast } from '@/store/toast'
 
 const Overall = () => {
   const { t } = useI18nTypes()
   const navigate = useNavigate()
   const { breakPointsClass } = useBreakPoints()
+  // const toastInstance = useRecoilValue(toast)
+
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
 
-  const goBack = () => {
-    navigate(-1)
+  const goBack = (isMain: boolean) => {
+    if (isMain) {
+      navigate('/')
+    } else {
+      navigate(-1)
+    }
+    window.scrollTo(0, 0)
   }
-
   useLayoutEffect(() => {
     window.scrollTo(0, 0)
   }, [])
