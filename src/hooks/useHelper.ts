@@ -19,11 +19,17 @@ const useHelper = () => {
     if (!imagePath) return '/noImage.svg'
     return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
   }
+  const getConvertedDate = (date: string | undefined) => {
+    if (!date || date === '') return ''
+    const [year, month, day] = date.split('-')
+    return `${month}월 ${day}, ${year}`
+  }
 
   return {
     goDetailPage,
     goActorPage,
     isValidImage,
+    getConvertedDate,
   }
 }
 export { useHelper }

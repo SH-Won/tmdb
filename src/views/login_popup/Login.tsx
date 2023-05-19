@@ -3,16 +3,12 @@ import { useSearch } from '@/hooks'
 import BackEnd from '@/networks'
 import { toast } from '@/store/toast'
 import { user } from '@/store/user'
-import { RouterPushParams } from '@/types/popup/RouterTypes'
+import { PopupComponentProps } from '@/types/popup/RouterTypes'
 import { Button, Colors, Element } from 'my-react-component'
 import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import './LoginPopup.scss'
-// import { toast } from '@/components/toast/Toast'
-interface RouterProps {
-  close: () => void
-  push: (route: RouterPushParams) => void
-}
+
 const emailValidator = (email: string) => {
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
   return email === '' || email.match(regExp) != null
@@ -22,7 +18,7 @@ const passwordValidator = (password: string) => {
     /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[`~!@$!%*#^?&\\(\\)\\-_=+])(?!.*[^a-zA-z0-9`~!@$!%*#^?&\\(\\)\\-_=+]).{8,16}$/
   return password === '' || reg.test(password)
 }
-const Login = (props: RouterProps) => {
+const Login = (props: PopupComponentProps) => {
   // const { searchText: email, onChangeText: onChangeEmail } = useSearch()
   // const { searchText: password, onChangeText: onChangePassword } = useSearch()
   const [loginUser, setLoginUser] = useRecoilState(user)
@@ -30,7 +26,7 @@ const Login = (props: RouterProps) => {
   const login = async (providerName: string) => {
     const result = await BackEnd.getInstance().user.login(providerName)
     if (result.user) {
-      const { user } = result
+      const { user }: { user: any } = result
       const obj = {
         displayName: user.displayName as string,
         email: user.email as string,

@@ -11,7 +11,6 @@ const Navigation = (props: any) => {
       id: '1',
       name: t('app.navigation.product'),
       onClick() {
-        // navigate('/movie?category=popular')
         navigate('/overall/movie/popular')
       },
     },
@@ -20,6 +19,13 @@ const Navigation = (props: any) => {
       name: t('app.navigation.subProduct'),
       onClick() {
         navigate('/overall/tv/popular')
+      },
+    },
+    {
+      id: '3',
+      name: t('app.navigation.person'),
+      onClick() {
+        navigate('/person')
       },
     },
   ]

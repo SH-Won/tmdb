@@ -1,6 +1,7 @@
 interface ColumnExplainProps {
   title: string
   explain: string | string[]
+  breakWords?: boolean
 }
 
 const ColumnExplain = (props: ColumnExplainProps) => {
@@ -10,7 +11,7 @@ const ColumnExplain = (props: ColumnExplainProps) => {
       {typeof props.explain !== 'string' ? (
         props.explain.map((item) => <span key={item}>{item}</span>)
       ) : (
-        <span>{props.explain}</span>
+        <span className={props.breakWords ? 'break-words' : ''}>{props.explain}</span>
       )}
     </div>
   )

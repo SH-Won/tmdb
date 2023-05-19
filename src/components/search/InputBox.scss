@@ -26,6 +26,7 @@
   }
   & > .input-search {
     @include typeface('Buttons_1_m');
+    font-size: 16px;
     width: 100%;
     border: 0;
     background-color: transparent;

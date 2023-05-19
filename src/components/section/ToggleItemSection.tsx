@@ -1,20 +1,22 @@
 import { ItemType } from '@/const/toggleBar'
+import { useHelper } from '@/hooks/useHelper'
 import BackEnd from '@/networks'
 import { MovieResponse } from '@/types/network/response'
 import { PosterCard } from 'my-react-component'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
 import SkeletonItemList from './SkeletonItemList'
 import ToggleBar from './ToggleBar'
+
 interface Props {
   title: string
   toggleItems: ItemType[]
   click: ((item: BaseItem) => void) | (() => void)
 }
-
-const UpcommingMovie = ({ toggleItems, title, click }: Props) => {
+const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
+  const { isValidImage, getConvertedDate } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
     [selectedItem.id, 1],
@@ -30,44 +32,26 @@ const UpcommingMovie = ({ toggleItems, title, click }: Props) => {
       enabled: !!selectedItem,
     }
   )
-  const isValidImage = (imagePath: string) => {
-    if (!imagePath) return '/noImage.svg'
-    return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
-  }
-  const getBackGroundImageUrl = (backdropPath: string) => {
-    return `url(${import.meta.env.VITE_BASE_IMAGE_URL + backdropPath})`
-  }
-  const container = useRef<HTMLDivElement>(null)
-  const onMouseEnter = (item: BaseItem) => {
-    if (container.current?.style) {
-      container.current.style.backgroundImage = getBackGroundImageUrl(item.backdrop_path)
-    }
-  }
-  useLayoutEffect(() => {
-    if (container.current && data) {
-      container.current.style.backgroundImage = getBackGroundImageUrl(data.results[0].backdrop_path)
-    }
-  }, [data])
   return (
-    <div className="list-container upcomming" ref={container}>
-      <div className="background"></div>
+    <div className="list-container">
       <div className="header">
         <h2>{title}</h2>
         <ToggleBar items={toggleItems} onSelect={setSelectedItem} />
       </div>
 
       {isLoading ? (
-        <SkeletonItemList ratio={0.564} />
+        <SkeletonItemList ratio={1.5} />
       ) : (
-        <ItemList
+        <ItemList<BaseItem>
           items={data!.results}
           renderItem={(item) => (
-            <div key={item.id} onClick={() => click(item)} onMouseEnter={(e) => onMouseEnter(item)}>
+            <div key={item.id} onClick={() => click(item)}>
               <PosterCard
-                imageUrl={isValidImage(item.backdrop_path)}
-                ratio={0.564}
+                imageUrl={isValidImage(item.poster_path)}
+                ratio={1.5}
                 title={item.title ?? item.name}
                 voteAverage={Math.floor(item.vote_average * 10)}
+                releaseDate={getConvertedDate(item.release_date ?? item.first_air_date)}
               />
             </div>
           )}
@@ -77,4 +61,4 @@ const UpcommingMovie = ({ toggleItems, title, click }: Props) => {
   )
 }
 
-export default UpcommingMovie
+export default ToggleItemSection

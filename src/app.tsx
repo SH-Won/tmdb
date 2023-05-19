@@ -22,15 +22,20 @@ const App = () => {
   const { breakPointsClass } = useBreakPoints()
   const location = useLocation()
   const navigate = useNavigate()
-  const [loading, setLoading] = useRecoilState(loadingState)
+  const loading = useRecoilValue(loadingState)
   const [loginUser, setLoginUser] = useRecoilState(user)
   const toastInstance = useRecoilValue(toast)
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
 
-  const goBack = () => {
-    navigate(-1)
+  const goBack = (isMain: boolean) => {
+    if (isMain) {
+      navigate('/')
+    } else {
+      navigate(-1)
+    }
+    window.scrollTo(0, 0)
   }
 
   const logout = async () => {
@@ -71,7 +76,7 @@ const App = () => {
           back={isNotDashBoardPage ? goBack : undefined}
         >
           {!loginUser ? (
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
               <Button
                 color={Colors.main}
                 fontColor={Colors.white}
@@ -95,6 +100,7 @@ const App = () => {
               >
                 회원가입
               </Button>
+              <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
               {/* <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}
@@ -114,7 +120,7 @@ const App = () => {
               </Button> */}
             </div>
           ) : (
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
               <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}
@@ -131,7 +137,7 @@ const App = () => {
         <LoginPopupRouter />
         <SignUpPopupRouter />
         <UpCommingTrailerPopupRouter />
-        <Toast />
+        {/* <Toast /> */}
         {loading && <LoadingSpinner opacity={0.6} />}
       </div>
     </>

@@ -26,7 +26,6 @@ const usePopup = (registedRoutes: RegisterRouter[]) => {
       progress: findRoute?.progress,
     }
     setHistory((prev) => [...prev, historyObj])
-    // setProgress(history.length + 1)
     setTitle(historyObj.title)
     setCurrentRoute(findRoute?.component)
     setOpen(true)

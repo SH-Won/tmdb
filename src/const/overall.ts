@@ -36,6 +36,12 @@ export const HEADER_TV_OPTION = [
     value: '/overall/tv/top_rated',
   },
 ]
+export const HEADER_PERSON_OPTION = [
+  {
+    name: '인기 인물',
+    value: '/person',
+  },
+]
 
 const getFormatDate = (isLastDay = false) => {
   const date = new Date()

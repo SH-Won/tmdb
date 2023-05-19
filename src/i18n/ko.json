@@ -2,7 +2,8 @@
   "app": {
     "navigation": {
       "product": "영화",
-      "subProduct": "TV"
+      "subProduct": "TV",
+      "person": "인물"
     },
     "search": {
       "title": "영화, TV 등을 검색해보세요",

@@ -7869,15 +7869,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"my-react-component@https://github.com/SH-Won/react-component.git#e67b5de43c0beb1919050eaabe1406a1f84c5f35":
+"my-react-component@https://github.com/SH-Won/react-component.git#171fbdc9571b6817c77385fa966ed50691a6869c":
   version: 0.0.0
-  resolution: "my-react-component@https://github.com/SH-Won/react-component.git#commit=e67b5de43c0beb1919050eaabe1406a1f84c5f35"
+  resolution: "my-react-component@https://github.com/SH-Won/react-component.git#commit=171fbdc9571b6817c77385fa966ed50691a6869c"
   dependencies:
     "@storybook/react": ^7.0.5
     react: ^18.2.0
     react-dom: ^18.2.0
     storybook: ^7.0.5
-  checksum: eec6d382eae330c413af61e1441733d774bb5961f4b03f211691c4a3bbe36c5faf25411438d187ce65cd4adf730ec0e0160237efb3e398e2dc0a6ba9ff2d476c
+  checksum: e6a2647d9c7fccf989c2f4cc1fec0727350f264b4b7300b03613b911e253e3301a6507b0af91f281d26670fc1e7873eac215f1ce54e0eaf8ec6f48e58e0b3b0f
   languageName: node
   linkType: hard
 
@@ -8975,7 +8975,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.6.0
     firebase: ^9.21.0
     i18next: ^22.4.14
-    my-react-component: "https://github.com/SH-Won/react-component.git#e67b5de43c0beb1919050eaabe1406a1f84c5f35"
+    my-react-component: "https://github.com/SH-Won/react-component.git#171fbdc9571b6817c77385fa966ed50691a6869c"
     node-stdlib-browser: ^1.2.0
     prettier: ^2.8.7
     react: ^18.2.0

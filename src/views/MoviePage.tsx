@@ -21,7 +21,7 @@ import FilterProvider from '@/components/filter/FilterProvider'
 // }
 const MoviePage = () => {
   const { media, category } = useParams<{ media: Media; category: keyof (typeof mapper)[Media] }>()
-  const { isValidImage, goDetailPage } = useHelper()
+  const { isValidImage, goDetailPage, getConvertedDate } = useHelper()
   const [items, setItems] = useState<BaseItem[]>([])
   const [page, setPage] = useState(1)
   const [genres, setGenres] = useState<IGenre['id'][]>([])
@@ -196,7 +196,7 @@ const MoviePage = () => {
                 imageUrl={isValidImage(item.poster_path)}
                 title={item.title ?? item.name}
                 voteAverage={Math.floor(item.vote_average * 10)}
-                releaseDate={item.release_date ?? item.first_air_date}
+                releaseDate={getConvertedDate(item.release_date ?? item.first_air_date)}
               />
             </div>
           ))}

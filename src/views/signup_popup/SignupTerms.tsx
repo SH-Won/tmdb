@@ -1,14 +1,10 @@
 import './Signup.scss'
 import { COLLECTION_OF_USER_INFORMATION, TERMS_OF_USE } from '@/const/signup'
 import { BasicBottomButtons as BBB } from '@/components/common/BasicBottomButtons'
-import { RouterPushParams } from '@/types/popup/RouterTypes'
+import { PopupComponentProps, RouterPushParams } from '@/types/popup/RouterTypes'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-interface RouterProps {
-  close: () => void
-  push: (route: RouterPushParams) => void
-}
-const SignupTerms = (props: RouterProps) => {
+const SignupTerms = (props: PopupComponentProps) => {
   const [useTermChecked, setUseTermChecked] = useState(false)
   const [collectTermChecked, setCollectTermChecked] = useState(false)
 

@@ -1,6 +1,6 @@
 import '@/styles/DashBoard.scss'
 import { useBreakPoints, useHelper } from '@/hooks'
-import PopularMovie from '@/components/movies/PopularMovie'
+import ToggleItemSection from '@/components/section/ToggleItemSection'
 import {
   TOGGLE_MOVIE_ITEM,
   TOGGLE_TV_ITEM,
@@ -9,7 +9,7 @@ import {
 } from '@/const/toggleBar'
 import SearchBox from '@/components/main/SearchBox'
 import { BaseItem } from 'types/interface'
-import UpcommingMovie from '@/components/movies/UpcommingMovie'
+import UpcommingItemSection from '@/components/section/UpcommingItemSection'
 import { useOutletContext } from 'react-router-dom'
 
 type ContextProps = {
@@ -24,14 +24,18 @@ const DashBoard = () => {
     <div>
       <SearchBox />
       <div className={`dashboard ${breakPointsClass}`}>
-        <PopularMovie toggleItems={TOGGLE_TRENDING_ITEMS} title={'트렌딩'} click={goDetailPage} />
-        <UpcommingMovie
+        <ToggleItemSection
+          toggleItems={TOGGLE_TRENDING_ITEMS}
+          title={'트렌딩'}
+          click={goDetailPage}
+        />
+        <UpcommingItemSection
           toggleItems={TOGGLE_UPCOMMING}
           title={'최신 예고편'}
           click={openTrailerPopup}
         />
-        <PopularMovie toggleItems={TOGGLE_MOVIE_ITEM} title={'영화'} click={goDetailPage} />
-        <PopularMovie toggleItems={TOGGLE_TV_ITEM} title={'TV'} click={goDetailPage} />
+        <ToggleItemSection toggleItems={TOGGLE_MOVIE_ITEM} title={'영화'} click={goDetailPage} />
+        <ToggleItemSection toggleItems={TOGGLE_TV_ITEM} title={'TV'} click={goDetailPage} />
       </div>
     </div>
   )

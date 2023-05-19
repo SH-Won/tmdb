@@ -7,6 +7,7 @@ import ActorPage from '@/views/ActorPage'
 import MoviePage from '@/views/MoviePage'
 import Overall from '@/overall'
 import WidgetPage from '@/views/WidgetPage'
+import PersonPage from '@/views/PersonPage'
 // import WidgetPage from '@/views/WidgetPage'
 
 export const router = createBrowserRouter(
@@ -45,10 +46,10 @@ export const router = createBrowserRouter(
           path: '/overall/:media/:category',
           index: true,
         },
-        // {
-        //   element: <TVPage />,
-        //   path: '/tv',
-        // },
+        {
+          element: <PersonPage />,
+          path: '/person',
+        },
       ],
     },
   ],

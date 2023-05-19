@@ -6,37 +6,53 @@
   display: flex;
   gap: 10px;
   position: relative;
-  padding: 0px 30px;
+  // padding: 0px 30px;
+  // width: 90px;
+  // font-size: 15px;
+  cursor: pointer;
   & > .title {
     @include typeface('Paragraph_1_b');
   }
 }
 
 // OptionItemList.tsx
-.option-items {
+.option-list {
+  max-height: 0;
+  overflow: hidden;
   width: 100%;
-  .header-item & {
-    width: 100px;
-    // @include typeface('Paragraph_1_sb');
-    font-size: 15px;
-  }
-  // position: absolute;
   top: 100%;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0px;
-  border-radius: 4px;
-  border: 0.5px solid color('grey_ccc');
-  background-color: color('grey_f4');
-  & > span {
-    padding: 4px 10px;
-    &:hover {
-      &.selected {
-        background-color: color('main');
-        color: color('white');
+  position: absolute;
+  z-index: 1000;
+  transition: all 0.2s cubic-bezier(0.1, 1.19, 1, 1);
+  cursor: pointer;
+  &.slide {
+    max-height: 100vw;
+    transition: all 0.35s cubic-bezier(0.93, -0.19, 1, 1);
+  }
+
+  & > .option-items {
+    width: 100%;
+    box-sizing: border-box;
+    .header-item & {
+      font-size: 15px;
+    }
+    top: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+    border-radius: 4px;
+    border: 0.5px solid color('grey_ccc');
+    background-color: color('grey_f4');
+    & > span {
+      padding: 4px 10px;
+      &:hover {
+        &.selected {
+          background-color: color('main');
+          color: color('white');
+        }
+        background-color: color('grey_ccc');
       }
-      background-color: color('grey_ccc');
     }
   }
 }
@@ -71,8 +87,17 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  & > span:nth-child(1) {
-    @include typeface('Paragraph_1_m');
+  // & > span:nth-child(1) {
+  //   @include typeface('Paragraph_1_m');
+  // }
+  & > .break-words {
+    display: inline-block;
+    @include typeface('Paragraph_3_b');
+    color: color('grey_999');
+    // white-space: nowrap;
+    word-break: break-all;
+    // overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 // CastItem.tsx

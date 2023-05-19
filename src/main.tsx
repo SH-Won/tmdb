@@ -10,6 +10,7 @@ import { OverLay } from 'my-react-component'
 import { RecoilRoot } from 'recoil'
 import { initializeApp } from 'firebase/app'
 import { firebaseConfig } from './networks/firebase'
+import { Toast } from './components/toast/Toast'
 // import { auth } from './networks/firebase'
 const rootElement = document.querySelector('#root')
 
@@ -31,7 +32,8 @@ root.render(
           </OverLay>
         }
       >
-        <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router} />
+        <Toast />
       </Suspense>
     </QueryClientProvider>
   </RecoilRoot>
