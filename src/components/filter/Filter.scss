@@ -74,7 +74,14 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
   .mobile & {
+    gap: 8px;
     grid-template-columns: repeat(6, 1fr);
+  }
+  @media screen and (max-width: 720px) {
+    & {
+      gap: 8x;
+      grid-template-columns: repeat(6, 1fr);
+    }
   }
   & > .provider-image-wrapper {
     position: relative;
