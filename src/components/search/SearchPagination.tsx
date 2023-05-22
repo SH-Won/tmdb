@@ -2,6 +2,7 @@ import { MovieResponse } from '@/types/network/response'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BaseItem } from 'types/interface'
+import PaginationNumbers from './PaginationNumbers'
 // import PaginationNumbers from './PaginationNumbers'
 
 interface SearchPaginationProps {
@@ -37,25 +38,13 @@ const SearchPagination = (props: SearchPaginationProps) => {
           ))}
       </div>
       <div className="pagination-numbers">
-        {props.data &&
-          Array(props.data.total_pages)
-            .fill(1)
-            .map((v, i) => (
-              <div
-                key={v + i}
-                onClick={() => props.onClickNextPage(v + i)}
-                className={props.data.page === v + i ? 'selected' : ''}
-              >
-                {v + i}
-              </div>
-            ))}
-        {/* {props.data && (
+        {props.data && (
           <PaginationNumbers
             currentPage={props.data.page}
             totalPages={props.data.total_pages}
             click={(id: number) => props.onClickNextPage(id)}
           />
-        )} */}
+        )}
       </div>
     </div>
   )

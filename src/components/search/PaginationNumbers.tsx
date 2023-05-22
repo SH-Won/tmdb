@@ -5,18 +5,23 @@ interface PaginationNumbersProps {
 }
 
 const PaginationNumbers = (props: PaginationNumbersProps) => {
-  const LAST_NUMBER = props.totalPages - props.currentPage - 4 > 0
-  const startPageNumbers = Array(props.totalPages >= 2 ? 2 : props.totalPages)
+  const startPageNumbers = Array(2)
     .fill(1)
     .map((v, i) => v + i)
-  const middlePageNumbers = Array(7)
-    .fill(props.currentPage - 2 <= 0 ? 3 : props.currentPage)
+  const middlePageNumbers = Array(5)
+    .fill(
+      props.currentPage - 2 <= 3
+        ? 3
+        : props.currentPage + 4 >= props.totalPages
+        ? props.totalPages - 4 - 2
+        : props.currentPage - 2
+    )
     .map((v, i) => v + i)
-  const lastPageNumbers = Array(props.totalPages - props.currentPage - 4 > 2 ? 2 : 0)
+  const lastPageNumbers = Array(2)
     .fill(props.totalPages)
     .map((v, i) => v - i)
   // 1 2 3 4 5 6 7 8 9 10
-
+  // 1 2 ... 5 6 7 8 9 ... 100 101
   return (
     <div className="pagination-numbers">
       {startPageNumbers.map((number, i) => (
@@ -28,7 +33,7 @@ const PaginationNumbers = (props: PaginationNumbersProps) => {
           {number}
         </div>
       ))}
-      {props.currentPage - 3 > 2 && <span>...</span>}
+      {props.currentPage - 2 > 3 && <span>...</span>}
       {middlePageNumbers.map((number, i) => (
         <div
           key={`page${number}`}
@@ -38,16 +43,16 @@ const PaginationNumbers = (props: PaginationNumbersProps) => {
           {number}
         </div>
       ))}
-      {lastPageNumbers.length &&
-        lastPageNumbers.map((number, i) => (
-          <div
-            key={`page${number}`}
-            onClick={() => props.click(number)}
-            className={number === props.currentPage ? 'selected' : ''}
-          >
-            {number}
-          </div>
-        ))}
+      {props.totalPages - 4 > props.currentPage && <span>...</span>}
+      {lastPageNumbers.reverse().map((number, i) => (
+        <div
+          key={`page${number}`}
+          onClick={() => props.click(number)}
+          className={number === props.currentPage ? 'selected' : ''}
+        >
+          {number}
+        </div>
+      ))}
     </div>
   )
 }

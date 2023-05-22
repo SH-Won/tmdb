@@ -9,6 +9,9 @@ export type IGenre = CreateType<IKeyWord>
 
 export interface CommonResponse<T> {
   results: T
+  page: number
+  total_pages: number
+  total_results: number
 }
 export interface MovieResponse<T> extends CommonResponse<T> {
   page: number
