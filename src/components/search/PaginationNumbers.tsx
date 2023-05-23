@@ -5,17 +5,46 @@ interface PaginationNumbersProps {
 }
 
 const PaginationNumbers = (props: PaginationNumbersProps) => {
-  const LAST_NUMBER = props.totalPages - props.currentPage - 4 > 0
-  const startPageNumbers = Array(props.totalPages >= 2 ? 2 : props.totalPages)
+  // const MIDDLE_RANGE = 5
+  // const START_LIMIT = props.totalPages >= 2 ? 2 : props.totalPages
+  // const END_LIMIT = props.totalPages > START_LIMIT + MIDDLE_RANGE + 2 ? 2 : 0
+
+  const START_LIMIT = 3
+  const MIDDLE_LIMIT = 6
+  const END_LIMIT = 2
+  if (props.totalPages <= START_LIMIT + MIDDLE_LIMIT + END_LIMIT) {
+    return (
+      <div className="pagination-numbers">
+        {Array(props.totalPages)
+          .fill(1)
+          .map((v, i) => v + i)
+          .map((number, i) => (
+            <div
+              key={`page${number}`}
+              onClick={() => props.click(number)}
+              className={number === props.currentPage ? 'selected' : ''}
+            >
+              {number}
+            </div>
+          ))}
+      </div>
+    )
+  }
+  const startPageNumbers = Array(START_LIMIT)
     .fill(1)
     .map((v, i) => v + i)
-  const middlePageNumbers = Array(7)
-    .fill(props.currentPage - 2 <= 0 ? 3 : props.currentPage)
+  const middlePageNumbers = Array(MIDDLE_LIMIT)
+    .fill(
+      props.currentPage - START_LIMIT <= START_LIMIT + 1 // 3
+        ? START_LIMIT + 1
+        : props.currentPage + END_LIMIT + Math.floor(MIDDLE_LIMIT / 2) >= props.totalPages // 4
+        ? props.totalPages - MIDDLE_LIMIT - START_LIMIT + 1 // 6
+        : props.currentPage - Math.floor(MIDDLE_LIMIT / 2)
+    )
     .map((v, i) => v + i)
-  const lastPageNumbers = Array(props.totalPages - props.currentPage - 4 > 2 ? 2 : 0)
+  const lastPageNumbers = Array(END_LIMIT)
     .fill(props.totalPages)
     .map((v, i) => v - i)
-  // 1 2 3 4 5 6 7 8 9 10
 
   return (
     <div className="pagination-numbers">
@@ -28,7 +57,7 @@ const PaginationNumbers = (props: PaginationNumbersProps) => {
           {number}
         </div>
       ))}
-      {props.currentPage - 3 > 2 && <span>...</span>}
+      {props.currentPage - Math.floor(MIDDLE_LIMIT / 2) > START_LIMIT + 1 && <span>...</span>}
       {middlePageNumbers.map((number, i) => (
         <div
           key={`page${number}`}
@@ -38,16 +67,18 @@ const PaginationNumbers = (props: PaginationNumbersProps) => {
           {number}
         </div>
       ))}
-      {lastPageNumbers.length &&
-        lastPageNumbers.map((number, i) => (
-          <div
-            key={`page${number}`}
-            onClick={() => props.click(number)}
-            className={number === props.currentPage ? 'selected' : ''}
-          >
-            {number}
-          </div>
-        ))}
+      {props.totalPages - END_LIMIT - Math.floor(MIDDLE_LIMIT / 2) > props.currentPage && (
+        <span>...</span>
+      )}
+      {lastPageNumbers.reverse().map((number, i) => (
+        <div
+          key={`page${number}`}
+          onClick={() => props.click(number)}
+          className={number === props.currentPage ? 'selected' : ''}
+        >
+          {number}
+        </div>
+      ))}
     </div>
   )
 }
