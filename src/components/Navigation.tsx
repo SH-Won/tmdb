@@ -9,14 +9,14 @@ const Navigation = (props: any) => {
   const items = [
     {
       id: '1',
-      name: t('app.navigation.product'),
+      name: t('app.navigation.movie'),
       onClick() {
         navigate('/overall/movie/popular')
       },
     },
     {
       id: '2',
-      name: t('app.navigation.subProduct'),
+      name: t('app.navigation.tv'),
       onClick() {
         navigate('/overall/tv/popular')
       },

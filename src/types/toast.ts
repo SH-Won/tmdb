@@ -1,3 +1,5 @@
+import { t, TFunction } from 'i18next'
+import { Dispatch, SetStateAction } from 'react'
 import { SetterOrUpdater } from 'recoil'
 
 interface IToast {
@@ -14,10 +16,10 @@ export interface ToastItem {
 }
 
 export default class ToastController implements IToast {
-  setState: SetterOrUpdater<ToastItem[]> = () => {
+  setState: Dispatch<SetStateAction<ToastItem[]>> = () => {
     return null
   }
-  constructor(setState: SetterOrUpdater<ToastItem[]> | null) {
+  constructor(setState: Dispatch<SetStateAction<ToastItem[]>> | null, t: TFunction) {
     if (setState) {
       this.setState = setState
     }
@@ -41,26 +43,26 @@ export default class ToastController implements IToast {
   }
   keepLogin = () => {
     this.add({
-      text: '로그인 된 상태입니다',
+      text: t('app.toast.keep_login'),
       type: 'keepLogin',
     })
   }
   login = () => {
     this.add({
-      text: '로그인 되었습니다',
+      text: t('app.toast.login'),
       type: 'login',
     })
   }
 
   logout = () => {
     this.add({
-      text: '로그아웃 되었습니다',
+      text: t('app.toast.logout'),
       type: 'logout',
     })
   }
   test = () => {
     this.add({
-      text: '테스트 토스트 입니다',
+      text: t('app.toast.test'),
       type: 'test',
     })
   }

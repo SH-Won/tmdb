@@ -1,6 +1,6 @@
 import { MOVIE_CATEGORY } from '@/const'
 import { TV_CATEGORY } from '@/const/movie'
-import { useBreakPoints } from '@/hooks'
+import { useBreakPoints, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -16,6 +16,7 @@ import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { media_type, id } = useParams()
+  const { t } = useI18nTypes()
   const key = media_type === MOVIE_CATEGORY.prefix ? MOVIE_CATEGORY.prefix : TV_CATEGORY.prefix
   const { data: item, isLoading } = useQuery(
     [key, id],
@@ -93,8 +94,16 @@ const DetailPage = () => {
       <Intro item={item!} crews={crews} />
       <div className="detail-content">
         <div className="content-cast-recommend">
-          <Cast casts={credits.cast} />
-          <Recommend items={recommends!.results} />
+          <Cast
+            casts={credits.cast}
+            title={t('app.detail.cast.title')}
+            notification={t('app.detail.cast.no_actors')}
+          />
+          <Recommend
+            items={recommends!.results}
+            title={t('app.detail.recommend.title')}
+            notification={t('app.detail.recommend.no_recommends')}
+          />
         </div>
         <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>

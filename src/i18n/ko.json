@@ -1,8 +1,8 @@
 {
   "app": {
     "navigation": {
-      "product": "영화",
-      "subProduct": "TV",
+      "movie": "영화",
+      "tv": "TV",
       "person": "인물"
     },
     "search": {
@@ -21,11 +21,69 @@
           "info": "정보",
           "sub": "하위 상품"
         }
+      },
+      "information": {
+        "intro_title": "개요",
+        "original_title": "원제",
+        "status": "상태",
+        "original_language": "원어",
+        "budget": "제작비",
+        "keyword_title": "키워드"
+      },
+      "cast": {
+        "title": "주요 출연진",
+        "no_actors": "배우 정보가 없어요"
+      },
+      "recommend": {
+        "title": "추천",
+        "no_recommends": "추천 할만한 작품이 없어요"
       }
+    },
+    "input": {
+      "search_placeholder": "영화, TV프로그램 검색.."
     },
     "button": {
       "cancel": "닫기",
-      "confirm": "확인"
+      "confirm": "확인",
+      "login": "로그인",
+      "signup": "회원가입",
+      "logout": "로그아웃",
+      "search": "검색"
+    },
+    "toggle": {
+      "trendding": "트렌딩",
+      "upcomming": "최신 예고편",
+      "movie": "영화",
+      "tv": "TV"
+    },
+    "actor_detail": {
+      "known_for_department": "분야",
+      "works_number": "참여 작품수",
+      "name": "이름",
+      "gender": "성별",
+      "birthday": "생일",
+      "place_of_birth": "출생지",
+      "also_known_as": "다른 명칭",
+      "load_more": "더 보기>"
+    },
+    "search_page": {
+      "loading_text": "불러오는 중 입니다"
+    },
+    "filter": {
+      "sort": "정렬",
+      "sort_title": "Sort Results By",
+      "sort_providers_title": "Where To Watch",
+      "genre": "장르",
+      "load_more": "더 불러오기"
+    },
+    "toast": {
+      "keep_login": "로그인 된 상태입니다",
+      "login": "로그인 되었습니다",
+      "logout": "로그아웃 되었습니다",
+      "test": "테스트 토스트 입니다"
+    },
+    "person_page": {
+      "loading_text": "인물 정보를 불러오고 있습니다"
     }
   }
 }

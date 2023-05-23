@@ -86,7 +86,7 @@ const App = () => {
                   })
                 }
               >
-                로그인
+                {t('app.button.login')}
               </Button>
               <Button
                 color={Colors.white}
@@ -98,7 +98,7 @@ const App = () => {
                   })
                 }
               >
-                회원가입
+                {t('app.button.signup')}
               </Button>
               <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
               {/* <Button
@@ -114,7 +114,7 @@ const App = () => {
                 fontColor={Colors.grey_111}
                 border={Colors.grey_bbb}
                 // click={toast.test}
-                click={toastInstance?.login}
+                click={toastInstance?.test}
               >
                 Test2
               </Button> */}
@@ -127,7 +127,7 @@ const App = () => {
                 border={Colors.grey_bbb}
                 click={logout}
               >
-                로그아웃
+                {t('app.button.logout')}
               </Button>
               <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
             </div>

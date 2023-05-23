@@ -1,4 +1,4 @@
-import { useHelper } from '@/hooks'
+import { useHelper, useI18nTypes } from '@/hooks'
 import Transition from '@/layout/Transition'
 import BackEnd from '@/networks'
 import { CommonResponse } from '@/types/network/response'
@@ -12,6 +12,7 @@ import PaginationNumbers from '@/components/search/PaginationNumbers'
 
 const PersonPage = () => {
   const { isValidImage, goActorPage } = useHelper()
+  const { t } = useI18nTypes()
   const [page, setPage] = useState(1)
   const { data, isLoading } = useQuery(
     ['person', 'popular', page],
@@ -31,7 +32,7 @@ const PersonPage = () => {
   return (
     <div className="person-page">
       {isLoading ? (
-        <PageLoadingSpinner customHeight="100vh" text="로딩 중 입니다" />
+        <PageLoadingSpinner customHeight="100vh" text={t('app.person_page.loading_text')} />
       ) : (
         <>
           <Transition className="person-container">

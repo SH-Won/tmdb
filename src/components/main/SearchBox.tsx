@@ -27,7 +27,7 @@ const SearchBox = () => {
         <InputBox
           searchText={searchText}
           onChange={onChangeText}
-          placeholder="영화, TV프로그램 검색.."
+          placeholder={t('app.input.search_placeholder')}
         >
           <Element name="Search" size="small" color={Colors.grey_bbb} />
         </InputBox>

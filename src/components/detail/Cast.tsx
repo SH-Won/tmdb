@@ -7,9 +7,11 @@ import CastItem from './CastItem'
 
 interface Props {
   casts: BaseCast[]
+  title: string
+  notification: string
 }
 
-const Cast = ({ casts }: Props) => {
+const Cast = ({ casts, title, notification }: Props) => {
   const { goActorPage } = useHelper()
   return (
     <div className="cast-container cast">

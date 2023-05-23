@@ -1,4 +1,4 @@
-import { useBreakPoints } from '@/hooks'
+import { useBreakPoints, useI18nTypes } from '@/hooks'
 import { useSearch } from '@/hooks/useSearch'
 import { Button, Colors, Element } from 'my-react-component'
 import { useState } from 'react'
@@ -11,6 +11,7 @@ interface HeaderSearchBox {
 const HeaderSearchBox = ({ isNotDashBoardPage }: HeaderSearchBox) => {
   const navigate = useNavigate()
   const { breakPointsClass } = useBreakPoints()
+  const { t } = useI18nTypes()
   const [openSearchInput, setOpenSearchInput] = useState<boolean>(false)
   const goSearchPage = () => {
     navigate(`/search?language=ko&query=${searchText}`)
@@ -29,7 +30,7 @@ const HeaderSearchBox = ({ isNotDashBoardPage }: HeaderSearchBox) => {
         <div className="app-bar-search">
           <InputBox searchText={searchText} onChange={onChangeText} screen={breakPointsClass} />
           <Button color={Colors.main} fontColor={Colors.white} click={goSearchPage}>
-            검색
+            {t('app.search.button')}
           </Button>
         </div>
       )}

@@ -1,3 +1,4 @@
+import { useI18nTypes } from '@/hooks'
 import { toast } from '@/store/toast'
 import ToastController, { ToastItem } from '@/types/toast'
 import { Colors, Element } from 'my-react-component'
@@ -40,8 +41,9 @@ const ToastItemComponent = ({ deleteItem, item, isStartAnimation }: ToastItemPro
 export const Toast = () => {
   const [toastInstance, setToastInstance] = useRecoilState(toast)
   const [toastItems, setToastItems] = useState<ToastItem[]>([])
+  const { t } = useI18nTypes()
   useEffect(() => {
-    setToastInstance(new ToastController(setToastItems))
+    setToastInstance(new ToastController(setToastItems, t))
   }, [])
   return (
     <div className="toast">

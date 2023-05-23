@@ -1,3 +1,4 @@
+import { useI18nTypes } from '@/hooks'
 import { IKeyWord } from '@/types/network/response'
 import { BaseItemDetail } from 'types/interface'
 import ColumnExplain from '../common/ColumnExplain'
@@ -6,16 +7,26 @@ interface Props {
   keywords: IKeyWord[] | undefined
 }
 const Information = ({ item, keywords }: Props) => {
+  const { t } = useI18nTypes()
   return (
     <div className="content-info">
       <h3>사항</h3>
       <div className="info-overview">
-        <ColumnExplain title="원제" explain={item.original_title ?? item.original_name} />
-        <ColumnExplain title="상태" explain={item.status} />
-        <ColumnExplain title="원어" explain={item.original_language} />
-        <ColumnExplain title="제작비" explain={item.budget ? item.budget.toString() : '-'} />
+        <ColumnExplain
+          title={t('app.detail.information.original_title')}
+          explain={item.original_title ?? item.original_name}
+        />
+        <ColumnExplain title={t('app.detail.information.status')} explain={item.status} />
+        <ColumnExplain
+          title={t('app.detail.information.original_language')}
+          explain={item.original_language}
+        />
+        <ColumnExplain
+          title={t('app.detail.information.budget')}
+          explain={item.budget ? item.budget.toString() : '-'}
+        />
         <div className="keyword-container">
-          <strong>키워드</strong>
+          <strong>{t('app.detail.information.keyword_title')}</strong>
           <div className="keyword-box">
             {keywords && keywords.map((keyword) => <span key={keyword.id}>{keyword.name}</span>)}
           </div>

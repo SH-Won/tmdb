@@ -3,9 +3,10 @@ import React, { useEffect, useRef } from 'react'
 
 interface FilterSearchButtonProps {
   show: boolean
+  text: string
   click: () => void
 }
-const FilterSearchButton = ({ show, click }: FilterSearchButtonProps) => {
+const FilterSearchButton = ({ show, click, text }: FilterSearchButtonProps) => {
   const searchButton = useRef<HTMLDivElement>(null)
   useEffect(() => {
     //
@@ -14,7 +15,7 @@ const FilterSearchButton = ({ show, click }: FilterSearchButtonProps) => {
   return (
     <div className="search-btn">
       <Button color={Colors.main} fontColor={Colors.white} width="auto" click={click}>
-        검색
+        {text}
       </Button>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useHelper } from '@/hooks'
+import { useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { CommonResponse, GenreResponse, IGenre, MovieResponse } from '@/types/network/response'
 import { BasicAccordion, Button, Colors, PageLoadingSpinner, PosterCard } from 'my-react-component'
@@ -21,6 +21,7 @@ import FilterProvider from '@/components/filter/FilterProvider'
 // }
 const MoviePage = () => {
   const { media, category } = useParams<{ media: Media; category: keyof (typeof mapper)[Media] }>()
+  const { t } = useI18nTypes()
   const { isValidImage, goDetailPage, getConvertedDate } = useHelper()
   const [items, setItems] = useState<BaseItem[]>([])
   const [page, setPage] = useState(1)
@@ -179,21 +180,21 @@ const MoviePage = () => {
     <div className="movie-page">
       <div className="filter-total-container">
         <div className="sort-filter">
-          <BasicAccordion title="정렬">
+          <BasicAccordion title={t('app.filter.sort')}>
             <FilterOption
-              title="Sort Results By"
+              title={t('app.filter.sort_title')}
               items={OPTION_FILTER}
               onChangeFilter={(value) => onChangeFilter<'sort_by'>('sort_by', value)}
             />
           </BasicAccordion>
-          <BasicAccordion title="Where To Watch">
+          <BasicAccordion title={t('app.filter.sort_providers_title')}>
             <FilterProvider
               items={watchProviders!}
               selectProvider={selectProvider}
               providers={providers}
             />
           </BasicAccordion>
-          <BasicAccordion title="장르">
+          <BasicAccordion title={t('app.filter.genre')}>
             <FilterGenre items={movieGenre!} selectGenre={selectGenre} genres={genres} />
           </BasicAccordion>
         </div>
@@ -221,12 +222,13 @@ const MoviePage = () => {
             width="auto"
             click={() => setPage((prev) => prev + 1)}
           >
-            더 불러오기
+            {t('app.filter.load_more')}
           </Button>
         )}
       </div>
       <FilterSearchButton
         show={isShowSearchButton}
+        text={t('app.button.search')}
         click={() => {
           onChangeFilter<'with_genres'>('with_genres', genres.join(','))
           onChangeFilter<'with_watch_providers'>(

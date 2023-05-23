@@ -7,11 +7,12 @@ import '@/styles/ActorPage.scss'
 import { useCallback, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
-import { useBreakPoints, useHelper } from '@/hooks'
+import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 const ActorPage = () => {
   const { personId } = useParams()
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage, isValidImage } = useHelper()
+  const { t } = useI18nTypes()
   // http://localhost:3000/person/3857938
   const { data, isLoading } = useQuery(
     ['actor', personId],
@@ -86,13 +87,28 @@ const ActorPage = () => {
         />
         <div className="actor-explain">
           <h3>인물 정보</h3>
-          <ColumnExplain title="분야" explain={data!.known_for_department} />
-          <ColumnExplain title="참여 작품수" explain={movies!.cast.length.toString()} />
-          <ColumnExplain title="이름" explain={data!.name} />
-          <ColumnExplain title="성별" explain={data?.gender === 1 ? '여자' : '남자'} />
-          <ColumnExplain title="생일" explain={data!.birthday} />
-          <ColumnExplain title="출생지" explain={data!.place_of_birth} />
-          <ColumnExplain title="다른 명칭" explain={data!.also_known_as} />
+          <ColumnExplain
+            title={t('app.actor_detail.known_for_department')}
+            explain={data!.known_for_department}
+          />
+          <ColumnExplain
+            title={t('app.actor_detail.works_number')}
+            explain={movies!.cast.length.toString()}
+          />
+          <ColumnExplain title={t('app.actor_detail.name')} explain={data!.name} />
+          <ColumnExplain
+            title={t('app.actor_detail.gender')}
+            explain={data?.gender === 1 ? '여자' : '남자'}
+          />
+          <ColumnExplain title={t('app.actor_detail.birthday')} explain={data!.birthday} />
+          <ColumnExplain
+            title={t('app.actor_detail.place_of_birth')}
+            explain={data!.place_of_birth}
+          />
+          <ColumnExplain
+            title={t('app.actor_detail.also_known_as')}
+            explain={data!.also_known_as}
+          />
         </div>
       </div>
       <div className="actor-detail-info">
@@ -102,7 +118,7 @@ const ActorPage = () => {
             {data?.biography}
           </p>
           <div className="read-more" ref={readMore}>
-            <span onClick={onClickReadMore}>더보기 {'>'} </span>
+            <span onClick={onClickReadMore}>{t('app.actor_detail.load_more')}</span>
           </div>
         </div>
         <RenderPopularMovies />
