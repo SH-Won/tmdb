@@ -93,13 +93,18 @@ const MoviePage = () => {
     setItems([])
     setPage(1)
   }
-  const selectGenre = (e: MouseEvent<HTMLElement>, id: number) => {
-    const element = e.target as Element
-    if (element.classList.contains('selected')) {
-      element.classList.remove('selected')
+  const selectGenre = (id: number, selected: boolean) => {
+    // const element = e.target as Element
+    // if (element.classList.contains('selected')) {
+    //   element.classList.remove('selected')
+    //   setGenres((prev) => prev.filter((genreId) => genreId !== id))
+    // } else {
+    //   element.classList.add('selected')
+    //   setGenres((prev) => [...prev, id])
+    // }
+    if (selected) {
       setGenres((prev) => prev.filter((genreId) => genreId !== id))
     } else {
-      element.classList.add('selected')
       setGenres((prev) => [...prev, id])
     }
   }
@@ -185,12 +190,11 @@ const MoviePage = () => {
             <FilterProvider
               items={watchProviders!}
               selectProvider={selectProvider}
-              media={media!}
               providers={providers}
             />
           </BasicAccordion>
           <BasicAccordion title="장르">
-            <FilterGenre items={movieGenre!} selectGenre={selectGenre} media={media!} />
+            <FilterGenre items={movieGenre!} selectGenre={selectGenre} genres={genres} />
           </BasicAccordion>
         </div>
       </div>

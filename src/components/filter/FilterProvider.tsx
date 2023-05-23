@@ -5,10 +5,9 @@ interface FilterProviderProps {
   providers: number[]
   items: BaseProvider[]
   selectProvider: (id: number, selected: boolean) => void
-  media: string
 }
 
-const FilterProvider = ({ items, selectProvider, media, providers }: FilterProviderProps) => {
+const FilterProvider = ({ items, selectProvider, providers }: FilterProviderProps) => {
   const selected = Object.fromEntries(providers.map((id) => [id, true]))
 
   return (
@@ -17,7 +16,7 @@ const FilterProvider = ({ items, selectProvider, media, providers }: FilterProvi
         items.map((item) => (
           <div
             className="provider-image-wrapper"
-            key={item.provider_name + '_' + media}
+            key={item.provider_name}
             onClick={() => selectProvider(item.provider_id, selected[item.provider_id])}
             onTouchStart={() => selectProvider(item.provider_id, selected[item.provider_id])}
             onTouchEnd={(e) => e.preventDefault()}
