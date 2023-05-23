@@ -9,14 +9,14 @@ interface SearchPaginationProps {
   onClickNextPage: (pageNumber: number) => void
 }
 const SearchPagination = (props: SearchPaginationProps) => {
-  const { goDetailPage } = useHelper()
+  const { goDetailPage, isValidImage } = useHelper()
   return (
     <div>
       <div className="search-item-list">
         {props.data &&
           props.data.results.map((item) => (
             <div className="search-item" key={item.id} onClick={() => goDetailPage(item)}>
-              <img src={import.meta.env.VITE_BASE_IMAGE_URL + item.poster_path} />
+              <img src={isValidImage(item.poster_path)} />
               <div className="explain">
                 <div className="title">
                   <h2>{item.original_title ?? item.original_name}</h2>

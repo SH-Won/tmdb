@@ -1,4 +1,4 @@
-import { useBreakPoints } from '@/hooks'
+import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import { CircularProgressBar } from 'my-react-component'
 import { BaseCrew, BaseItemDetail } from 'types/interface'
 
@@ -11,6 +11,8 @@ interface Props {
 }
 const Intro = ({ item, crews }: Props) => {
   const { breakPointsClass } = useBreakPoints()
+  // const { getConvertedDate } = useHelper()
+  const { t } = useI18nTypes()
   const introStyle = {
     backgroundImage: `url(${import.meta.env.VITE_BASE_BACK_DROP_IMAGE_URL + item.backdrop_path})`,
     backgroundSize: 'cover',
@@ -32,11 +34,11 @@ const Intro = ({ item, crews }: Props) => {
         <div className="intro-info">
           <h2>
             {item.title}
-            {/* ({item.release_date.split('-')[0]}) */}
+            {/* {getConvertedDate(item.release_date ?? item.first_air_date)} */}
           </h2>
           <CircularProgressBar size={50} percent={Math.floor(item.vote_average * 10)} />
           <div className="intro-explain">
-            <h3>개요</h3>
+            <h3>{t('app.detail.information.intro_title')}</h3>
             <span>{item.overview}</span>
           </div>
           <div className="intro-crew">

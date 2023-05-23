@@ -1,5 +1,5 @@
 import '@/styles/DashBoard.scss'
-import { useBreakPoints, useHelper } from '@/hooks'
+import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import ToggleItemSection from '@/components/section/ToggleItemSection'
 import {
   TOGGLE_MOVIE_ITEM,
@@ -16,26 +16,34 @@ type ContextProps = {
   openTrailerPopup: (item: BaseItem) => void
 }
 const DashBoard = () => {
+  const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage } = useHelper()
   const { openTrailerPopup } = useOutletContext<ContextProps>()
-
   return (
     <div>
       <SearchBox />
       <div className={`dashboard ${breakPointsClass}`}>
         <ToggleItemSection
           toggleItems={TOGGLE_TRENDING_ITEMS}
-          title={'트렌딩'}
+          title={t('app.toggle.trendding')}
           click={goDetailPage}
         />
         <UpcommingItemSection
           toggleItems={TOGGLE_UPCOMMING}
-          title={'최신 예고편'}
+          title={t('app.toggle.upcomming')}
           click={openTrailerPopup}
         />
-        <ToggleItemSection toggleItems={TOGGLE_MOVIE_ITEM} title={'영화'} click={goDetailPage} />
-        <ToggleItemSection toggleItems={TOGGLE_TV_ITEM} title={'TV'} click={goDetailPage} />
+        <ToggleItemSection
+          toggleItems={TOGGLE_MOVIE_ITEM}
+          title={t('app.toggle.movie')}
+          click={goDetailPage}
+        />
+        <ToggleItemSection
+          toggleItems={TOGGLE_TV_ITEM}
+          title={t('app.toggle.tv')}
+          click={goDetailPage}
+        />
       </div>
     </div>
   )

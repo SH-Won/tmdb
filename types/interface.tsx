@@ -42,6 +42,7 @@ export interface BaseItemDetail {
   production_companies: object
   production_countries: object
   release_date: string
+  first_air_date?: string
   revenue: number
   runtime: number
   spoken_languages: object

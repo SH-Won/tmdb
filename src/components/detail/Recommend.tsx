@@ -1,17 +1,20 @@
-import { useHelper } from '@/hooks'
+import { useHelper, useI18nTypes } from '@/hooks'
 import { Notification, PosterCard } from 'my-react-component'
 import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
 
 interface RecommendProps {
   items: BaseItem[]
+  title: string
+  notification: string
 }
 
 const Recommend = ({ items }: RecommendProps) => {
   const { goDetailPage, isValidImage } = useHelper()
+  const { t } = useI18nTypes()
   return (
     <div className="list-container recommend">
-      <h3>추천</h3>
+      <h3>{t('app.detail.recommend.title')}</h3>
       {items.length ? (
         <ItemList
           items={items}
@@ -31,7 +34,7 @@ const Recommend = ({ items }: RecommendProps) => {
           )}
         />
       ) : (
-        <Notification text="추천 할만한 작품이 없어요" height="100px" />
+        <Notification text={t('app.detail.recommend.no_recommends')} height="100px" />
       )}
     </div>
   )

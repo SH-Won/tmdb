@@ -9,10 +9,11 @@ import { IMovie, ITv } from 'types/interface'
 import '@/styles/_SearchPage.scss'
 import SearchNavigation from '@/components/search/SearchNavigation'
 import SearchPagination from '@/components/search/SearchPagination'
-import { useBreakPoints } from '@/hooks'
+import { useBreakPoints, useI18nTypes } from '@/hooks'
 import { PageLoadingSpinner } from 'my-react-component'
 const SearchPage = () => {
   const { breakPointsClass } = useBreakPoints()
+  const { t } = useI18nTypes()
   const [searchParam] = useSearchParams()
   const searchQuery = searchParam.get('query')
   const language = searchParam.get('language')
@@ -65,12 +66,12 @@ const SearchPage = () => {
     return [
       {
         id: MOVIE_CATEGORY.prefix,
-        name: '영화',
+        name: t('app.navigation.movie'),
         // total: searchMovieData?.total_results,
       },
       {
         id: TV_CATEGORY.prefix,
-        name: 'TV',
+        name: t('app.navigation.tv'),
         // total: searchTvData?.total_results,
       },
     ]
@@ -99,7 +100,7 @@ const SearchPage = () => {
     <div className={`search-page ${breakPointsClass}`}>
       <SearchNavigation items={navigationItems} onSelect={setSelected} selected={selected} />
       {loading ? (
-        <PageLoadingSpinner text={'불러오는 중 입니다'} />
+        <PageLoadingSpinner text={t('app.search_page.loading_text')} />
       ) : (
         <SearchPagination
           data={currentData!}
