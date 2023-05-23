@@ -1,20 +1,21 @@
 import { IGenre } from '@/types/network/response'
-import { MouseEvent } from 'react'
 interface FilterSelectProps {
+  genres: IGenre['id'][]
   items: IGenre[]
-  selectGenre: (e: MouseEvent<HTMLElement>, id: number) => void
-  media: string
+  selectGenre: (id: number, selected: boolean) => void
 }
 
-const FilterGenre = ({ items, selectGenre, media }: FilterSelectProps) => {
+const FilterGenre = ({ items, selectGenre, genres }: FilterSelectProps) => {
   ///genre/movie/list
+  const selected = Object.fromEntries(genres.map((id) => [id, true]))
   return (
-    <div className="filter-select-container">
+    <div className="filter-genre-container">
       {items?.map((item) => (
         <span
-          key={item.name + '_' + media}
+          className={selected[item.id] ? 'selected' : ''}
+          key={item.name}
           data-id={item.id}
-          onClick={(e) => selectGenre(e, item.id)}
+          onClick={() => selectGenre(item.id, selected[item.id])}
         >
           {item.name}
         </span>

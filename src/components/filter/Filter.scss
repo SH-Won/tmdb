@@ -48,7 +48,7 @@
     // }
   }
 }
-.filter-select-container {
+.filter-genre-container {
   display: flex;
   flex-wrap: wrap;
   padding: 14px 16px 16px;
@@ -56,15 +56,24 @@
   & > span {
     padding: 4px 10px;
     @include typeface('Paragraph_2');
-    border-radius: 8px;
-    border: 1px solid color('grey_bbb');
     cursor: pointer;
+    color: color('grey_111');
+    background-color: color('white');
+    border: 1px solid color('grey_bbb');
+    border-radius: 8px;
 
-    &:hover,
     &.selected {
       color: color('white');
       background-color: color('main');
       border: 1px solid color('white');
+    }
+    @media (hover: hover) and (pointer: fine) {
+      // a:hover { color: red; }
+      &:hover {
+        color: color('white');
+        background-color: color('main');
+        border: 1px solid color('white');
+      }
     }
   }
 }
@@ -94,9 +103,17 @@
     & > .background.selected {
       @include background();
     }
-    &:hover {
-      & > .background {
-        @include background();
+    // &:hover {
+    //   & > .background {
+    //     @include background();
+    //   }
+    // }
+    @media (hover: hover) and (pointer: fine) {
+      // a:hover { color: red; }
+      &:hover {
+        & > .background {
+          @include background();
+        }
       }
     }
   }
