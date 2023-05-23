@@ -94,9 +94,17 @@
     & > .background.selected {
       @include background();
     }
-    &:hover {
-      & > .background {
-        @include background();
+    // &:hover {
+    //   & > .background {
+    //     @include background();
+    //   }
+    // }
+    @media (hover: hover) and (pointer: fine) {
+      // a:hover { color: red; }
+      &:hover {
+        & > .background {
+          @include background();
+        }
       }
     }
   }

@@ -108,13 +108,19 @@ const MoviePage = () => {
     return filter['with_genres'].split(',').map(Number)
   }, [filter, watchProviders])
 
-  const selectProvider = (e: MouseEvent<HTMLElement>, id: number) => {
-    const element = e.target as Element
-    if (element.classList.contains('selected')) {
-      element.classList.remove('selected')
+  const selectProvider = (id: number, selected: boolean) => {
+    // if (!element.classList.contains('background')) return
+    // if (element.classList.contains('selected')) {
+    //   element.classList.remove('selected')
+    //   setProviders((prev) => prev.filter((providerId) => providerId !== id))
+    // } else {
+    //   element.classList.add('selected')
+    //   setProviders((prev) => [...prev, id])
+    // }
+
+    if (selected) {
       setProviders((prev) => prev.filter((providerId) => providerId !== id))
     } else {
-      element.classList.add('selected')
       setProviders((prev) => [...prev, id])
     }
   }
@@ -180,6 +186,7 @@ const MoviePage = () => {
               items={watchProviders!}
               selectProvider={selectProvider}
               media={media!}
+              providers={providers}
             />
           </BasicAccordion>
           <BasicAccordion title="장르">
