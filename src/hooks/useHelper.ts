@@ -27,6 +27,7 @@ const useHelper = () => {
 
   return {
     goDetailPage,
+    goSearchPage,
     goActorPage,
     isValidImage,
     getConvertedDate,

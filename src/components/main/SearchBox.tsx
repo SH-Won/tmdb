@@ -1,25 +1,21 @@
+import { useHelper } from '@/hooks'
 import { useEventListener } from '@/hooks/useEventListener'
 import { useI18nTypes } from '@/hooks/useI18nTypes'
 import { useSearch } from '@/hooks/useSearch'
 import { Button, Colors, Element } from 'my-react-component'
-import React, { useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useCallback } from 'react'
 import InputBox from '../search/InputBox'
 import './SearchBox.scss'
 
 // mainPage 인 DashBoard.tsx 의 최상단에서 search 를 하는 컴포넌트인데, 컴포넌트 네이밍이 뭔가 이상하지만
 // 일단 SearchBox 로 하고 추후에 더좋은 네이밍으로 변경해야 한다.
 const SearchBox = () => {
-  const navigate = useNavigate()
   const { t } = useI18nTypes()
   const { searchText, onChangeText } = useSearch()
-  const goSearchPage = useCallback(() => {
-    if (searchText === '') return
-    navigate(`/search?language=ko&query=${searchText}`)
-  }, [searchText])
+  const { goSearchPage } = useHelper()
 
   useEventListener({
-    confirm: goSearchPage,
+    confirm: useCallback(() => goSearchPage(searchText), [searchText]),
   })
   return (
     <div className="search-box">
@@ -35,7 +31,12 @@ const SearchBox = () => {
         >
           <Element name="Search" size="small" color={Colors.grey_bbb} />
         </InputBox>
-        <Button fontColor={Colors.white} color={Colors.main} width="50px" click={goSearchPage}>
+        <Button
+          fontColor={Colors.white}
+          color={Colors.main}
+          width="50px"
+          click={() => goSearchPage(searchText)}
+        >
           {t('app.search.button')}
         </Button>
       </div>
