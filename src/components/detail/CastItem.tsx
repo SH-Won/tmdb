@@ -8,8 +8,12 @@ interface Props {
 const CastItem = ({ item, click }: Props) => {
   const { isValidImage } = useHelper()
   return (
-    <div key={item.id} className="cast-item-container" onClick={() => click(item.id)}>
-      <RatioCardImage imageUrl={isValidImage(item.profile_path)} ratio={1.3} />
+    <div key={item.id} className="cast-item-container">
+      <RatioCardImage
+        imageUrl={isValidImage(item.profile_path)}
+        ratio={1.3}
+        click={() => click(item.id)}
+      />
       <div className="cast-info">
         <span>{item.name}</span>
         <span>{item.character}</span>

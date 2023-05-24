@@ -1,4 +1,5 @@
 import { ItemType } from '@/const/toggleBar'
+import { useHelper } from '@/hooks'
 import BackEnd from '@/networks'
 import { MovieResponse } from '@/types/network/response'
 import { PosterCard } from 'my-react-component'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
+  const { isValidImage } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
     [selectedItem.id, 1],
@@ -30,10 +32,10 @@ const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
       enabled: !!selectedItem,
     }
   )
-  const isValidImage = (imagePath: string) => {
-    if (!imagePath) return '/noImage.svg'
-    return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
-  }
+  // const isValidImage = (imagePath: string) => {
+  //   if (!imagePath) return '/noImage.svg'
+  //   return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
+  // }
   const getBackGroundImageUrl = (backdropPath: string) => {
     return `url(${import.meta.env.VITE_BASE_IMAGE_URL + backdropPath})`
   }
@@ -64,12 +66,9 @@ const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
             className="item-list upcomming"
             items={data!.results}
             renderItem={(item) => (
-              <div
-                key={item.id}
-                onClick={() => click(item)}
-                onMouseEnter={(e) => onMouseEnter(item)}
-              >
+              <div key={item.id} onMouseEnter={(e) => onMouseEnter(item)}>
                 <PosterCard
+                  click={() => click(item)}
                   imageUrl={isValidImage(item.backdrop_path)}
                   ratio={0.564}
                   title={item.title ?? item.name}

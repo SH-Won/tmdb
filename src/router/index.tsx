@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from '@/app'
-import DashBoard from '@/views/DashBoard'
+import LandingPage from '@/views/LandingPage'
 import DetailPage from '@/views/DetailPage'
 import SearchPage from '@/views/SearchPage'
 import ActorPage from '@/views/ActorPage'
@@ -17,7 +17,7 @@ export const router = createBrowserRouter(
       children: [
         {
           path: '/',
-          element: <DashBoard />,
+          element: <LandingPage />,
         },
         {
           path: '/:media_type/:id',

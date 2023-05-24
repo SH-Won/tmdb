@@ -68,8 +68,12 @@ const ActorPage = () => {
           className="item-list appearance"
           items={sortMovies}
           renderItem={(item) => (
-            <div key={item.id + item.popularity} onClick={() => goDetailPage(item)}>
-              <RatioCardImage imageUrl={isValidImage(item.backdrop_path)} ratio={1.5} />
+            <div key={item.id + item.popularity}>
+              <RatioCardImage
+                imageUrl={isValidImage(item.backdrop_path)}
+                ratio={1.5}
+                click={() => goDetailPage(item)}
+              />
               <div>{item.title ?? item.name}</div>
             </div>
           )}

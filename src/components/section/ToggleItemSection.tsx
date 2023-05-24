@@ -47,10 +47,11 @@ const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
             className="item-list"
             items={data!.results}
             renderItem={(item) => (
-              <div key={item.id} onClick={() => click(item)}>
+              <div key={item.id}>
                 <PosterCard
                   imageUrl={isValidImage(item.poster_path)}
                   ratio={1.5}
+                  click={() => click(item)}
                   title={item.title ?? item.name}
                   voteAverage={Math.floor(item.vote_average * 10)}
                   releaseDate={getConvertedDate(item.release_date ?? item.first_air_date)}

@@ -15,7 +15,7 @@ import { useOutletContext } from 'react-router-dom'
 type ContextProps = {
   openTrailerPopup: (item: BaseItem) => void
 }
-const DashBoard = () => {
+const LandingPage = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage } = useHelper()
@@ -49,4 +49,4 @@ const DashBoard = () => {
   )
 }
 
-export default DashBoard
+export default LandingPage

@@ -188,8 +188,9 @@ const MoviePage = () => {
           className="item-grid"
           items={items}
           renderItem={(item) => (
-            <div className="movie-item-container" key={item.id} onClick={() => goDetailPage(item)}>
+            <div className="movie-item-container" key={item.id}>
               <PosterCard
+                click={() => goDetailPage(item)}
                 ratio={1.5}
                 imageUrl={isValidImage(item.poster_path)}
                 title={item.title ?? item.name}

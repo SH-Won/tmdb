@@ -21,12 +21,9 @@ const Recommend = ({ items }: RecommendProps) => {
             className="item-list recommend"
             items={items}
             renderItem={(item) => (
-              <div
-                className="recommend-item-container"
-                key={item.id}
-                onClick={() => goDetailPage(item)}
-              >
+              <div className="recommend-item-container" key={item.id}>
                 <PosterCard
+                  click={() => goDetailPage(item)}
                   imageUrl={isValidImage(item.backdrop_path)}
                   ratio={0.564}
                   voteAverage={Math.floor(item.vote_average * 10)}
