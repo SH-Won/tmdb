@@ -5,11 +5,12 @@ interface Props<T> {
   click?: (item: T) => void
   items: T[]
   renderItem: (item: T) => React.ReactElement
+  className?: string
 }
 
-const ItemList = <T,>({ items, click, renderItem }: Props<T>) => {
+const ItemList = <T,>({ items, click, renderItem, className }: Props<T>) => {
   const RenderList = useCallback(() => {
-    return <Transition className="item-list">{items.map((item) => renderItem(item))}</Transition>
+    return <Transition className={className}>{items.map((item) => renderItem(item))}</Transition>
   }, [items])
   return <RenderList />
 }

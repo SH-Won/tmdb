@@ -59,19 +59,26 @@ const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
       {isLoading ? (
         <SkeletonItemList ratio={0.564} />
       ) : (
-        <ItemList
-          items={data!.results}
-          renderItem={(item) => (
-            <div key={item.id} onClick={() => click(item)} onMouseEnter={(e) => onMouseEnter(item)}>
-              <PosterCard
-                imageUrl={isValidImage(item.backdrop_path)}
-                ratio={0.564}
-                title={item.title ?? item.name}
-                voteAverage={Math.floor(item.vote_average * 10)}
-              />
-            </div>
-          )}
-        />
+        <div className="item-container">
+          <ItemList
+            className="item-list upcomming"
+            items={data!.results}
+            renderItem={(item) => (
+              <div
+                key={item.id}
+                onClick={() => click(item)}
+                onMouseEnter={(e) => onMouseEnter(item)}
+              >
+                <PosterCard
+                  imageUrl={isValidImage(item.backdrop_path)}
+                  ratio={0.564}
+                  title={item.title ?? item.name}
+                  voteAverage={Math.floor(item.vote_average * 10)}
+                />
+              </div>
+            )}
+          />
+        </div>
       )}
     </div>
   )

@@ -2,9 +2,8 @@ import { useHelper } from '@/hooks'
 import { useEventListener } from '@/hooks/useEventListener'
 import { useI18nTypes } from '@/hooks/useI18nTypes'
 import { useSearch } from '@/hooks/useSearch'
-import { Button, Colors, Element } from 'my-react-component'
+import { Button, Colors, Element, InputBox } from 'my-react-component'
 import { useCallback } from 'react'
-import InputBox from '../search/InputBox'
 import './SearchBox.scss'
 
 // mainPage 인 DashBoard.tsx 의 최상단에서 search 를 하는 컴포넌트인데, 컴포넌트 네이밍이 뭔가 이상하지만

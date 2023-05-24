@@ -42,20 +42,23 @@ const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
       {isLoading ? (
         <SkeletonItemList ratio={1.5} />
       ) : (
-        <ItemList<BaseItem>
-          items={data!.results}
-          renderItem={(item) => (
-            <div key={item.id} onClick={() => click(item)}>
-              <PosterCard
-                imageUrl={isValidImage(item.poster_path)}
-                ratio={1.5}
-                title={item.title ?? item.name}
-                voteAverage={Math.floor(item.vote_average * 10)}
-                releaseDate={getConvertedDate(item.release_date ?? item.first_air_date)}
-              />
-            </div>
-          )}
-        />
+        <div className="item-container">
+          <ItemList<BaseItem>
+            className="item-list"
+            items={data!.results}
+            renderItem={(item) => (
+              <div key={item.id} onClick={() => click(item)}>
+                <PosterCard
+                  imageUrl={isValidImage(item.poster_path)}
+                  ratio={1.5}
+                  title={item.title ?? item.name}
+                  voteAverage={Math.floor(item.vote_average * 10)}
+                  releaseDate={getConvertedDate(item.release_date ?? item.first_air_date)}
+                />
+              </div>
+            )}
+          />
+        </div>
       )}
     </div>
   )

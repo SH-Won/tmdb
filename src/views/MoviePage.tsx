@@ -13,6 +13,7 @@ import FilterGenre from '@/components/filter/FilterGenre'
 import FilterSearchButton from '@/components/filter/FilterSearchButton'
 import { type Media, queryMapper as mapper } from '@/const/overall'
 import FilterProvider from '@/components/filter/FilterProvider'
+import ItemList from '@/components/common/ItemList'
 
 // const convertedUserSelectItems = (items: { [key: number]: boolean }) => {
 //   return Object.entries(items)
@@ -95,14 +96,6 @@ const MoviePage = () => {
     setPage(1)
   }
   const selectGenre = (id: number, selected: boolean) => {
-    // const element = e.target as Element
-    // if (element.classList.contains('selected')) {
-    //   element.classList.remove('selected')
-    //   setGenres((prev) => prev.filter((genreId) => genreId !== id))
-    // } else {
-    //   element.classList.add('selected')
-    //   setGenres((prev) => [...prev, id])
-    // }
     if (selected) {
       setGenres((prev) => prev.filter((genreId) => genreId !== id))
     } else {
@@ -115,15 +108,6 @@ const MoviePage = () => {
   }, [filter, watchProviders])
 
   const selectProvider = (id: number, selected: boolean) => {
-    // if (!element.classList.contains('background')) return
-    // if (element.classList.contains('selected')) {
-    //   element.classList.remove('selected')
-    //   setProviders((prev) => prev.filter((providerId) => providerId !== id))
-    // } else {
-    //   element.classList.add('selected')
-    //   setProviders((prev) => [...prev, id])
-    // }
-
     if (selected) {
       setProviders((prev) => prev.filter((providerId) => providerId !== id))
     } else {
@@ -200,8 +184,10 @@ const MoviePage = () => {
         </div>
       </div>
       <div className="movie-item-container">
-        <div className="item-grid">
-          {items.map((item) => (
+        <ItemList
+          className="item-grid"
+          items={items}
+          renderItem={(item) => (
             <div className="movie-item-container" key={item.id} onClick={() => goDetailPage(item)}>
               <PosterCard
                 ratio={1.5}
@@ -211,8 +197,8 @@ const MoviePage = () => {
                 releaseDate={getConvertedDate(item.release_date ?? item.first_air_date)}
               />
             </div>
-          ))}
-        </div>
+          )}
+        />
         {providerLoading || isLoading ? (
           <PageLoadingSpinner customHeight="100px" />
         ) : (

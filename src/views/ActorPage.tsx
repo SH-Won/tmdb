@@ -63,8 +63,9 @@ const ActorPage = () => {
 
   const RenderPopularMovies = useCallback(() => {
     return (
-      <div className="list-container appearance">
+      <div className="appearance-container">
         <ItemList
+          className="item-list appearance"
           items={sortMovies}
           renderItem={(item) => (
             <div key={item.id + item.popularity} onClick={() => goDetailPage(item)}>
