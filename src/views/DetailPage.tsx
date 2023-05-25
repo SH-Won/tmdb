@@ -10,10 +10,10 @@ import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
-import { LoadingSpinner, RatioCardImage } from 'my-react-component'
+import { LoadingSpinner, RatioCardImage, BasicCarousel, AutoCarousel } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
-import Carousel from 'my-react-component/src/components/carousel/Carousel'
+
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { media_type, id } = useParams()
@@ -105,8 +105,7 @@ const DetailPage = () => {
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
-  console.log(item)
-  console.log(images)
+
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
@@ -122,16 +121,21 @@ const DetailPage = () => {
             title={t('app.detail.recommend.title')}
             notification={t('app.detail.recommend.no_recommends')}
           />
-          <Carousel
-            items={images ? images?.slice(1, 10) : []}
-            renderItems={(item, index) => (
-              <RatioCardImage
-                key={index}
-                ratio={1 / item.aspect_ratio}
-                imageUrl={isValidImage(item.file_path)}
-              />
-            )}
-          />
+          <div style={{ padding: '20px' }}>
+            <h3>{t('app.detail.image.background')}</h3>
+            <AutoCarousel
+              time={2000}
+              items={images ? images?.slice(1, 10) : []}
+              renderItems={(item, index) => (
+                <RatioCardImage
+                  key={index}
+                  ratio={1 / item.aspect_ratio}
+                  eager={true}
+                  imageUrl={isValidImage(item.file_path)}
+                />
+              )}
+            />
+          </div>
         </div>
         <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>

@@ -37,6 +37,9 @@
       "recommend": {
         "title": "추천",
         "no_recommends": "추천 할만한 작품이 없어요"
+      },
+      "image": {
+        "background": "배경"
       }
     },
     "input": {

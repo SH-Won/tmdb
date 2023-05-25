@@ -15,8 +15,8 @@ const SearchPagination = (props: SearchPaginationProps) => {
       <div className="search-item-list">
         {props.data &&
           props.data.results.map((item) => (
-            <div className="search-item" key={item.id} onClick={() => goDetailPage(item)}>
-              <img src={isValidImage(item.poster_path)} />
+            <div className="search-item" key={item.id}>
+              <img src={isValidImage(item.poster_path)} onClick={() => goDetailPage(item)} />
               <div className="explain">
                 <div className="title">
                   <h2>{item.original_title ?? item.original_name}</h2>
