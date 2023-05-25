@@ -37,8 +37,12 @@ const PersonPage = () => {
         <>
           <Transition className="person-container">
             {data!.results.map((item) => (
-              <div className="person-item" key={item.id} onClick={() => goActorPage(item.id)}>
-                <RatioCardImage imageUrl={isValidImage(item.profile_path)} ratio={1.2} />
+              <div className="person-item" key={item.id}>
+                <RatioCardImage
+                  imageUrl={isValidImage(item.profile_path)}
+                  ratio={1.2}
+                  click={() => goActorPage(item.id)}
+                />
                 <div className="person-item-explain">
                   <ColumnExplain
                     title={item.name}

@@ -1,9 +1,8 @@
 import { useBreakPoints, useI18nTypes } from '@/hooks'
 import { useSearch } from '@/hooks/useSearch'
-import { Button, Colors, Element } from 'my-react-component'
+import { Button, Colors, Element, InputBox } from 'my-react-component'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import InputBox from '../search/InputBox'
 
 interface HeaderSearchBox {
   isNotDashBoardPage: boolean

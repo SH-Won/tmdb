@@ -1,5 +1,5 @@
 import { BasicBottomButtons as BBB } from '@/components/common/BasicBottomButtons'
-import InputBox from '@/components/search/InputBox'
+import { InputBox } from 'my-react-component'
 import { useSearch } from '@/hooks'
 import { PopupComponentProps } from '@/types/popup/RouterTypes'
 import React from 'react'

@@ -48,24 +48,24 @@
     padding: 20px;
   }
 }
-
 .item-list {
   z-index: 1;
-  @include responsiveFlexList(125px, 150px, 175px);
-  .upcomming & {
+  @include responsiveFlexList(125px, 150px, 150px);
+  // @include responsiveFlexList(30%, 25%, 20%);
+  &.upcomming {
     @include responsiveFlexList(200px, 250px, 300px, true);
-    padding: 20px 0px 60px 40px;
+    padding: 20px 40px 60px 40px;
   }
-  .recommend & {
+  &.recommend {
     @include responsiveFlexList(175px, 200px, 250px);
   }
-  .cast & {
+  &.cast {
     padding: 16px;
   }
-  .appearance & {
+  &.appearance {
     padding: 16px;
   }
-  padding: 20px 0px 20px 40px;
+  padding: 20px 40px;
   &.loading {
     & > div {
       background-color: color('main_sub');

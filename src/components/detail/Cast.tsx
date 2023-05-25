@@ -14,13 +14,16 @@ interface Props {
 const Cast = ({ casts, title, notification }: Props) => {
   const { goActorPage } = useHelper()
   return (
-    <div className="cast-container cast">
+    <div className="list-container-right-fade">
       <h3 style={{ margin: 0 }}>주요 출연진</h3>
       {casts.length ? (
-        <ItemList
-          items={casts}
-          renderItem={(item) => <CastItem item={item} click={goActorPage} key={item.id} />}
-        />
+        <div className="item-container">
+          <ItemList
+            className="item-list cast"
+            items={casts}
+            renderItem={(item) => <CastItem item={item} click={goActorPage} key={item.id} />}
+          />
+        </div>
       ) : (
         <Notification text="배우 정보가 없어요" height="100px" />
       )}

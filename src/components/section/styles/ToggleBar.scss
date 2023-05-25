@@ -8,10 +8,10 @@
   background-color: color('white');
   align-items: center;
   margin-left: 15px;
-  gap: 10px;
+  // gap: 10px;
   & > .toggle-item {
     box-sizing: border-box;
-    padding: 10px 20px;
+    padding: 4px 20px;
     border-radius: 20px;
     z-index: 100;
     color: color('grey_111');
