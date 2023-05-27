@@ -7,7 +7,7 @@ import { useQuery } from 'react-query'
 import { BasePopularPerson } from 'types/interface'
 import '@/styles/PersonPage.scss'
 import ColumnExplain from '@/components/common/ColumnExplain'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PaginationNumbers from '@/components/search/PaginationNumbers'
 
 const PersonPage = () => {
@@ -29,6 +29,9 @@ const PersonPage = () => {
       enabled: !!page,
     }
   )
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [page])
   return (
     <div className="person-page">
       {isLoading ? (
