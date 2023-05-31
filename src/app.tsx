@@ -35,7 +35,7 @@ const App = () => {
     } else {
       navigate(-1)
     }
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
   }
 
   const logout = async () => {
@@ -48,6 +48,10 @@ const App = () => {
       toastInstance.keepLogin()
     }
   }, [toastInstance])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
