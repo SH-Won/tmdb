@@ -1,7 +1,14 @@
 import { useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { CommonResponse, GenreResponse, IGenre, MovieResponse } from '@/types/network/response'
-import { BasicAccordion, Button, Colors, PageLoadingSpinner, PosterCard } from 'my-react-component'
+import {
+  BasicAccordion,
+  Button,
+  Colors,
+  PageLoadingSpinner,
+  PosterCard,
+  SettingBar,
+} from 'my-react-component'
 import { useEffect, useMemo, useState, MouseEvent } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -28,6 +35,9 @@ const MoviePage = () => {
   const [page, setPage] = useState(1)
   const [genres, setGenres] = useState<IGenre['id'][]>([])
   const [providers, setProviders] = useState<BaseProvider['provider_id'][]>([])
+  const [voteAverage, setVoteAverage] = useState<number>(
+    mapper[media!][category!]['vote_average.gte']
+  )
   const [filter, setFilter] = useState({
     ...mapper[media!][category!],
   })
@@ -114,6 +124,10 @@ const MoviePage = () => {
       setProviders((prev) => [...prev, id])
     }
   }
+  const selectVoteAverage = (item: { key: string; value: number; order: number }) => {
+    // console.log(item)
+    setVoteAverage(item.value)
+  }
   const prevProviders = useMemo<BaseProvider['provider_id'][]>(() => {
     if (!watchProviders || !filter['with_watch_providers']) return []
     const filterProviders = filter['with_watch_providers'].split('|')
@@ -134,11 +148,17 @@ const MoviePage = () => {
       (!isUserAlreadySelect && prevProviders.length !== 0)
     )
   }, [providers, prevProviders])
+  const prevVoteAverage = useMemo<number>(() => {
+    return voteAverage
+  }, [filter])
+
+  const isVoteAverageChange = useMemo<boolean>(() => {
+    return prevVoteAverage !== voteAverage
+  }, [voteAverage, prevVoteAverage])
 
   const isShowSearchButton = useMemo<boolean>(() => {
-    return isGenreChange || isProviderChange
-  }, [isGenreChange, isProviderChange])
-
+    return isGenreChange || isProviderChange || isVoteAverageChange
+  }, [isGenreChange, isProviderChange, isVoteAverageChange])
   useEffect(() => {
     if (data) {
       if (page === 1) {
@@ -151,15 +171,19 @@ const MoviePage = () => {
 
   useEffect(() => {
     if (!watchProviders) return
+    console.log('page useEffect')
+    console.log(mapper[media!][category!])
     setFilter(() => ({
       ...mapper[media!][category!],
       with_watch_providers: watchProviders.map((provider) => provider.provider_id).join('|'),
       watch_region: 'KR',
     }))
     setPage(1)
-    setProviders([])
-    setGenres([])
+    setProviders((prev) => [])
+    setGenres((prev) => [])
+    setVoteAverage((prev) => mapper[media!][category!]['vote_average.gte'])
   }, [category, media, watchProviders])
+  console.log('vote average', voteAverage)
   return (
     <div className="movie-page">
       <div className="filter-total-container">
@@ -180,6 +204,15 @@ const MoviePage = () => {
           </BasicAccordion>
           <BasicAccordion title={t('app.filter.genre')}>
             <FilterGenre items={movieGenre!} selectGenre={selectGenre} genres={genres} />
+          </BasicAccordion>
+          <BasicAccordion title="평점">
+            <SettingBar
+              width={236}
+              initialCount={voteAverage}
+              magnification={1}
+              count={10}
+              onSelect={selectVoteAverage}
+            />
           </BasicAccordion>
         </div>
       </div>
@@ -224,6 +257,7 @@ const MoviePage = () => {
               ? watchProviders!.map((provider) => provider.provider_id).join('|')
               : providers.join('|')
           )
+          onChangeFilter<'vote_average.gte'>('vote_average.gte', voteAverage)
         }}
       />
     </div>
