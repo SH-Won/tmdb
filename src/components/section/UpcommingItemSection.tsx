@@ -1,14 +1,13 @@
 import { ItemType } from '@/const/toggleBar'
-import { useHelper } from '@/hooks'
+import { useBreakPoints, useHelper } from '@/hooks'
 import BackEnd from '@/networks'
 import { MovieResponse } from '@/types/network/response'
-import { PosterCard } from 'my-react-component'
+import { PosterCard, ToggleBar } from 'my-react-component'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
 import SkeletonItemList from './SkeletonItemList'
-import ToggleBar from './ToggleBar'
 interface Props {
   title: string
   toggleItems: ItemType[]
@@ -16,13 +15,14 @@ interface Props {
 }
 
 const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
+  const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
   const { data, isLoading } = useQuery(
     [selectedItem.id, 1],
     async () => {
       const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
-        url: selectedItem?.url,
+        url: selectedItem?.value,
         page: 1,
       })
       return response
@@ -55,7 +55,7 @@ const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
       <div className="background"></div>
       <div className="header">
         <h2>{title}</h2>
-        <ToggleBar items={toggleItems} onSelect={setSelectedItem} />
+        <ToggleBar items={toggleItems} onSelect={setSelectedItem} screen={breakPointsClass} />
       </div>
 
       {isLoading ? (

@@ -1,7 +1,7 @@
 import { useHelper } from '@/hooks'
 import { MovieResponse } from '@/types/network/response'
+import { PaginationNumbers } from 'my-react-component'
 import { BaseItem } from 'types/interface'
-import PaginationNumbers from './PaginationNumbers'
 
 interface SearchPaginationProps {
   data: MovieResponse<BaseItem[]>

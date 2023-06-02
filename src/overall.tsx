@@ -26,7 +26,7 @@ const Overall = () => {
     }
     // window.scrollTo(0, 0)
   }
-  useLayoutEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0)
   }, [location.pathname])
   return (

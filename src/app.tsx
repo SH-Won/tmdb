@@ -35,7 +35,6 @@ const App = () => {
     } else {
       navigate(-1)
     }
-    // window.scrollTo(0, 0)
   }
 
   const logout = async () => {

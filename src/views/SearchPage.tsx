@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 import { IMovie, ITv } from 'types/interface'
-import '@/styles/_SearchPage.scss'
+import '@/styles/SearchPage.scss'
 import SearchNavigation from '@/components/search/SearchNavigation'
 import SearchPagination from '@/components/search/SearchPagination'
 import { useBreakPoints, useI18nTypes } from '@/hooks'
@@ -67,12 +67,10 @@ const SearchPage = () => {
       {
         id: MOVIE_CATEGORY.prefix,
         name: t('app.navigation.movie'),
-        // total: searchMovieData?.total_results,
       },
       {
         id: TV_CATEGORY.prefix,
         name: t('app.navigation.tv'),
-        // total: searchTvData?.total_results,
       },
     ]
   }, [])
