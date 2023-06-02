@@ -21,9 +21,7 @@ const HeaderItem = ({ items, click, title }: HeaderItemProps) => {
       onMouseLeave={() => setOpen(false)}
     >
       <span className="title">{title}</span>
-      {/* {open && <OptionItemList items={items} click={click} />} */}
       <div style={{ position: 'absolute', width: '90px', top: '100%' }}>
-        {/* <OptionItemList items={items} click={click} open={open} /> */}
         <OptionList items={items} click={click} open={open} itemSize="small" />
       </div>
     </div>

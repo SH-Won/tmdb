@@ -203,9 +203,20 @@ const MoviePage = () => {
             />
           </BasicAccordion>
           <BasicAccordion title={t('app.filter.genre')}>
-            <FilterGenre items={movieGenre!} selectGenre={selectGenre} genres={genres} />
+            <div>
+              <span className="setting-title">장르</span>
+              <FilterGenre items={movieGenre!} selectGenre={selectGenre} genres={genres} />
+              <span className="setting-title">평점</span>
+              <SettingBar
+                width={236}
+                initialCount={voteAverage}
+                magnification={1}
+                count={10}
+                onSelect={selectVoteAverage}
+              />
+            </div>
           </BasicAccordion>
-          <BasicAccordion title="평점">
+          {/* <BasicAccordion title="평점">
             <SettingBar
               width={236}
               initialCount={voteAverage}
@@ -213,7 +224,7 @@ const MoviePage = () => {
               count={10}
               onSelect={selectVoteAverage}
             />
-          </BasicAccordion>
+          </BasicAccordion> */}
         </div>
       </div>
       <div className="movie-item-container">

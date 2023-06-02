@@ -14,8 +14,13 @@
   & > .filter-total-container {
     position: relative;
     width: 100%;
-    & > .sort-filter {
+    > .sort-filter {
       @include flexColumnCenterPaddingGap(16px, 16px);
+      .setting-title {
+        @include typeface('Paragraph_1_sb');
+        color: color('grey_666');
+        padding-left: 16px;
+      }
     }
   }
   & > .movie-item-container {

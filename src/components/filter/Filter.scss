@@ -1,18 +1,5 @@
 @import 'my-react-component/src/styles/typeface.module.scss';
 @import 'my-react-component/src/styles/colors.module.scss';
-@mixin background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/check.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgb(100, 64, 221, 0.8);
-  border-radius: 8px;
-}
-
 .option-container {
   display: flex;
   flex-direction: column;
@@ -28,29 +15,6 @@
   flex-wrap: wrap;
   padding: 14px 16px 16px;
   gap: 10px;
-  & > span {
-    padding: 4px 10px;
-    @include typeface('Paragraph_2');
-    cursor: pointer;
-    color: color('grey_111');
-    background-color: color('white');
-    border: 1px solid color('grey_bbb');
-    border-radius: 8px;
-
-    &.selected {
-      color: color('white');
-      background-color: color('main');
-      border: 1px solid color('white');
-    }
-    @media (hover: hover) and (pointer: fine) {
-      // a:hover { color: red; }
-      &:hover {
-        color: color('white');
-        background-color: color('main');
-        border: 1px solid color('white');
-      }
-    }
-  }
 }
 .filter-provider-container {
   padding: 14px 16px 16px;
@@ -65,31 +29,6 @@
     & {
       gap: 8x;
       grid-template-columns: repeat(6, 1fr);
-    }
-  }
-  & > .provider-image-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    & > img {
-      border-radius: 8px;
-      width: 100%;
-    }
-    & > .background.selected {
-      @include background();
-    }
-    // &:hover {
-    //   & > .background {
-    //     @include background();
-    //   }
-    // }
-    @media (hover: hover) and (pointer: fine) {
-      // a:hover { color: red; }
-      &:hover {
-        & > .background {
-          @include background();
-        }
-      }
     }
   }
 }

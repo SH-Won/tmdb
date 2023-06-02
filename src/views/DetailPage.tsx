@@ -105,7 +105,7 @@ const DetailPage = () => {
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
-
+  console.log(images)
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
@@ -125,7 +125,23 @@ const DetailPage = () => {
             <h3>{t('app.detail.image.background')}</h3>
             <AutoCarousel<RelativeImageResponse['backdrops'][0]>
               time={2000}
-              items={images && images.length >= 2 ? images!.slice(1, 10) : images!.slice(0)}
+              items={
+                images && images.length >= 2
+                  ? images!.slice(1, 10)
+                  : images!.length === 0
+                  ? [
+                      {
+                        file_path: item!.backdrop_path,
+                        aspect_ratio: 1.576,
+                        height: 0,
+                        iso_639_1: '',
+                        vote_average: 0,
+                        vote_count: 0,
+                        width: 0,
+                      },
+                    ]
+                  : images!.slice(0)
+              }
               renderItems={(item, index) => (
                 <RatioCardImage
                   key={index}
