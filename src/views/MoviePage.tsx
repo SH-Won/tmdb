@@ -41,6 +41,7 @@ const MoviePage = () => {
   const [filter, setFilter] = useState({
     ...mapper[media!][category!],
   })
+  const [voteCount, setVoteCount] = useState<number>(mapper[media!][category!]['vote_count.gte'])
   const query = Object.entries(filter)
     .map(([key, value]) => {
       if (!value) return ''
@@ -128,6 +129,9 @@ const MoviePage = () => {
     // console.log(item)
     setVoteAverage(item.value)
   }
+  const selectVoteCount = (item: { key: string; value: number; order: number }) => {
+    setVoteCount(item.value)
+  }
   const prevProviders = useMemo<BaseProvider['provider_id'][]>(() => {
     if (!watchProviders || !filter['with_watch_providers']) return []
     const filterProviders = filter['with_watch_providers'].split('|')
@@ -151,14 +155,20 @@ const MoviePage = () => {
   const prevVoteAverage = useMemo<number>(() => {
     return voteAverage
   }, [filter])
+  const prevVoteCount = useMemo<number>(() => {
+    return voteCount
+  }, [filter])
 
   const isVoteAverageChange = useMemo<boolean>(() => {
     return prevVoteAverage !== voteAverage
   }, [voteAverage, prevVoteAverage])
+  const isVoteCountChnage = useMemo<boolean>(() => {
+    return prevVoteCount !== voteCount
+  }, [voteCount, prevVoteCount])
 
   const isShowSearchButton = useMemo<boolean>(() => {
-    return isGenreChange || isProviderChange || isVoteAverageChange
-  }, [isGenreChange, isProviderChange, isVoteAverageChange])
+    return isGenreChange || isProviderChange || isVoteAverageChange || isVoteCountChnage
+  }, [isGenreChange, isProviderChange, isVoteAverageChange, isVoteCountChnage])
   useEffect(() => {
     if (data) {
       if (page === 1) {
@@ -180,6 +190,7 @@ const MoviePage = () => {
     setProviders((prev) => [])
     setGenres((prev) => [])
     setVoteAverage((prev) => mapper[media!][category!]['vote_average.gte'])
+    setVoteCount((prev) => mapper[media!][category!]['vote_count.gte'])
   }, [category, media, watchProviders])
   return (
     <div className="movie-page">
@@ -210,6 +221,14 @@ const MoviePage = () => {
                 magnification={1}
                 count={10}
                 onSelect={selectVoteAverage}
+              />
+              <span className="setting-title">평점</span>
+              <SettingBar
+                width={236}
+                initialCount={voteCount / 100}
+                magnification={100}
+                count={10}
+                onSelect={selectVoteCount}
               />
             </div>
           </BasicAccordion>
@@ -257,6 +276,7 @@ const MoviePage = () => {
               : providers.join('|')
           )
           onChangeFilter<'vote_average.gte'>('vote_average.gte', voteAverage)
+          onChangeFilter<'vote_count.gte'>('vote_count.gte', voteCount)
         }}
       />
     </div>
