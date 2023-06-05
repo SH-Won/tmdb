@@ -171,8 +171,6 @@ const MoviePage = () => {
 
   useEffect(() => {
     if (!watchProviders) return
-    console.log('page useEffect')
-    console.log(mapper[media!][category!])
     setFilter(() => ({
       ...mapper[media!][category!],
       with_watch_providers: watchProviders.map((provider) => provider.provider_id).join('|'),
@@ -183,7 +181,6 @@ const MoviePage = () => {
     setGenres((prev) => [])
     setVoteAverage((prev) => mapper[media!][category!]['vote_average.gte'])
   }, [category, media, watchProviders])
-  console.log('vote average', voteAverage)
   return (
     <div className="movie-page">
       <div className="filter-total-container">
@@ -216,15 +213,6 @@ const MoviePage = () => {
               />
             </div>
           </BasicAccordion>
-          {/* <BasicAccordion title="평점">
-            <SettingBar
-              width={236}
-              initialCount={voteAverage}
-              magnification={1}
-              count={10}
-              onSelect={selectVoteAverage}
-            />
-          </BasicAccordion> */}
         </div>
       </div>
       <div className="movie-item-container">

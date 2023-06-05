@@ -11,7 +11,6 @@ interface ToastItemProps {
   isStartAnimation: boolean
   deleteItem: (id: ToastItem['id']) => void
 }
-// export let toast: ToastController = new ToastController(null)
 const ToastItemComponent = ({ deleteItem, item, isStartAnimation }: ToastItemProps) => {
   const duration = 3000
 

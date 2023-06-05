@@ -4,7 +4,13 @@ import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { BaseCrew, BaseItem, BaseItemDetail, RelativeImageResponse } from 'types/interface'
+import {
+  BaseCrew,
+  BaseItem,
+  BaseItemDetail,
+  BasicImage,
+  RelativeImageResponse,
+} from 'types/interface'
 import '@/styles/DetailPage.scss'
 import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
@@ -123,7 +129,7 @@ const DetailPage = () => {
           />
           <div style={{ padding: '20px' }}>
             <h3>{t('app.detail.image.background')}</h3>
-            <AutoCarousel<RelativeImageResponse['backdrops'][0]>
+            <AutoCarousel<BasicImage>
               time={2000}
               items={
                 images && images.length >= 2

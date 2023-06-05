@@ -159,7 +159,7 @@ export interface BasePopularPerson {
 export interface IFilter {
   sort_by: string
 }
-interface BasicImage {
+export interface BasicImage {
   aspect_ratio: number
   file_path: string
   height: number
@@ -169,8 +169,9 @@ interface BasicImage {
   width: number
 }
 export interface RelativeImageResponse {
-  backdrops: BasicImage[]
+  profiles?: BasicImage[]
+  backdrops?: BasicImage[]
   id: number
-  logos: BasicImage[]
-  posters: BasicImage[]
+  logos?: BasicImage[]
+  posters?: BasicImage[]
 }
