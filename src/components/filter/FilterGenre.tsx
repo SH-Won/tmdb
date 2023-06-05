@@ -1,4 +1,5 @@
 import { IGenre } from '@/types/network/response'
+import { SelectedItem } from 'my-react-component'
 interface FilterSelectProps {
   genres: IGenre['id'][]
   items: IGenre[]
@@ -11,14 +12,13 @@ const FilterGenre = ({ items, selectGenre, genres }: FilterSelectProps) => {
   return (
     <div className="filter-genre-container">
       {items?.map((item) => (
-        <span
-          className={selected[item.id] ? 'selected' : ''}
+        <SelectedItem
+          type="border"
           key={item.name}
-          data-id={item.id}
-          onClick={() => selectGenre(item.id, selected[item.id])}
-        >
-          {item.name}
-        </span>
+          selected={selected[item.id]}
+          click={() => selectGenre(item.id, selected[item.id])}
+          text={item.name}
+        />
       ))}
     </div>
   )

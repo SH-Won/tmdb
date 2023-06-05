@@ -2,14 +2,12 @@ import { useHelper, useI18nTypes } from '@/hooks'
 import Transition from '@/layout/Transition'
 import BackEnd from '@/networks'
 import { CommonResponse } from '@/types/network/response'
-import { PageLoadingSpinner, RatioCardImage } from 'my-react-component'
+import { PageLoadingSpinner, PaginationNumbers, RatioCardImage } from 'my-react-component'
 import { useQuery } from 'react-query'
 import { BasePopularPerson } from 'types/interface'
 import '@/styles/PersonPage.scss'
 import ColumnExplain from '@/components/common/ColumnExplain'
-import { useState } from 'react'
-import PaginationNumbers from '@/components/search/PaginationNumbers'
-
+import { useEffect, useState } from 'react'
 const PersonPage = () => {
   const { isValidImage, goActorPage } = useHelper()
   const { t } = useI18nTypes()
@@ -29,6 +27,9 @@ const PersonPage = () => {
       enabled: !!page,
     }
   )
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [page])
   return (
     <div className="person-page">
       {isLoading ? (

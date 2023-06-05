@@ -10,7 +10,7 @@ import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
-import { LoadingSpinner, RatioCardImage, BasicCarousel, AutoCarousel } from 'my-react-component'
+import { LoadingSpinner, RatioCardImage, AutoCarousel } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 
@@ -105,7 +105,7 @@ const DetailPage = () => {
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
-
+  console.log(images)
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
@@ -123,13 +123,29 @@ const DetailPage = () => {
           />
           <div style={{ padding: '20px' }}>
             <h3>{t('app.detail.image.background')}</h3>
-            <AutoCarousel
+            <AutoCarousel<RelativeImageResponse['backdrops'][0]>
               time={2000}
-              items={images ? images?.slice(1, 10) : []}
+              items={
+                images && images.length >= 2
+                  ? images!.slice(1, 10)
+                  : images!.length === 0
+                  ? [
+                      {
+                        file_path: item!.backdrop_path,
+                        aspect_ratio: 1.576,
+                        height: 0,
+                        iso_639_1: '',
+                        vote_average: 0,
+                        vote_count: 0,
+                        width: 0,
+                      },
+                    ]
+                  : images!.slice(0)
+              }
               renderItems={(item, index) => (
                 <RatioCardImage
                   key={index}
-                  ratio={1 / item.aspect_ratio}
+                  ratio={1 / (item.aspect_ratio ?? 1)}
                   eager={true}
                   imageUrl={isValidImage(item.file_path)}
                 />

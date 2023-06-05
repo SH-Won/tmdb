@@ -1,5 +1,4 @@
 import { Button, Colors } from 'my-react-component'
-import React, { useEffect, useRef } from 'react'
 
 interface FilterSearchButtonProps {
   show: boolean
@@ -7,10 +6,6 @@ interface FilterSearchButtonProps {
   click: () => void
 }
 const FilterSearchButton = ({ show, click, text }: FilterSearchButtonProps) => {
-  const searchButton = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    //
-  }, [])
   if (!show) return null
   return (
     <div className="search-btn">

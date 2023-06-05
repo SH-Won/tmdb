@@ -1,4 +1,4 @@
-import SelectedItem from '../common/SelectedItem'
+import { SelectedItem } from 'my-react-component'
 import './SearchNavigation.scss'
 interface SearchNavigationProps {
   items: {
@@ -18,6 +18,7 @@ const SearchNavigation = (props: SearchNavigationProps) => {
             text={item.name}
             selected={item.id === props.selected}
             click={() => props.onSelect(item.id)}
+            size="medium"
           />
         ))}
       </div>

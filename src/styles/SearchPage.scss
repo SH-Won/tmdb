@@ -65,26 +65,3 @@
     }
   }
 }
-.pagination-numbers {
-  padding: 24px 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 3px;
-  & > div {
-    cursor: pointer;
-    padding: 5px 8px;
-    box-sizing: border-box;
-    width: 45px;
-    height: 30px;
-    text-align: center;
-    @include typeface('Paragraph_2b');
-    &.selected {
-      // color: color('white');
-      // background-color: color('main');
-      border-radius: 8px;
-      font-weight: 400;
-      border: 1px solid color('main');
-    }
-  }
-}

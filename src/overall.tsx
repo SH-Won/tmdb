@@ -24,11 +24,11 @@ const Overall = () => {
     } else {
       navigate(-1)
     }
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
   }
-  useLayoutEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0)
-  }, [])
+  }, [location.pathname])
   return (
     <div className={`${breakPointsClass}`}>
       <HeaderBar title={t('app.dashboard.title')} back={isNotDashBoardPage ? goBack : undefined}>

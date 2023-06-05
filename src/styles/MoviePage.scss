@@ -5,17 +5,22 @@
   display: grid;
   grid-template-columns: 300px 2.5fr;
   // transition: all 0.2s linear;
-  .tablet & {
-    grid-template-columns: 250px 2.5fr;
-  }
+  // .tablet & {
+  //   grid-template-columns: 250px 2.5fr;
+  // }
   .mobile & {
     @include flexColumn;
   }
   & > .filter-total-container {
     position: relative;
     width: 100%;
-    & > .sort-filter {
+    > .sort-filter {
       @include flexColumnCenterPaddingGap(16px, 16px);
+      .setting-title {
+        @include typeface('Paragraph_1_sb');
+        color: color('grey_666');
+        padding-left: 16px;
+      }
     }
   }
   & > .movie-item-container {
