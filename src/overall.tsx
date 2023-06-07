@@ -1,4 +1,4 @@
-import { HeaderBar } from 'my-react-component'
+import { HeaderBar, Navigation } from 'my-react-component'
 import { useEffect, useLayoutEffect, useMemo } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useBreakPoints, useI18nTypes } from './hooks'
@@ -31,7 +31,7 @@ const Overall = () => {
   }, [location.pathname])
   return (
     <div className={`${breakPointsClass}`}>
-      <HeaderBar title={t('app.dashboard.title')} back={isNotDashBoardPage ? goBack : undefined}>
+      {/* <HeaderBar title={t('app.dashboard.title')} back={isNotDashBoardPage ? goBack : undefined}>
         <div style={{ display: 'flex', gap: '16px', paddingLeft: '16px' }}>
           <HeaderItem
             items={HEADER_MOVIE_OPTION}
@@ -45,7 +45,24 @@ const Overall = () => {
             title="인물"
           />
         </div>
-      </HeaderBar>
+      </HeaderBar> */}
+      <Navigation
+        title={t('app.dashboard.title')}
+        back={isNotDashBoardPage ? goBack : undefined}
+        isMobile={breakPointsClass === 'mobile'}
+      >
+        <HeaderItem
+          items={HEADER_MOVIE_OPTION}
+          click={(item) => navigate(item.value)}
+          title="영화"
+        />
+        <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
+        <HeaderItem
+          items={HEADER_PERSON_OPTION}
+          click={(item) => navigate(item.value)}
+          title="인물"
+        />
+      </Navigation>
       <Outlet />
     </div>
   )

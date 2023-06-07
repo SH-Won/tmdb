@@ -9,7 +9,7 @@ import {
   RelativeImageResponse,
 } from 'types/interface'
 import '@/styles/ActorPage.scss'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
@@ -81,7 +81,12 @@ const ActorPage = () => {
     if (!movies) return []
     return [...movies!.cast].sort((a, b) => b.popularity - a.popularity).slice(0, 10)
   }, [movies])
-
+  useLayoutEffect(() => {
+    const biographyHeight = biography.current?.scrollHeight as number
+    if (biographyHeight < 240) {
+      onClickReadMore()
+    }
+  }, [biography.current, data])
   const RenderPopularMovies = useCallback(() => {
     return (
       <div className="appearance-container">
@@ -103,9 +108,8 @@ const ActorPage = () => {
     )
   }, [sortMovies])
 
-  if (loading || isLoading) return <PageLoadingSpinner />
+  if (loading || isLoading || imageLoading) return <PageLoadingSpinner />
 
-  console.log(images)
   return (
     <div className={`actor-page ${breakPointsClass}`}>
       <div className="actor-profile">

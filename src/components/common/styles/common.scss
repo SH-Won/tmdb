@@ -3,12 +3,16 @@
 @import '../../../styles/common.scss';
 // HeaderItemList.tsx
 .header-item {
+  padding: 16px;
   display: flex;
   gap: 10px;
   position: relative;
   cursor: pointer;
   & > .title {
     @include typeface('Paragraph_1_b');
+  }
+  .mobile & {
+    min-width: 130px;
   }
 }
 

@@ -19,6 +19,8 @@ const HeaderItem = ({ items, click, title }: HeaderItemProps) => {
       className="header-item"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      onTouchStart={() => setOpen(true)}
+      onTouchEnd={() => setOpen(false)}
     >
       <span className="title">{title}</span>
       <div style={{ position: 'absolute', width: '90px', top: '100%' }}>

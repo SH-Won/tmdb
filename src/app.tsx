@@ -1,7 +1,7 @@
-import { Button, Colors, HeaderBar, LoadingSpinner } from 'my-react-component'
+import { Button, Colors, HeaderBar, LoadingSpinner, Navigation } from 'my-react-component'
 import { useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import Navigation from './components/Navigation'
+// import Navigation from './components/Navigation'
 import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -12,11 +12,13 @@ import HeaderSearchBox from './components/common/HeaderSearchBox'
 import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
 import { user } from './store/user'
-import { Toast } from './components/toast/Toast'
 import BackEnd from './networks'
 import upCommingPopupConfig from './views/upcomming_popup/upCommingPopupConfig'
 import { BaseItem } from 'types/interface'
 import { toast } from './store/toast'
+import HeaderItem from './components/header/HeaderItem'
+import { HEADER_MOVIE_OPTION, HEADER_TV_OPTION } from './const/overall'
+import '@/components/filter/Filter.scss'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -69,15 +71,26 @@ const App = () => {
       },
     }
   }, [])
+  //b9f7cc2f46ff0cdaf05bd4b0d6ba947050de0c67
   return (
     <>
       <div className={`main-container ${breakPointsClass}`}>
-        <Navigation isNotDesktop={breakPointsClass !== 'desktop'} />
-        <HeaderBar
+        <Navigation
           title={t('app.dashboard.title')}
           isMobile={breakPointsClass === 'mobile'}
           back={isNotDashBoardPage ? goBack : undefined}
         >
+          <HeaderItem
+            items={HEADER_MOVIE_OPTION}
+            click={(item) => navigate(item.value)}
+            title="영화"
+          />
+          <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
+          <HeaderItem
+            items={HEADER_TV_OPTION}
+            click={(item) => navigate(item.value)}
+            title="인물"
+          />
           {!loginUser ? (
             <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
               <Button
@@ -103,24 +116,7 @@ const App = () => {
               >
                 {t('app.button.signup')}
               </Button>
-              <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
-              {/* <Button
-                color={Colors.white}
-                fontColor={Colors.grey_111}
-                border={Colors.grey_bbb}
-                click={toastInstance?.login}
-              >
-                Test1
-              </Button>
-              <Button
-                color={Colors.white}
-                fontColor={Colors.grey_111}
-                border={Colors.grey_bbb}
-                // click={toast.test}
-                click={toastInstance?.test}
-              >
-                Test2
-              </Button> */}
+              {/* <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} /> */}
             </div>
           ) : (
             <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
@@ -135,7 +131,8 @@ const App = () => {
               <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
             </div>
           )}
-        </HeaderBar>
+        </Navigation>
+
         <Outlet context={outletContext} />
         <LoginPopupRouter />
         <SignUpPopupRouter />
@@ -147,3 +144,67 @@ const App = () => {
 }
 
 export default App
+
+// <HeaderBar
+//           title={t('app.dashboard.title')}
+//           isMobile={breakPointsClass === 'mobile'}
+//           back={isNotDashBoardPage ? goBack : undefined}
+//         >
+// {!loginUser ? (
+//   <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
+//     <Button
+//       color={Colors.main}
+//       fontColor={Colors.white}
+//       click={() =>
+//         login({
+//           name: 'Login',
+//         })
+//       }
+//     >
+//       {t('app.button.login')}
+//     </Button>
+//     <Button
+//       color={Colors.white}
+//       fontColor={Colors.grey_111}
+//       border={Colors.grey_bbb}
+//       click={() =>
+//         signup({
+//           name: 'Signup',
+//         })
+//       }
+//     >
+//       {t('app.button.signup')}
+//     </Button>
+//     <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+//     {/* <Button
+//       color={Colors.white}
+//       fontColor={Colors.grey_111}
+//       border={Colors.grey_bbb}
+//       click={toastInstance?.login}
+//     >
+//       Test1
+//     </Button>
+//     <Button
+//       color={Colors.white}
+//       fontColor={Colors.grey_111}
+//       border={Colors.grey_bbb}
+//       // click={toast.test}
+//       click={toastInstance?.test}
+//     >
+//       Test2
+//     </Button> */}
+//   </div>
+// ) : (
+//   <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
+//     <Button
+//       color={Colors.white}
+//       fontColor={Colors.grey_111}
+//       border={Colors.grey_bbb}
+//       click={logout}
+//     >
+//       {t('app.button.logout')}
+//     </Button>
+//     <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+//   </div>
+// )}
+//         </HeaderBar>

@@ -36,11 +36,6 @@ export const router = createBrowserRouter(
         //   path: '/widget',
         //   element: <WidgetPage />,
         // },
-      ],
-    },
-    {
-      element: <Overall />,
-      children: [
         {
           element: <MoviePage />,
           path: '/overall/:media/:category',
@@ -52,6 +47,20 @@ export const router = createBrowserRouter(
         },
       ],
     },
+    // {
+    //   element: <Overall />,
+    //   children: [
+    //     {
+    //       element: <MoviePage />,
+    //       path: '/overall/:media/:category',
+    //       index: true,
+    //     },
+    //     {
+    //       element: <PersonPage />,
+    //       path: '/person',
+    //     },
+    //   ],
+    // },
   ],
   {
     basename: '/',
