@@ -251,7 +251,7 @@ const MoviePage = () => {
             </div>
           )}
         />
-        {providerLoading || isLoading ? (
+        {/* {providerLoading || isLoading ? (
           <PageLoadingSpinner customHeight="100px" />
         ) : (
           <Button
@@ -262,8 +262,22 @@ const MoviePage = () => {
           >
             {t('app.filter.load_more')}
           </Button>
-        )}
+        )} */}
       </div>
+      {providerLoading || isLoading ? (
+        <PageLoadingSpinner customHeight="100px" />
+      ) : (
+        <div style={{ padding: '0 16px 16px 16px' }}>
+          <Button
+            color={Colors.main}
+            fontColor={Colors.white}
+            width="auto"
+            click={() => setPage((prev) => prev + 1)}
+          >
+            {t('app.filter.load_more')}
+          </Button>
+        </div>
+      )}
       <FilterSearchButton
         show={isShowSearchButton}
         text={t('app.button.search')}

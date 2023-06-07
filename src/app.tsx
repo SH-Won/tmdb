@@ -17,7 +17,7 @@ import upCommingPopupConfig from './views/upcomming_popup/upCommingPopupConfig'
 import { BaseItem } from 'types/interface'
 import { toast } from './store/toast'
 import HeaderItem from './components/header/HeaderItem'
-import { HEADER_MOVIE_OPTION, HEADER_TV_OPTION } from './const/overall'
+import { HEADER_MOVIE_OPTION, HEADER_PERSON_OPTION, HEADER_TV_OPTION } from './const/overall'
 import '@/components/filter/Filter.scss'
 const App = () => {
   const { t } = useI18nTypes()
@@ -87,7 +87,7 @@ const App = () => {
           />
           <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
           <HeaderItem
-            items={HEADER_TV_OPTION}
+            items={HEADER_PERSON_OPTION}
             click={(item) => navigate(item.value)}
             title="인물"
           />
