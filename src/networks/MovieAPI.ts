@@ -40,7 +40,7 @@ export default class MovieAPI extends FetchAPI {
     })
     return response.data
   }
-  getMovieCredits = async <T>(movieId: IMovie['id']): Promise<T> => {
+  getCredits = async <T>(movieId: IMovie['id']): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
       url: `/movie/${movieId}/credits`,

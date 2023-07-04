@@ -5,6 +5,7 @@ import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import {
+  BaseCredits,
   BaseCrew,
   BaseItem,
   BaseItemDetail,
@@ -19,10 +20,10 @@ import Information from '@/components/detail/Information'
 import { LoadingSpinner, RatioCardImage, AutoCarousel } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
-
+type IKey = 'movie' | 'tv'
 const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
-  const { media_type, id } = useParams()
+  const { media_type, id } = useParams<{ media_type: IKey; id: string }>()
   const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
   const key = media_type === MOVIE_CATEGORY.prefix ? MOVIE_CATEGORY.prefix : TV_CATEGORY.prefix
@@ -48,12 +49,13 @@ const DetailPage = () => {
     [key, id, 'credits'],
     async () => {
       const url = `/${media_type}/${id}/credits`
-      const response = await BackEnd.getInstance().common.getCredits<any>(url)
+      const response = await BackEnd.getInstance().common.getCredits<BaseCredits>(url)
+      // const response = BackEnd.getInstance()[media_type as IKey].getCredits(parseInt(id))
       return response
     },
     {
       staleTime: Infinity,
-      enabled: !!id,
+      enabled: !!id && !!media_type,
     }
   )
   const { data: recommends, isLoading: recommendLoading } = useQuery(
@@ -75,7 +77,7 @@ const DetailPage = () => {
     [key, id, 'keyword'],
     async () => {
       const url = `/${media_type}/${id}/keywords`
-      const response = await BackEnd.getInstance().common.getSearch<KeyWordResponse>({
+      const response = await BackEnd.getInstance().common.getItems<KeyWordResponse>({
         url,
       })
       return response
@@ -100,8 +102,8 @@ const DetailPage = () => {
     }
   )
   const crews = useMemo(() => {
-    const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director')
-    const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer')
+    const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director') ?? []
+    const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer') ?? []
     return {
       directors,
       writers,
@@ -111,13 +113,14 @@ const DetailPage = () => {
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
+  console.log(credits)
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
       <div className="detail-content">
         <div className="content-cast-recommend">
           <Cast
-            casts={credits.cast}
+            casts={credits!.cast}
             title={t('app.detail.cast.title')}
             notification={t('app.detail.cast.no_actors')}
           />

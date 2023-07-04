@@ -27,4 +27,14 @@ export default class TvAPI extends FetchAPI {
     })
     return response.data
   }
+  getCredits = async <T>(tvId: ITv['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/tv/${tvId}/credits`,
+      query: {
+        language: 'ko-KR',
+      },
+    })
+    return response.data
+  }
 }

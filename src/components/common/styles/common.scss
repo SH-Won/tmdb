@@ -70,3 +70,93 @@
     width: 100%;
   }
 }
+
+.list-container {
+  padding: 30px 0px 0px;
+  @include rightFade;
+  .header {
+    display: flex;
+    position: relative;
+    z-index: 3;
+    align-items: center;
+    & > h2 {
+      margin: 0;
+    }
+    display: flex;
+    padding-left: 40px;
+  }
+  &:nth-child(1) {
+    background-image: url('/background.svg');
+    background-position: 50% 100%;
+    // background-size: var(--maxPrimaryPageWidth);
+    background-repeat: no-repeat;
+  }
+  &.upcomming {
+    position: relative;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    transition: all 0.5s;
+
+    .background {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(to right, rgba(3, 37, 65, 0.75) 0%, rgba(3, 37, 65, 0.75) 100%);
+      z-index: 0;
+    }
+  }
+  &.recommend {
+    padding: 20px;
+  }
+}
+.item-list {
+  z-index: 1;
+  @include responsiveFlexList(125px, 150px, 150px);
+  // @include responsiveFlexList(30%, 25%, 20%);
+  &.upcomming {
+    @include responsiveFlexList(200px, 250px, 300px, true);
+    padding: 20px 40px 60px 40px;
+  }
+  &.recommend {
+    @include responsiveFlexList(175px, 200px, 250px);
+  }
+  &.cast {
+    padding: 16px;
+  }
+  &.appearance {
+    padding: 16px;
+  }
+  padding: 20px 40px;
+  &.loading {
+    & > div {
+      background-color: color('main_sub');
+      animation: fade-in-out 1s infinite;
+      border-radius: 8px;
+      -webkit-animation: fade-in-out 1s infinite;
+      .mobile & {
+        height: 248.5px;
+      }
+      .tablet & {
+        height: 239px;
+      }
+      .desktop & {
+        height: 259px;
+      }
+    }
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
