@@ -1,7 +1,6 @@
-import { Button, Colors, HeaderBar, LoadingSpinner, Navigation } from 'my-react-component'
+import { Button, Colors, LoadingSpinner, Navigation } from 'my-react-component'
 import { useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-// import Navigation from './components/Navigation'
 import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -71,7 +70,6 @@ const App = () => {
       },
     }
   }, [])
-  //b9f7cc2f46ff0cdaf05bd4b0d6ba947050de0c67
   return (
     <>
       <div className={`main-container ${breakPointsClass}`}>

@@ -6,15 +6,13 @@ import { router } from './router'
 import 'my-react-component/dist/style.css'
 import '@/i18n'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { OverLay } from 'my-react-component'
+import { OverLay, PageLoadingSpinner } from 'my-react-component'
 import { RecoilRoot } from 'recoil'
 import { initializeApp } from 'firebase/app'
 import { firebaseConfig } from './networks/firebase'
 import { Toast } from './components/toast/Toast'
-// import { auth } from './networks/firebase'
 const rootElement = document.querySelector('#root')
 
-// console.log(auth)
 initializeApp(firebaseConfig)
 if (!rootElement) {
   throw new Error('Failed to find the root element')
@@ -27,9 +25,9 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <Suspense
         fallback={
-          <OverLay isOpen={true} opacity={0.8}>
-            <img style={{ width: '250px', height: '250px' }} src="/assets/12.jpg" />
-          </OverLay>
+          // <OverLay isOpen={true} opacity={0.8}>
+          <PageLoadingSpinner text="please wait a second" />
+          // </OverLay>
         }
       >
         <RouterProvider router={router} />

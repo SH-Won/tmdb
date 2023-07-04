@@ -111,7 +111,6 @@ const DetailPage = () => {
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
-  console.log(images)
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
@@ -127,7 +126,7 @@ const DetailPage = () => {
             title={t('app.detail.recommend.title')}
             notification={t('app.detail.recommend.no_recommends')}
           />
-          <div style={{ padding: '20px' }}>
+          <div className="content-carousel">
             <h3>{t('app.detail.image.background')}</h3>
             <AutoCarousel<BasicImage>
               time={2000}

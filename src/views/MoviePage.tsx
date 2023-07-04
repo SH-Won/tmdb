@@ -9,7 +9,7 @@ import {
   PosterCard,
   SettingBar,
 } from 'my-react-component'
-import { useEffect, useMemo, useState, MouseEvent } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { BaseItem, BaseProvider } from 'types/interface'
@@ -222,14 +222,14 @@ const MoviePage = () => {
                 count={10}
                 onSelect={selectVoteAverage}
               />
-              <span className="setting-title">평점</span>
+              {/* <span className="setting-title">평점</span>
               <SettingBar
                 width={236}
                 initialCount={voteCount / 100}
                 magnification={100}
                 count={10}
                 onSelect={selectVoteCount}
-              />
+              /> */}
             </div>
           </BasicAccordion>
         </div>
@@ -251,7 +251,7 @@ const MoviePage = () => {
             </div>
           )}
         />
-        {/* {providerLoading || isLoading ? (
+        {providerLoading || isLoading ? (
           <PageLoadingSpinner customHeight="100px" />
         ) : (
           <Button
@@ -262,9 +262,9 @@ const MoviePage = () => {
           >
             {t('app.filter.load_more')}
           </Button>
-        )} */}
+        )}
       </div>
-      {providerLoading || isLoading ? (
+      {/* {providerLoading || isLoading ? (
         <PageLoadingSpinner customHeight="100px" />
       ) : (
         <div style={{ padding: '0 16px 16px 16px' }}>
@@ -277,7 +277,7 @@ const MoviePage = () => {
             {t('app.filter.load_more')}
           </Button>
         </div>
-      )}
+      )} */}
       <FilterSearchButton
         show={isShowSearchButton}
         text={t('app.button.search')}

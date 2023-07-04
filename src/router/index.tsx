@@ -5,10 +5,10 @@ import DetailPage from '@/views/DetailPage'
 import SearchPage from '@/views/SearchPage'
 import ActorPage from '@/views/ActorPage'
 import MoviePage from '@/views/MoviePage'
-import Overall from '@/overall'
+// import Overall from '@/overall'
 // import WidgetPage from '@/views/WidgetPage'
 import PersonPage from '@/views/PersonPage'
-// import WidgetPage from '@/views/WidgetPage'
+import { lazy } from 'react'
 
 export const router = createBrowserRouter(
   [
@@ -17,19 +17,23 @@ export const router = createBrowserRouter(
       children: [
         {
           path: '/',
-          element: <LandingPage />,
+          // element: <LandingPage />,
+          Component: lazy(() => import('@/views/LandingPage')),
         },
         {
           path: '/:media_type/:id',
-          element: <DetailPage />,
+          // element: <DetailPage />,
+          Component: lazy(() => import('@/views/DetailPage')),
         },
         {
           path: '/search',
-          element: <SearchPage />,
+          // element: <SearchPage />,
+          Component: lazy(() => import('@/views/SearchPage')),
         },
         {
           path: '/person/:personId',
-          element: <ActorPage />,
+          // element: <ActorPage />,
+          Component: lazy(() => import('@/views/ActorPage')),
         },
 
         // {
@@ -37,12 +41,14 @@ export const router = createBrowserRouter(
         //   element: <WidgetPage />,
         // },
         {
-          element: <MoviePage />,
+          // element: <MoviePage />,
           path: '/overall/:media/:category',
+          Component: lazy(() => import('@/views/MoviePage')),
           index: true,
         },
         {
-          element: <PersonPage />,
+          // element: <PersonPage />,
+          Component: lazy(() => import('@/views/PersonPage')),
           path: '/person',
         },
       ],
