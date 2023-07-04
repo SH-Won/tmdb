@@ -1,10 +1,15 @@
 import BackEnd from '@/networks'
-import { PageLoadingSpinner, RatioCardImage, RatioImage } from 'my-react-component'
+import { AutoCarousel, PageLoadingSpinner, RatioCardImage, RatioImage } from 'my-react-component'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { BaseActorItem, BaseCombineCredit } from 'types/interface'
+import {
+  BaseActorItem,
+  BaseCombineCredit,
+  BasicImage,
+  RelativeImageResponse,
+} from 'types/interface'
 import '@/styles/ActorPage.scss'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
@@ -47,6 +52,22 @@ const ActorPage = () => {
       enabled: !!personId,
     }
   )
+  const { data: images, isLoading: imageLoading } = useQuery(
+    ['actor', 'images', personId],
+    async () => {
+      const response = await BackEnd.getInstance().common.getSearch<RelativeImageResponse>({
+        url: `/person/${personId}/images`,
+        query: {
+          language: 'ko-KR',
+        },
+      })
+      return response.profiles
+    },
+    {
+      staleTime: Infinity,
+      enabled: !!personId,
+    }
+  )
 
   const biography = useRef<HTMLDivElement>(null)
   const readMore = useRef<HTMLDivElement>(null)
@@ -60,7 +81,12 @@ const ActorPage = () => {
     if (!movies) return []
     return [...movies!.cast].sort((a, b) => b.popularity - a.popularity).slice(0, 10)
   }, [movies])
-
+  useLayoutEffect(() => {
+    const biographyHeight = biography.current?.scrollHeight as number
+    if (biographyHeight < 240) {
+      onClickReadMore()
+    }
+  }, [biography.current, data])
   const RenderPopularMovies = useCallback(() => {
     return (
       <div className="appearance-container">
@@ -82,7 +108,8 @@ const ActorPage = () => {
     )
   }, [sortMovies])
 
-  if (loading || isLoading) return <PageLoadingSpinner />
+  if (loading || isLoading || imageLoading) return <PageLoadingSpinner />
+
   return (
     <div className={`actor-page ${breakPointsClass}`}>
       <div className="actor-profile">
@@ -127,6 +154,20 @@ const ActorPage = () => {
           </div>
         </div>
         <RenderPopularMovies />
+        <div style={{ width: '50%', alignSelf: 'center' }}>
+          <AutoCarousel<BasicImage>
+            time={2000}
+            items={images && images.length > 0 ? images?.slice(0, 10) : []}
+            renderItems={(item, index) => (
+              <RatioCardImage
+                key={index}
+                ratio={1 / (item.aspect_ratio ?? 1)}
+                eager={true}
+                imageUrl={isValidImage(item.file_path)}
+              />
+            )}
+          />
+        </div>
       </div>
     </div>
   )

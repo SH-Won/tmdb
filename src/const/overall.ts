@@ -58,6 +58,7 @@ export const queryMapper = {
     popular: {
       sort_by: null,
       'vote_average.gte': 5,
+      'vote_count.gte': 0,
       with_genres: '',
       with_watch_providers: '',
       watch_region: '',
@@ -86,6 +87,7 @@ export const queryMapper = {
       with_watch_providers: '',
       watch_region: '',
       'vote_average.gte': 0,
+      'vote_count.gte': 0,
     },
   },
   tv: {
@@ -96,6 +98,7 @@ export const queryMapper = {
       // with_original_language: 'ko|en|br',
       with_watch_providers: '',
       watch_region: '',
+      'vote_count.gte': 0,
     },
     top_rated: {
       sort_by: 'vote_average.desc',
@@ -112,6 +115,7 @@ export const queryMapper = {
       with_watch_providers: '',
       watch_region: '',
       'vote_average.gte': 0,
+      'vote_count.gte': 0,
     },
     airing_today: {
       sort_by: 'popularity.desc',
@@ -121,6 +125,7 @@ export const queryMapper = {
       with_watch_providers: '',
       watch_region: '',
       'vote_average.gte': 0,
+      'vote_count.gte': 0,
     },
   },
 }

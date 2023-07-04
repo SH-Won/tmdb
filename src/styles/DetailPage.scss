@@ -99,6 +99,11 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+
+      & > .content-carousel {
+        padding: 20px;
+        max-width: 760px;
+      }
     }
   }
 }

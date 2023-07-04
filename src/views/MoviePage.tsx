@@ -9,7 +9,7 @@ import {
   PosterCard,
   SettingBar,
 } from 'my-react-component'
-import { useEffect, useMemo, useState, MouseEvent } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { BaseItem, BaseProvider } from 'types/interface'
@@ -41,6 +41,7 @@ const MoviePage = () => {
   const [filter, setFilter] = useState({
     ...mapper[media!][category!],
   })
+  const [voteCount, setVoteCount] = useState<number>(mapper[media!][category!]['vote_count.gte'])
   const query = Object.entries(filter)
     .map(([key, value]) => {
       if (!value) return ''
@@ -128,6 +129,9 @@ const MoviePage = () => {
     // console.log(item)
     setVoteAverage(item.value)
   }
+  const selectVoteCount = (item: { key: string; value: number; order: number }) => {
+    setVoteCount(item.value)
+  }
   const prevProviders = useMemo<BaseProvider['provider_id'][]>(() => {
     if (!watchProviders || !filter['with_watch_providers']) return []
     const filterProviders = filter['with_watch_providers'].split('|')
@@ -151,14 +155,20 @@ const MoviePage = () => {
   const prevVoteAverage = useMemo<number>(() => {
     return voteAverage
   }, [filter])
+  const prevVoteCount = useMemo<number>(() => {
+    return voteCount
+  }, [filter])
 
   const isVoteAverageChange = useMemo<boolean>(() => {
     return prevVoteAverage !== voteAverage
   }, [voteAverage, prevVoteAverage])
+  const isVoteCountChnage = useMemo<boolean>(() => {
+    return prevVoteCount !== voteCount
+  }, [voteCount, prevVoteCount])
 
   const isShowSearchButton = useMemo<boolean>(() => {
-    return isGenreChange || isProviderChange || isVoteAverageChange
-  }, [isGenreChange, isProviderChange, isVoteAverageChange])
+    return isGenreChange || isProviderChange || isVoteAverageChange || isVoteCountChnage
+  }, [isGenreChange, isProviderChange, isVoteAverageChange, isVoteCountChnage])
   useEffect(() => {
     if (data) {
       if (page === 1) {
@@ -171,8 +181,6 @@ const MoviePage = () => {
 
   useEffect(() => {
     if (!watchProviders) return
-    console.log('page useEffect')
-    console.log(mapper[media!][category!])
     setFilter(() => ({
       ...mapper[media!][category!],
       with_watch_providers: watchProviders.map((provider) => provider.provider_id).join('|'),
@@ -182,8 +190,8 @@ const MoviePage = () => {
     setProviders((prev) => [])
     setGenres((prev) => [])
     setVoteAverage((prev) => mapper[media!][category!]['vote_average.gte'])
+    setVoteCount((prev) => mapper[media!][category!]['vote_count.gte'])
   }, [category, media, watchProviders])
-  console.log('vote average', voteAverage)
   return (
     <div className="movie-page">
       <div className="filter-total-container">
@@ -214,17 +222,16 @@ const MoviePage = () => {
                 count={10}
                 onSelect={selectVoteAverage}
               />
+              {/* <span className="setting-title">평점</span>
+              <SettingBar
+                width={236}
+                initialCount={voteCount / 100}
+                magnification={100}
+                count={10}
+                onSelect={selectVoteCount}
+              /> */}
             </div>
           </BasicAccordion>
-          {/* <BasicAccordion title="평점">
-            <SettingBar
-              width={236}
-              initialCount={voteAverage}
-              magnification={1}
-              count={10}
-              onSelect={selectVoteAverage}
-            />
-          </BasicAccordion> */}
         </div>
       </div>
       <div className="movie-item-container">
@@ -257,6 +264,20 @@ const MoviePage = () => {
           </Button>
         )}
       </div>
+      {/* {providerLoading || isLoading ? (
+        <PageLoadingSpinner customHeight="100px" />
+      ) : (
+        <div style={{ padding: '0 16px 16px 16px' }}>
+          <Button
+            color={Colors.main}
+            fontColor={Colors.white}
+            width="auto"
+            click={() => setPage((prev) => prev + 1)}
+          >
+            {t('app.filter.load_more')}
+          </Button>
+        </div>
+      )} */}
       <FilterSearchButton
         show={isShowSearchButton}
         text={t('app.button.search')}
@@ -269,6 +290,7 @@ const MoviePage = () => {
               : providers.join('|')
           )
           onChangeFilter<'vote_average.gte'>('vote_average.gte', voteAverage)
+          onChangeFilter<'vote_count.gte'>('vote_count.gte', voteCount)
         }}
       />
     </div>

@@ -4,7 +4,13 @@ import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { BaseCrew, BaseItem, BaseItemDetail, RelativeImageResponse } from 'types/interface'
+import {
+  BaseCrew,
+  BaseItem,
+  BaseItemDetail,
+  BasicImage,
+  RelativeImageResponse,
+} from 'types/interface'
 import '@/styles/DetailPage.scss'
 import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
@@ -105,7 +111,6 @@ const DetailPage = () => {
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
-  console.log(images)
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
@@ -121,9 +126,9 @@ const DetailPage = () => {
             title={t('app.detail.recommend.title')}
             notification={t('app.detail.recommend.no_recommends')}
           />
-          <div style={{ padding: '20px' }}>
+          <div className="content-carousel">
             <h3>{t('app.detail.image.background')}</h3>
-            <AutoCarousel<RelativeImageResponse['backdrops'][0]>
+            <AutoCarousel<BasicImage>
               time={2000}
               items={
                 images && images.length >= 2
