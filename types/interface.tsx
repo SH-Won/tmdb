@@ -117,6 +117,8 @@ export interface BaseCrew {
 }
 export interface BaseCredits {
   id: number
+  cast: BaseCast[]
+  crew: BaseCrew[]
 }
 export interface BaseActorItem {
   adult: boolean
