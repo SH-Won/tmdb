@@ -9,7 +9,7 @@ import {
   RelativeImageResponse,
 } from 'types/interface'
 import '@/styles/ActorPage.scss'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'

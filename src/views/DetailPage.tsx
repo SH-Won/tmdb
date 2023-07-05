@@ -3,7 +3,7 @@ import { TV_CATEGORY } from '@/const/movie'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useLoaderData, useParams } from 'react-router-dom'
 import {
   BaseCredits,
   BaseCrew,
@@ -20,15 +20,13 @@ import Information from '@/components/detail/Information'
 import { LoadingSpinner, RatioCardImage, AutoCarousel } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
-type IKey = 'movie' | 'tv'
 const DetailPage = () => {
+  const { media_type, id } = useLoaderData() as { media_type: string; id: string }
   const { breakPointsClass } = useBreakPoints()
-  const { media_type, id } = useParams<{ media_type: IKey; id: string }>()
   const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const key = media_type === MOVIE_CATEGORY.prefix ? MOVIE_CATEGORY.prefix : TV_CATEGORY.prefix
   const { data: item, isLoading } = useQuery(
-    [key, id],
+    [media_type, id],
     async () => {
       if (media_type === MOVIE_CATEGORY.prefix) {
         const response = await BackEnd.getInstance().movie.getDetailMovie<BaseItemDetail>(
@@ -46,10 +44,12 @@ const DetailPage = () => {
     }
   )
   const { data: credits, isLoading: creditsLoading } = useQuery(
-    [key, id, 'credits'],
+    [media_type, id, 'credits'],
     async () => {
       const url = `/${media_type}/${id}/credits`
-      const response = await BackEnd.getInstance().common.getCredits<BaseCredits>(url)
+      const response = await BackEnd.getInstance().common.getItems<BaseCredits>({
+        url,
+      })
       // const response = BackEnd.getInstance()[media_type as IKey].getCredits(parseInt(id))
       return response
     },
@@ -59,7 +59,7 @@ const DetailPage = () => {
     }
   )
   const { data: recommends, isLoading: recommendLoading } = useQuery(
-    [key, id, 'recommends'],
+    [media_type, id, 'recommends'],
     async () => {
       const url = `/${media_type}/${id}/recommendations`
       const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
@@ -74,7 +74,7 @@ const DetailPage = () => {
     }
   )
   const { data: keyword, isLoading: keywordLoading } = useQuery(
-    [key, id, 'keyword'],
+    [media_type, id, 'keyword'],
     async () => {
       const url = `/${media_type}/${id}/keywords`
       const response = await BackEnd.getInstance().common.getItems<KeyWordResponse>({
@@ -88,10 +88,10 @@ const DetailPage = () => {
     }
   )
   const { data: images, isLoading: imageLoading } = useQuery(
-    [key, id, 'images'],
+    [media_type, id, 'images'],
     async () => {
       const url = `/${media_type}/${id}/images`
-      const response = await BackEnd.getInstance().common.getSearch<RelativeImageResponse>({
+      const response = await BackEnd.getInstance().common.getItems<RelativeImageResponse>({
         url,
       })
       return response.backdrops
@@ -113,7 +113,6 @@ const DetailPage = () => {
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     return <LoadingSpinner opacity={0.6} />
   }
-  console.log(credits)
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />

@@ -24,6 +24,12 @@ export const router = createBrowserRouter(
           path: '/:media_type/:id',
           // element: <DetailPage />,
           Component: lazy(() => import('@/views/DetailPage')),
+          loader: ({ params }) => {
+            return {
+              media_type: params.media_type,
+              id: params.id,
+            }
+          },
         },
         {
           path: '/search',
