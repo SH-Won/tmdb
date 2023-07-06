@@ -40,6 +40,11 @@ export const router = createBrowserRouter(
           path: '/person/:personId',
           // element: <ActorPage />,
           Component: lazy(() => import('@/views/ActorPage')),
+          loader: ({ params }) => {
+            return {
+              personId: params.personId,
+            }
+          },
         },
 
         // {

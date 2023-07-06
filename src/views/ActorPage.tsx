@@ -1,7 +1,7 @@
 import BackEnd from '@/networks'
 import { AutoCarousel, PageLoadingSpinner, RatioCardImage, RatioImage } from 'my-react-component'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import {
   BaseActorItem,
   BaseCombineCredit,
@@ -14,20 +14,15 @@ import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 const ActorPage = () => {
-  const { personId } = useParams()
+  const { personId } = useLoaderData() as { personId: string }
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage, isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  // http://localhost:3000/person/3857938
+  const backEndInstance = BackEnd.getInstance()
   const { data, isLoading } = useQuery(
     ['actor', personId],
     async () => {
-      const response = await BackEnd.getInstance().common.getSearch<BaseActorItem>({
-        url: `/person/${personId}`,
-        query: {
-          language: 'en-US',
-        },
-      })
+      const response = await backEndInstance.person.getPersonData<BaseActorItem>(personId)
       return response
     },
     {
@@ -39,12 +34,7 @@ const ActorPage = () => {
   const { data: movies, isLoading: loading } = useQuery(
     ['actor', 'movies', personId],
     async () => {
-      const response = await BackEnd.getInstance().common.getSearch<BaseCombineCredit>({
-        url: `/person/${personId}/combined_credits`,
-        query: {
-          language: 'ko-KR',
-        },
-      })
+      const response = await backEndInstance.person.getPersonCredits<BaseCombineCredit>(personId)
       return response
     },
     {
@@ -55,12 +45,7 @@ const ActorPage = () => {
   const { data: images, isLoading: imageLoading } = useQuery(
     ['actor', 'images', personId],
     async () => {
-      const response = await BackEnd.getInstance().common.getSearch<RelativeImageResponse>({
-        url: `/person/${personId}/images`,
-        query: {
-          language: 'ko-KR',
-        },
-      })
+      const response = await backEndInstance.person.getPersonImages<RelativeImageResponse>(personId)
       return response.profiles
     },
     {
@@ -108,7 +93,8 @@ const ActorPage = () => {
     )
   }, [sortMovies])
 
-  if (loading || isLoading || imageLoading) return <PageLoadingSpinner />
+  if (loading || isLoading || imageLoading)
+    return <PageLoadingSpinner text="please wait a second" />
 
   return (
     <div className={`actor-page ${breakPointsClass}`}>

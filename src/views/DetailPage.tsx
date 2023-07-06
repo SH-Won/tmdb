@@ -17,7 +17,12 @@ import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
-import { LoadingSpinner, RatioCardImage, AutoCarousel } from 'my-react-component'
+import {
+  LoadingSpinner,
+  RatioCardImage,
+  AutoCarousel,
+  PageLoadingSpinner,
+} from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 const DetailPage = () => {
@@ -111,7 +116,8 @@ const DetailPage = () => {
   }, [credits])
 
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
-    return <LoadingSpinner opacity={0.6} />
+    // return <LoadingSpinner opacity={0.6} />
+    return <PageLoadingSpinner text="please wait a second" />
   }
   return (
     <div className={`detail-page ${breakPointsClass}`}>
