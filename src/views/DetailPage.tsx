@@ -96,7 +96,7 @@ const DetailPage = () => {
     [media_type, id, 'images'],
     async () => {
       const url = `/${media_type}/${id}/images`
-      const response = await BackEnd.getInstance().common.getItems<RelativeImageResponse>({
+      const response = await BackEnd.getInstance().common.getSearch<RelativeImageResponse>({
         url,
       })
       return response.backdrops
