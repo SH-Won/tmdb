@@ -126,7 +126,6 @@ const MoviePage = () => {
     }
   }
   const selectVoteAverage = (item: { key: string; value: number; order: number }) => {
-    // console.log(item)
     setVoteAverage(item.value)
   }
   const selectVoteCount = (item: { key: string; value: number; order: number }) => {

@@ -36,8 +36,6 @@ export default class UserAPI extends FetchAPI {
         const token = credential?.accessToken
         // The signed-in user info.
         const user = result.user
-        console.log(result.user)
-        console.log(credential)
         return { token, credential, user }
       })
 

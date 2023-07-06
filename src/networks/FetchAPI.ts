@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosPromise, AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 interface FetchParams {
   method: string
   url?: string

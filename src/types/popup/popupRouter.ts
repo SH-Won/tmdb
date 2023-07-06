@@ -41,7 +41,6 @@ class PopupRouter {
   }
   go(index: number) {
     this.currentRouteIndex += index
-    console.log(this.currentRouteIndex)
     if (this.currentRouteIndex < 0) {
       this.currentRouteIndex = 0
     } else if (this.currentRouteIndex >= this.history.length) {
