@@ -1,9 +1,8 @@
 import { MOVIE_CATEGORY } from '@/const'
-import { TV_CATEGORY } from '@/const/movie'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
-import { useLoaderData, useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import {
   BaseCredits,
   BaseCrew,
@@ -17,12 +16,7 @@ import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
-import {
-  LoadingSpinner,
-  RatioCardImage,
-  AutoCarousel,
-  PageLoadingSpinner,
-} from 'my-react-component'
+import { RatioCardImage, AutoCarousel, PageLoadingSpinner } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 const DetailPage = () => {
@@ -35,7 +29,7 @@ const DetailPage = () => {
     async () => {
       if (media_type === MOVIE_CATEGORY.prefix) {
         const response = await BackEnd.getInstance().movie.getDetailMovie<BaseItemDetail>(
-          parseInt(id!)
+          parseInt(id)
         )
         return response
       } else {
@@ -55,7 +49,6 @@ const DetailPage = () => {
       const response = await BackEnd.getInstance().common.getItems<BaseCredits>({
         url,
       })
-      // const response = BackEnd.getInstance()[media_type as IKey].getCredits(parseInt(id))
       return response
     },
     {

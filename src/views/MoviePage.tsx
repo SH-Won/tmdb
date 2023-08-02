@@ -11,7 +11,7 @@ import {
 } from 'my-react-component'
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import { BaseItem, BaseProvider } from 'types/interface'
 import { OPTION_FILTER } from '@/const/filter'
 import '../styles/MoviePage.scss'
@@ -28,7 +28,10 @@ import ItemList from '@/components/common/ItemList'
 //     .map(([key, value]) => key)
 // }
 const MoviePage = () => {
-  const { media, category } = useParams<{ media: Media; category: keyof (typeof mapper)[Media] }>()
+  const { media, category } = useLoaderData() as {
+    media: Media
+    category: keyof (typeof mapper)[Media]
+  }
   const { t } = useI18nTypes()
   const { isValidImage, goDetailPage, getConvertedDate } = useHelper()
   const [items, setItems] = useState<BaseItem[]>([])
@@ -36,10 +39,10 @@ const MoviePage = () => {
   const [genres, setGenres] = useState<IGenre['id'][]>([])
   const [providers, setProviders] = useState<BaseProvider['provider_id'][]>([])
   const [voteAverage, setVoteAverage] = useState<number>(
-    mapper[media!][category!]['vote_average.gte']
+    mapper[media][category]['vote_average.gte']
   )
   const [filter, setFilter] = useState({
-    ...mapper[media!][category!],
+    ...mapper[media][category],
   })
   const [voteCount, setVoteCount] = useState<number>(mapper[media!][category!]['vote_count.gte'])
   const query = Object.entries(filter)
@@ -55,7 +58,7 @@ const MoviePage = () => {
       const response = await BackEnd.getInstance().common.getProviders<
         CommonResponse<BaseProvider[]>
       >({
-        media: media!,
+        media: media,
         watch_region: 'KR',
       })
       return response.results
@@ -181,15 +184,15 @@ const MoviePage = () => {
   useEffect(() => {
     if (!watchProviders) return
     setFilter(() => ({
-      ...mapper[media!][category!],
+      ...mapper[media][category],
       with_watch_providers: watchProviders.map((provider) => provider.provider_id).join('|'),
       watch_region: 'KR',
     }))
     setPage(1)
     setProviders((prev) => [])
     setGenres((prev) => [])
-    setVoteAverage((prev) => mapper[media!][category!]['vote_average.gte'])
-    setVoteCount((prev) => mapper[media!][category!]['vote_count.gte'])
+    setVoteAverage((prev) => mapper[media][category]['vote_average.gte'])
+    setVoteCount((prev) => mapper[media][category]['vote_count.gte'])
   }, [category, media, watchProviders])
   return (
     <div className="movie-page">

@@ -59,7 +59,7 @@ const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
       </div>
 
       {isLoading ? (
-        <SkeletonItemList ratio={0.564} />
+        <SkeletonItemList ratio={0.564} category="upcomming" />
       ) : (
         <div className="item-container">
           <ItemList

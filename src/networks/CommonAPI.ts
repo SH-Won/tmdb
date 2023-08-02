@@ -4,6 +4,7 @@ export default class CommponAPI extends FetchAPI {
   constructor(public baseUrl: string) {
     super(baseUrl)
   }
+
   getItems = async <T>(params: any): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
