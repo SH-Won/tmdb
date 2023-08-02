@@ -131,32 +131,94 @@
   }
   padding: 20px 40px;
   &.loading {
-    & > div {
-      background-color: color('main_sub');
-      animation: fade-in-out 1s infinite;
-      border-radius: 8px;
-      -webkit-animation: fade-in-out 1s infinite;
-      .mobile & {
-        height: 248.5px;
-      }
-      .tablet & {
-        height: 239px;
-      }
-      .desktop & {
-        height: 259px;
-      }
+    // & > div {
+    //   background-color: color('main_sub');
+    //   animation: fade-in-out 1s infinite;
+    //   border-radius: 8px;
+    //   -webkit-animation: fade-in-out 1s infinite;
+    // .mobile & {
+    //   height: 248.5px;
+    // }
+    // .tablet & {
+    //   height: 239px;
+    // }
+    // .desktop & {
+    //   height: 259px;
+    // }
+    // }
+    // @include responsiveFlexList(125px, 150px, 150px);
+    // & > div {
+    //   padding-top: 150%;
+    // }
+  }
+
+  @keyframes fade-in-out {
+    0% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0.2;
     }
   }
 }
 
-@keyframes fade-in-out {
+.skeleton-item-list {
+  @include responsiveFlexList(125px, 150px, 150px);
+  // @include responsiveFlexList(30%, 25%, 20%);
+  &.upcomming {
+    @include responsiveFlexList(200px, 250px, 300px, true);
+    padding: 20px 40px 60px 40px;
+  }
+  padding: 20px 40px;
+  .skeletonImg {
+    // .mobile & {
+    //   height: 238.5px;
+    // }
+    // .tablet & {
+    //   height: 229px;
+    // }
+    // .desktop & {
+    //   height: 249px;
+    // }
+
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: #ccc;
+    opacity: 0.7;
+    border-radius: 8px;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* background: linear-gradient(to right, #f0eaea, #ddd, #fdf9f9); */
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.6) 40%,
+        rgba(255, 255, 255, 0) 70%
+      );
+      animation: loading 1s infinite linear;
+    }
+  }
+}
+
+@keyframes loading {
   0% {
-    opacity: 0.2;
+    transform: translateX(0);
   }
-  50% {
-    opacity: 0.4;
-  }
+  50%,
   100% {
-    opacity: 0.2;
+    transform: translateX(100%);
   }
 }

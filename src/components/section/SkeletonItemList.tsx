@@ -1,4 +1,7 @@
+import { useRef } from 'react'
+
 interface SkeletonItemListProps {
+  category?: string
   ratio: number
 }
 const SkeletonItemList = (props: SkeletonItemListProps) => {
@@ -19,11 +22,15 @@ const SkeletonItemList = (props: SkeletonItemListProps) => {
   // console.log(wrapper.current)
   // console.log(computedHeight)
   return (
-    <div className="item-list loading">
+    <div className={`skeleton-item-list ${props.category ?? ''}`}>
       {Array(10)
         .fill(0)
         .map((value, index) => (
-          <div key={value + index}></div>
+          <div key={value + index}>
+            <div style={{ paddingTop: `${props.ratio * 100}%`, position: 'relative' }}>
+              <div className="skeletonImg"></div>
+            </div>
+          </div>
         ))}
     </div>
   )

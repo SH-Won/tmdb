@@ -18,6 +18,7 @@ const FilterGenre = ({ items, selectGenre, genres }: FilterSelectProps) => {
           selected={selected[item.id]}
           click={() => selectGenre(item.id, selected[item.id])}
           text={item.name}
+          size="small"
         />
       ))}
     </div>

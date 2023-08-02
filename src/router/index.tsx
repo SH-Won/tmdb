@@ -24,6 +24,12 @@ export const router = createBrowserRouter(
           path: '/:media_type/:id',
           // element: <DetailPage />,
           Component: lazy(() => import('@/views/DetailPage')),
+          loader: ({ params }) => {
+            return {
+              media_type: params.media_type,
+              id: params.id,
+            }
+          },
         },
         {
           path: '/search',
@@ -34,6 +40,11 @@ export const router = createBrowserRouter(
           path: '/person/:personId',
           // element: <ActorPage />,
           Component: lazy(() => import('@/views/ActorPage')),
+          loader: ({ params }) => {
+            return {
+              personId: params.personId,
+            }
+          },
         },
 
         // {
@@ -42,8 +53,14 @@ export const router = createBrowserRouter(
         // },
         {
           // element: <MoviePage />,
-          path: '/overall/:media/:category',
+          path: '/:media/:category',
           Component: lazy(() => import('@/views/MoviePage')),
+          loader: ({ params }) => {
+            return {
+              media: params.media,
+              category: params.category,
+            }
+          },
           index: true,
         },
         {
