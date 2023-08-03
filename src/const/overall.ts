@@ -3,37 +3,37 @@ export const MOVIE_CONFIG = []
 export const HEADER_MOVIE_OPTION = [
   {
     name: '인기',
-    value: '/movie/popular',
+    value: '/overall/movie/popular',
   },
   {
     name: '현재 상영중',
-    value: '/movie/now_playing',
+    value: '/overall/movie/now_playing',
   },
   {
     name: '개봉 예정',
-    value: '/movie/upcomming',
+    value: '/overall/movie/upcomming',
   },
   {
     name: '높은 평점',
-    value: '/movie/top_rated',
+    value: '/overall/movie/top_rated',
   },
 ]
 export const HEADER_TV_OPTION = [
   {
     name: '인기',
-    value: '/tv/popular',
+    value: '/overall/tv/popular',
   },
   {
     name: '오늘 방영',
-    value: '/tv/airing_today',
+    value: '/overall/tv/airing_today',
   },
   {
     name: '방영 중',
-    value: '/tv/on_the_air',
+    value: '/overall/tv/on_the_air',
   },
   {
     name: '높은 평점',
-    value: '/tv/top_rated',
+    value: '/overall/tv/top_rated',
   },
 ]
 export const HEADER_PERSON_OPTION = [
