@@ -212,11 +212,11 @@ const MoviePage = () => {
               providers={providers}
             />
           </BasicAccordion>
-          <BasicAccordion title={t('app.filter.genre')}>
+          <BasicAccordion title={t('app.filter.genre_rated')}>
             <div>
-              <span className="setting-title">장르</span>
+              <span className="setting-title">{t('app.filter.genre')}</span>
               <FilterGenre items={movieGenre!} selectGenre={selectGenre} genres={genres} />
-              <span className="setting-title">평점</span>
+              <span className="setting-title">{t('app.filter.rated')}</span>
               <SettingBar
                 width={236}
                 initialCount={voteAverage}
