@@ -76,8 +76,10 @@
       "sort": "정렬",
       "sort_title": "Sort Results By",
       "sort_providers_title": "Where To Watch",
-      "genre": "장르 & 평점",
-      "load_more": "더 불러오기"
+      "genre_rated": "장르 & 평점",
+      "load_more": "더 불러오기",
+      "genre": "장르",
+      "rated": "평점"
     },
     "toast": {
       "keep_login": "로그인 된 상태입니다",

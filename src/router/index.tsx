@@ -53,7 +53,7 @@ export const router = createBrowserRouter(
         // },
         {
           // element: <MoviePage />,
-          path: '/:media/:category',
+          path: '/overall/:media/:category',
           Component: lazy(() => import('@/views/MoviePage')),
           loader: ({ params }) => {
             return {
