@@ -1,13 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from '@/app'
-import LandingPage from '@/views/LandingPage'
-import DetailPage from '@/views/DetailPage'
-import SearchPage from '@/views/SearchPage'
-import ActorPage from '@/views/ActorPage'
-import MoviePage from '@/views/MoviePage'
-// import Overall from '@/overall'
 // import WidgetPage from '@/views/WidgetPage'
-import PersonPage from '@/views/PersonPage'
 import { lazy } from 'react'
 
 export const router = createBrowserRouter(
