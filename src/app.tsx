@@ -88,9 +88,16 @@ const App = () => {
           isMobile={mobile}
           back={isNotDashBoardPage ? goBack : undefined}
         >
-          <HeaderItem items={HEADER_MOVIE_OPTION} click={goPage} title="영화" isMobile={mobile} />
-          <HeaderItem items={HEADER_TV_OPTION} click={goPage} title="TV" isMobile={mobile} />
-          <HeaderItem items={HEADER_PERSON_OPTION} click={goPage} title="인물" isMobile={mobile} />
+          <div className="header-items">
+            <HeaderItem items={HEADER_MOVIE_OPTION} click={goPage} title="영화" isMobile={mobile} />
+            <HeaderItem items={HEADER_TV_OPTION} click={goPage} title="TV" isMobile={mobile} />
+            <HeaderItem
+              items={HEADER_PERSON_OPTION}
+              click={goPage}
+              title="인물"
+              isMobile={mobile}
+            />
+          </div>
           {!loginUser ? (
             <div className="user-button-container">
               <Button

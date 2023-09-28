@@ -4,6 +4,15 @@
   min-height: 100vh;
   padding-bottom: 70px;
   background-color: #f5f6f8;
+  .header-items {
+    display: flex;
+    flex-direction: row;
+  }
+  &.mobile {
+    .header-items {
+      flex-direction: column;
+    }
+  }
 }
 .main-container.desktop {
   // padding-left: var(--navigation-padding);
@@ -27,5 +36,8 @@
   gap: 10px;
   flex: 1;
   justify-content: flex-end;
-  padding-top: 20px;
+  .mobile & {
+    flex: unset;
+    padding-bottom: 24px;
+  }
 }
