@@ -1,5 +1,5 @@
-import { Button, Colors, LoadingSpinner, Navigation } from 'my-react-component'
-import { useEffect, useMemo } from 'react'
+import { Button, Colors, LoadingSpinner, Navigation, PageLoadingSpinner } from 'my-react-component'
+import { Suspense, useCallback, useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
@@ -16,7 +16,12 @@ import upCommingPopupConfig from './views/upcomming_popup/upCommingPopupConfig'
 import { BaseItem } from 'types/interface'
 import { toast } from './store/toast'
 import HeaderItem from './components/header/HeaderItem'
-import { HEADER_MOVIE_OPTION, HEADER_PERSON_OPTION, HEADER_TV_OPTION } from './const/overall'
+import {
+  HEADER_MOVIE_OPTION,
+  HEADER_PERSON_OPTION,
+  HEADER_TV_OPTION,
+  IOption,
+} from './const/overall'
 import '@/components/filter/Filter.scss'
 const App = () => {
   const { t } = useI18nTypes()
@@ -37,12 +42,16 @@ const App = () => {
       navigate(-1)
     }
   }
+  const goPage = useCallback((item: IOption) => {
+    navigate(item.value)
+  }, [])
 
   const logout = async () => {
     await BackEnd.getInstance().user.logout()
     toastInstance.logout()
     setLoginUser(null)
   }
+
   useEffect(() => {
     if (loginUser && toastInstance) {
       toastInstance.keepLogin()
@@ -70,6 +79,7 @@ const App = () => {
       },
     }
   }, [])
+
   return (
     <>
       <div className={`main-container ${breakPointsClass}`}>
@@ -78,24 +88,9 @@ const App = () => {
           isMobile={mobile}
           back={isNotDashBoardPage ? goBack : undefined}
         >
-          <HeaderItem
-            items={HEADER_MOVIE_OPTION}
-            click={(item) => navigate(item.value)}
-            title="영화"
-            isMobile={mobile}
-          />
-          <HeaderItem
-            items={HEADER_TV_OPTION}
-            click={(item) => navigate(item.value)}
-            title="TV"
-            isMobile={mobile}
-          />
-          <HeaderItem
-            items={HEADER_PERSON_OPTION}
-            click={(item) => navigate(item.value)}
-            title="인물"
-            isMobile={mobile}
-          />
+          <HeaderItem items={HEADER_MOVIE_OPTION} click={goPage} title="영화" isMobile={mobile} />
+          <HeaderItem items={HEADER_TV_OPTION} click={goPage} title="TV" isMobile={mobile} />
+          <HeaderItem items={HEADER_PERSON_OPTION} click={goPage} title="인물" isMobile={mobile} />
           {!loginUser ? (
             <div className="user-button-container">
               <Button
@@ -121,7 +116,6 @@ const App = () => {
               >
                 {t('app.button.signup')}
               </Button>
-              {/* <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} /> */}
             </div>
           ) : (
             <div className="user-button-container">
@@ -137,8 +131,9 @@ const App = () => {
             </div>
           )}
         </Navigation>
-
-        <Outlet context={outletContext} />
+        <Suspense fallback={<PageLoadingSpinner text="please wait a second" />}>
+          <Outlet context={outletContext} />
+        </Suspense>
         <LoginPopupRouter />
         <SignUpPopupRouter />
         <UpCommingTrailerPopupRouter />

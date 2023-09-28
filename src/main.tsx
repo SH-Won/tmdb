@@ -23,16 +23,8 @@ const root = createRoot(rootElement)
 root.render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>
-      <Suspense
-        fallback={
-          // <OverLay isOpen={true} opacity={0.8}>
-          <PageLoadingSpinner text="please wait a second" />
-          // </OverLay>
-        }
-      >
-        <RouterProvider router={router} />
-        <Toast />
-      </Suspense>
+      <RouterProvider router={router} />
+      <Toast />
     </QueryClientProvider>
   </RecoilRoot>
 )
