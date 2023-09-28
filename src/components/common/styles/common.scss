@@ -4,12 +4,27 @@
 // HeaderItemList.tsx
 .header-item {
   padding: 16px;
+  .mobile & {
+    padding: 0px;
+  }
   display: flex;
+  flex-direction: column;
   gap: 10px;
   position: relative;
   cursor: pointer;
   & > .title {
     @include typeface('Paragraph_1_b');
+  }
+  & > .option-list-container {
+    position: absolute;
+    width: 90px;
+    top: 100%;
+  }
+  .mobile-option-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 6px 24px;
   }
   .mobile & {
     min-width: 130px;

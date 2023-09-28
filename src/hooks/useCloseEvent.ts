@@ -1,16 +1,19 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const useCloseEvent = (closeEvent: () => void) => {
   const ref = useRef(null)
+  const [pathName, setPathName] = useState<string>(location.pathname)
+
   const onClick = (e: any) => {
-    // e.preventDefualt()
-    if (!ref.current) return
-    const current = ref.current as Element
-    const element = e.target.closest(`.${current.className}`)
-    if (!element) {
-      closeEvent()
-    }
+    setPathName((prev) => {
+      if (prev !== location.pathname) {
+        closeEvent()
+        return location.pathname
+      }
+      return prev
+    })
   }
+
   useEffect(() => {
     window.addEventListener('click', onClick)
 

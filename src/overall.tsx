@@ -5,6 +5,7 @@ import { useBreakPoints, useI18nTypes } from './hooks'
 import '@/components/filter/Filter.scss'
 import HeaderItem from './components/header/HeaderItem'
 import { HEADER_MOVIE_OPTION, HEADER_PERSON_OPTION, HEADER_TV_OPTION } from './const/overall'
+import { isMobile } from './networks'
 // import { useRecoilValue } from 'recoil'
 // import { toast } from '@/store/toast'
 
@@ -13,7 +14,7 @@ const Overall = () => {
   const navigate = useNavigate()
   const { breakPointsClass } = useBreakPoints()
   // const toastInstance = useRecoilValue(toast)
-
+  const mobile = isMobile() || breakPointsClass === 'mobile'
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
@@ -31,21 +32,6 @@ const Overall = () => {
   }, [location.pathname])
   return (
     <div className={`${breakPointsClass}`}>
-      {/* <HeaderBar title={t('app.dashboard.title')} back={isNotDashBoardPage ? goBack : undefined}>
-        <div style={{ display: 'flex', gap: '16px', paddingLeft: '16px' }}>
-          <HeaderItem
-            items={HEADER_MOVIE_OPTION}
-            click={(item) => navigate(item.value)}
-            title="영화"
-          />
-          <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
-          <HeaderItem
-            items={HEADER_PERSON_OPTION}
-            click={(item) => navigate(item.value)}
-            title="인물"
-          />
-        </div>
-      </HeaderBar> */}
       <Navigation
         title={t('app.dashboard.title')}
         back={isNotDashBoardPage ? goBack : undefined}
@@ -55,12 +41,19 @@ const Overall = () => {
           items={HEADER_MOVIE_OPTION}
           click={(item) => navigate(item.value)}
           title="영화"
+          isMobile={mobile}
         />
-        <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
+        <HeaderItem
+          items={HEADER_TV_OPTION}
+          click={(item) => navigate(item.value)}
+          title="TV"
+          isMobile={mobile}
+        />
         <HeaderItem
           items={HEADER_PERSON_OPTION}
           click={(item) => navigate(item.value)}
           title="인물"
+          isMobile={mobile}
         />
       </Navigation>
       <Outlet />

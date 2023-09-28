@@ -11,7 +11,7 @@ import HeaderSearchBox from './components/common/HeaderSearchBox'
 import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
 import { user } from './store/user'
-import BackEnd from './networks'
+import BackEnd, { isMobile } from './networks'
 import upCommingPopupConfig from './views/upcomming_popup/upCommingPopupConfig'
 import { BaseItem } from 'types/interface'
 import { toast } from './store/toast'
@@ -29,7 +29,7 @@ const App = () => {
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
-
+  const mobile = isMobile() || breakPointsClass === 'mobile'
   const goBack = (isMain: boolean) => {
     if (isMain) {
       navigate('/')
@@ -75,22 +75,29 @@ const App = () => {
       <div className={`main-container ${breakPointsClass}`}>
         <Navigation
           title={t('app.dashboard.title')}
-          isMobile={breakPointsClass === 'mobile'}
+          isMobile={mobile}
           back={isNotDashBoardPage ? goBack : undefined}
         >
           <HeaderItem
             items={HEADER_MOVIE_OPTION}
             click={(item) => navigate(item.value)}
             title="영화"
+            isMobile={mobile}
           />
-          <HeaderItem items={HEADER_TV_OPTION} click={(item) => navigate(item.value)} title="TV" />
+          <HeaderItem
+            items={HEADER_TV_OPTION}
+            click={(item) => navigate(item.value)}
+            title="TV"
+            isMobile={mobile}
+          />
           <HeaderItem
             items={HEADER_PERSON_OPTION}
             click={(item) => navigate(item.value)}
             title="인물"
+            isMobile={mobile}
           />
           {!loginUser ? (
-            <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
+            <div className="user-button-container">
               <Button
                 color={Colors.main}
                 fontColor={Colors.white}
@@ -117,7 +124,7 @@ const App = () => {
               {/* <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} /> */}
             </div>
           ) : (
-            <div style={{ display: 'flex', gap: '10px', flex: 1, justifyContent: 'flex-end' }}>
+            <div className="user-button-container">
               <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}

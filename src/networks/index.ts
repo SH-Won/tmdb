@@ -5,7 +5,7 @@ import PersonAPI from './PersonAPI'
 import TvAPI from './TvAPI'
 import UserAPI from './UserAPI'
 
-const isMobile = () => {
+export const isMobile = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 }
 const baseUrl = isMobile()
