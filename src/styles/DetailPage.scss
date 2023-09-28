@@ -21,12 +21,13 @@
 
       display: grid;
       padding: 16px;
-      grid-template-columns: 1fr 1.1fr;
+      grid-template-columns: 1fr 2fr;
       &.mobile {
         display: flex;
         padding: 0;
         flex-direction: column;
         > .intro-image {
+          max-width: unset;
           position: unset;
           width: 100%;
           height: calc(100vw / 2.22);
@@ -57,7 +58,8 @@
       }
       > .intro-image {
         position: relative;
-        width: 90%;
+        width: 95%;
+        // max-width: 350px;
         padding-top: 120%;
         & > img {
           border-radius: 8px;
