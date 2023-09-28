@@ -1,5 +1,6 @@
 import { OptionList } from 'my-react-component'
-import React, { useState } from 'react'
+import Accordion from 'my-react-component/src/components/accordion/Accordion'
+import { useState } from 'react'
 // import OptionItemList from '../common/OptionItemList'
 
 interface HeaderItemProps {
@@ -8,24 +9,38 @@ interface HeaderItemProps {
     name: string
     value: string
   }[]
+  isMobile: boolean
   click?: (item: any) => void
 }
 
-const HeaderItem = ({ items, click, title }: HeaderItemProps) => {
+const HeaderItem = ({ items, click, title, isMobile }: HeaderItemProps) => {
   const [open, setOpen] = useState<boolean>(false)
-
   return (
     <div
       className="header-item"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onTouchStart={() => setOpen(true)}
-      onTouchEnd={() => setOpen(false)}
+      onMouseEnter={() => !isMobile && setOpen(true)}
+      onMouseLeave={() => !isMobile && setOpen(false)}
+      onTouchStart={() => setOpen((prev) => !prev)}
+      // onTouchEnd={() => setOpen(false)}
     >
-      <span className="title">{title}</span>
-      <div style={{ position: 'absolute', width: '90px', top: '100%' }}>
-        <OptionList items={items} click={click} open={open} itemSize="small" />
-      </div>
+      {!isMobile ? (
+        <>
+          <span className="title">{title}</span>
+          <div className="option-list-container">
+            <OptionList items={items} click={click} open={open} itemSize="small" />
+          </div>
+        </>
+      ) : (
+        <Accordion title={title} border={false}>
+          <div className="mobile-option-list-container">
+            {items.map((item) => (
+              <span key={item.value} onClick={() => click?.(item)}>
+                {item.name}
+              </span>
+            ))}
+          </div>
+        </Accordion>
+      )}
     </div>
   )
 }
