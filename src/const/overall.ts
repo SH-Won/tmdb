@@ -1,6 +1,6 @@
+export type IOption = { name: string; value: string }
 export const MOVIE_CONFIG = []
-
-export const HEADER_MOVIE_OPTION = [
+export const HEADER_MOVIE_OPTION: IOption[] = [
   {
     name: '인기',
     value: '/overall/movie/popular',
@@ -18,7 +18,7 @@ export const HEADER_MOVIE_OPTION = [
     value: '/overall/movie/top_rated',
   },
 ]
-export const HEADER_TV_OPTION = [
+export const HEADER_TV_OPTION: IOption[] = [
   {
     name: '인기',
     value: '/overall/tv/popular',
@@ -36,7 +36,7 @@ export const HEADER_TV_OPTION = [
     value: '/overall/tv/top_rated',
   },
 ]
-export const HEADER_PERSON_OPTION = [
+export const HEADER_PERSON_OPTION: IOption[] = [
   {
     name: '인기 인물',
     value: '/person',
