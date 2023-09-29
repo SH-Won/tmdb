@@ -23,8 +23,9 @@
   .mobile-option-list-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
     padding: 6px 24px;
+    @include typeface-inconsolata('Paragraph_2');
   }
   .mobile & {
     min-width: 130px;

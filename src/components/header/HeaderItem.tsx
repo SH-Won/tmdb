@@ -15,7 +15,6 @@ interface HeaderItemProps {
 
 const HeaderItem = ({ items, click, title, isMobile }: HeaderItemProps) => {
   const [open, setOpen] = useState<boolean>(false)
-  // console.log('child component render')
   return (
     <div
       className="header-item"

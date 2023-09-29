@@ -1,5 +1,5 @@
 import { Button, Colors, LoadingSpinner, Navigation, PageLoadingSpinner } from 'my-react-component'
-import { Suspense, useCallback, useEffect, useMemo } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
@@ -62,6 +62,8 @@ const App = () => {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
+  const intersectingNavi = useRef<HTMLDivElement>(null)
+
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
   const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
@@ -87,6 +89,7 @@ const App = () => {
           title={t('app.dashboard.title')}
           isMobile={mobile}
           back={isNotDashBoardPage ? goBack : undefined}
+          fixed={true}
         >
           <div className="header-items">
             <HeaderItem items={HEADER_MOVIE_OPTION} click={goPage} title="영화" isMobile={mobile} />
@@ -138,6 +141,8 @@ const App = () => {
             </div>
           )}
         </Navigation>
+        <div className="intersecting-navi" ref={intersectingNavi}></div>
+
         <Suspense fallback={<PageLoadingSpinner text="please wait a second" />}>
           <Outlet context={outletContext} />
         </Suspense>
