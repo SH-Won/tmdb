@@ -188,6 +188,7 @@ const MoviePage = () => {
       with_watch_providers: watchProviders.map((provider) => provider.provider_id).join('|'),
       watch_region: 'KR',
     }))
+    setItems([])
     setPage(1)
     setProviders((prev) => [])
     setGenres((prev) => [])
