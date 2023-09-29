@@ -171,6 +171,7 @@ const MoviePage = () => {
   const isShowSearchButton = useMemo<boolean>(() => {
     return isGenreChange || isProviderChange || isVoteAverageChange || isVoteCountChnage
   }, [isGenreChange, isProviderChange, isVoteAverageChange, isVoteCountChnage])
+
   useEffect(() => {
     if (data) {
       if (page === 1) {
