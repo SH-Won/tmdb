@@ -8,14 +8,33 @@ import {
   signInWithRedirect,
   GithubAuthProvider,
 } from 'firebase/auth'
+import { initializeApp } from 'firebase/app'
+import { firebaseConfig } from '@/networks/firebase'
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  arrayUnion,
+  setDoc,
+  getDoc,
+  DocumentData,
+  DocumentReference,
+} from 'firebase/firestore'
 import FetchAPI from './FetchAPI'
 
 const isMobile = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 }
 export default class UserAPI extends FetchAPI {
+  db
   constructor() {
     super()
+    const app = initializeApp(firebaseConfig)
+    const db = getFirestore(app)
+    this.db = db
   }
   getProvider = (providerName: string) => {
     switch (providerName) {
@@ -52,5 +71,41 @@ export default class UserAPI extends FetchAPI {
     const auth = getAuth()
     const result = await auth.signOut().then((result) => result)
     return result
+  }
+  getUserFavorites = async (uid: string) => {
+    const querySnapshot = await getDoc(doc(this.db, 'user', uid))
+    return querySnapshot.data()
+  }
+  createFavorite = async (uid: string, productId: string) => {
+    console.log(uid, productId)
+    console.log(this.db)
+    try {
+      // const userFavoriteRef = doc(collection(this.db, 'user'))
+      // console.log(userFavoriteRef)
+      // const response = await addDoc(collection(this.db, 'user'), {
+      //   [uid]: {
+      //     favorites: [productId],
+      //   },
+      // })
+      const userRef = doc(this.db, 'user', uid)
+      const response = await setDoc(userRef, {
+        favorites: [productId],
+      }).then((response) => true)
+      // console.log(userFavoriteRef, response)
+      return response
+    } catch (e) {
+      //
+    }
+  }
+  addFavorite = async (uid: string, productId: string) => {
+    const favoriteRef = doc(this.db, 'user', uid)
+    try {
+      const response = await updateDoc(favoriteRef, {
+        favorites: arrayUnion(productId),
+      }).then((response) => true)
+      return response
+    } catch (e) {
+      //
+    }
   }
 }

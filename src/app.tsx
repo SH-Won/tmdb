@@ -70,6 +70,23 @@ const App = () => {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
+  useEffect(() => {
+    if (!loginUser) return
+    console.log('main db useEffect')
+    ;(async () => {
+      try {
+        const userFavorites = await BackEnd.getInstance().user.getUserFavorites(loginUser.uid)
+        setLoginUser({
+          ...loginUser,
+          favorites: userFavorites?.favorites ?? [],
+          favoritesMap: new Set(userFavorites?.favorites ?? []),
+        })
+      } catch (e) {
+        //
+      }
+    })()
+  }, [loginUser!.uid])
+
   const intersectingNavi = useRef<HTMLDivElement>(null)
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
@@ -167,7 +184,7 @@ const App = () => {
               >
                 {t('app.button.logout')}
               </Button> */}
-              <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+              {/* <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} /> */}
             </div>
           )}
         </Navigation>

@@ -8,12 +8,14 @@ import '@/i18n'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { OverLay, PageLoadingSpinner } from 'my-react-component'
 import { RecoilRoot } from 'recoil'
-import { initializeApp } from 'firebase/app'
-import { firebaseConfig } from './networks/firebase'
+// import { initializeApp } from 'firebase/app'
+// import { firebaseConfig } from './networks/firebase'
 import { Toast } from './components/toast/Toast'
+// import { getFirestore } from 'firebase/firestore'
 const rootElement = document.querySelector('#root')
 
-initializeApp(firebaseConfig)
+// const app = initializeApp(firebaseConfig)
+// const db = getFirestore(app)
 if (!rootElement) {
   throw new Error('Failed to find the root element')
 }

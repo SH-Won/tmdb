@@ -16,10 +16,19 @@ import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
-import { RatioCardImage, AutoCarousel, PageLoadingSpinner } from 'my-react-component'
+import {
+  RatioCardImage,
+  AutoCarousel,
+  PageLoadingSpinner,
+  Button,
+  Colors,
+} from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
+import { useRecoilState } from 'recoil'
+import { _user } from '@/store/user'
 const DetailPage = () => {
+  const [loginUser, setLoginUser] = useRecoilState(_user)
   const { media_type, id } = useLoaderData() as { media_type: string; id: string }
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
@@ -108,6 +117,40 @@ const DetailPage = () => {
     }
   }, [credits])
 
+  const isAlreadyUserFavorite = useMemo(() => {
+    console.log(loginUser)
+    return loginUser?.favoritesMap?.has(id)
+  }, [loginUser, item])
+
+  const addFavorite = async () => {
+    if (!loginUser?.uid) return
+    try {
+      let response
+      if (!loginUser.favorites) {
+        response = await BackEnd.getInstance().user.createFavorite(
+          loginUser!.uid,
+          item!.id.toString()
+        )
+      } else {
+        response = await BackEnd.getInstance().user.addFavorite(loginUser!.uid, item!.id.toString())
+      }
+      if (response) {
+        const newFavorites = [...loginUser.favorites, id]
+        setLoginUser({
+          ...loginUser,
+          ...loginUser,
+          favorites: newFavorites,
+          favoritesMap: new Set(newFavorites),
+        })
+      }
+    } catch (e) {
+      //
+    }
+  }
+  const removeFavorite = async () => {
+    console.log('remove')
+  }
+
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
     // return <LoadingSpinner opacity={0.6} />
     return <PageLoadingSpinner text="please wait a second" />
@@ -115,6 +158,14 @@ const DetailPage = () => {
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
+      <Button
+        border={Colors.grey_111}
+        fontColor={Colors.grey_111}
+        color={Colors.white}
+        click={isAlreadyUserFavorite ? removeFavorite : addFavorite}
+      >
+        {isAlreadyUserFavorite ? '해제' : '추가'}
+      </Button>
       <div className="detail-content">
         <div className="content-cast-recommend">
           <Cast

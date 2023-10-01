@@ -1,19 +1,14 @@
-import { getAuth } from 'firebase/auth'
-// import { auth } from '@/networks/firebase'
 import { atom, selector } from 'recoil'
 
-// const getUser = () => {
-//   const auth = getAuth()
-//   if (auth.currentUser) {
-//     return auth.currentUser
-//   } else {
-//     return undefined
-//   }
-// }
-// export const _user = atom({
-//   key: '_user',
-//   default: getUser,
-// })
+interface IUser {
+  displayName: string
+  email: string
+  emailVerified: boolean
+  uid: string
+  photoURL: string
+  favorites: string[]
+  favoritesMap: Set<string>
+}
 const getSession = () => {
   const sessionKey = `firebase:authUser:${import.meta.env.VITE_FIREBASE_API_KEY}:[DEFAULT]`
   const session = sessionStorage.getItem(sessionKey)
@@ -26,6 +21,8 @@ const getSession = () => {
     // refreshToken: '',
     // expirationTime: 0,
     photoURL: '',
+    favorites: [],
+    favoritesMap: new Set<string>(),
   }
   if (session) {
     const sessionInfo = JSON.parse(session)
@@ -40,7 +37,7 @@ const getSession = () => {
   }
   return session ? userSessionInfo : null
 }
-export const _user = atom({
+export const _user = atom<IUser | null>({
   key: '_user',
   default: getSession(),
 })

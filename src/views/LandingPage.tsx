@@ -20,6 +20,7 @@ const LandingPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage } = useHelper()
   const { openTrailerPopup } = useOutletContext<ContextProps>()
+
   return (
     <div>
       <SearchBox />

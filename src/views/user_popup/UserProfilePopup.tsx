@@ -1,7 +1,7 @@
 import './UserPopup.scss'
 import { useRecoilValue } from 'recoil'
 import { _user } from '@/store/user'
-import { Colors, Element, RatioCardImage } from 'my-react-component'
+import { Colors, Element } from 'my-react-component'
 import { PopupComponentProps } from '@/types/popup/RouterTypes'
 interface UserInfoDetailProps {
   title: string
