@@ -25,10 +25,12 @@ import {
 } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { _user } from '@/store/user'
+import { toast } from '@/store/toast'
 const DetailPage = () => {
   const [loginUser, setLoginUser] = useRecoilState(_user)
+  const toastInstance = useRecoilValue(toast)
   const { media_type, id } = useLoaderData() as { media_type: string; id: string }
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
@@ -118,7 +120,6 @@ const DetailPage = () => {
   }, [credits])
 
   const isAlreadyUserFavorite = useMemo(() => {
-    console.log(loginUser)
     return loginUser?.favoritesMap?.has(id)
   }, [loginUser, item])
 
@@ -142,9 +143,10 @@ const DetailPage = () => {
           favorites: newFavorites,
           favoritesMap: new Set(newFavorites),
         })
+        toastInstance.successAddFavorite()
       }
     } catch (e) {
-      //
+      if (e instanceof Error) toastInstance.error(e.message)
     }
   }
   const removeFavorite = async () => {
@@ -165,6 +167,14 @@ const DetailPage = () => {
         click={isAlreadyUserFavorite ? removeFavorite : addFavorite}
       >
         {isAlreadyUserFavorite ? '해제' : '추가'}
+      </Button>
+      <Button
+        border={Colors.grey_111}
+        fontColor={Colors.grey_111}
+        color={Colors.white}
+        click={() => toastInstance.test()}
+      >
+        토스트
       </Button>
       <div className="detail-content">
         <div className="content-cast-recommend">

@@ -1,6 +1,5 @@
 import { t, TFunction } from 'i18next'
 import { Dispatch, SetStateAction } from 'react'
-import { SetterOrUpdater } from 'recoil'
 
 interface IToast {
   add: ({ text, type }: Omit<ToastItem, 'id'>) => void
@@ -8,6 +7,8 @@ interface IToast {
   login: () => void
   logout: () => void
   keepLogin: () => void
+  successAddFavorite: () => void
+  error: (message: string) => void
 }
 export interface ToastItem {
   id: string
@@ -63,7 +64,19 @@ export default class ToastController implements IToast {
   test = () => {
     this.add({
       text: t('app.toast.test'),
-      type: 'test',
+      type: 'error',
+    })
+  }
+  successAddFavorite = () => {
+    this.add({
+      text: t('app.toast.success_favorite'),
+      type: 'success_favorite',
+    })
+  }
+  error = (message: any) => {
+    this.add({
+      text: t(message),
+      type: 'error',
     })
   }
 }

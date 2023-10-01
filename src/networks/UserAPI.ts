@@ -47,20 +47,25 @@ export default class UserAPI extends FetchAPI {
   }
   login = async (providerName: string) => {
     //
-    const auth = getAuth()
-    const provider = this.getProvider(providerName) as AuthProvider
-    const result = await setPersistence(auth, browserSessionPersistence).then(async () => {
-      return await signInWithPopup(auth, provider).then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result)
-        const token = credential?.accessToken
-        // The signed-in user info.
-        const user = result.user
-        return { token, credential, user }
+    try {
+      const auth = getAuth()
+      const provider = this.getProvider(providerName) as AuthProvider
+      const result = await setPersistence(auth, browserSessionPersistence).then(async () => {
+        return await signInWithPopup(auth, provider).then((result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result)
+          const token = credential?.accessToken
+          // The signed-in user info.
+          const user = result.user
+          return { token, credential, user }
+        })
+
+        //signInWithRedirect
       })
 
-      //signInWithRedirect
-    })
-    return result
+      return result
+    } catch (e) {
+      throw new Error('app.toast.login_fail')
+    }
   }
   getUser = () => {
     const auth = getAuth()
@@ -68,33 +73,27 @@ export default class UserAPI extends FetchAPI {
     return user ? user : undefined
   }
   logout = async () => {
-    const auth = getAuth()
-    const result = await auth.signOut().then((result) => result)
-    return result
+    try {
+      const auth = getAuth()
+      const result = await auth.signOut().then((result) => result)
+      return result
+    } catch (e) {
+      throw new Error('app.toast.logout_fail')
+    }
   }
   getUserFavorites = async (uid: string) => {
     const querySnapshot = await getDoc(doc(this.db, 'user', uid))
     return querySnapshot.data()
   }
   createFavorite = async (uid: string, productId: string) => {
-    console.log(uid, productId)
-    console.log(this.db)
     try {
-      // const userFavoriteRef = doc(collection(this.db, 'user'))
-      // console.log(userFavoriteRef)
-      // const response = await addDoc(collection(this.db, 'user'), {
-      //   [uid]: {
-      //     favorites: [productId],
-      //   },
-      // })
       const userRef = doc(this.db, 'user', uid)
       const response = await setDoc(userRef, {
         favorites: [productId],
-      }).then((response) => true)
-      // console.log(userFavoriteRef, response)
+      }).then((_) => true)
       return response
     } catch (e) {
-      //
+      throw new Error('app.toast.try_favorite')
     }
   }
   addFavorite = async (uid: string, productId: string) => {
@@ -102,10 +101,10 @@ export default class UserAPI extends FetchAPI {
     try {
       const response = await updateDoc(favoriteRef, {
         favorites: arrayUnion(productId),
-      }).then((response) => true)
+      }).then((_) => true)
       return response
     } catch (e) {
-      //
+      throw new Error('app.toast.try_favorite')
     }
   }
 }

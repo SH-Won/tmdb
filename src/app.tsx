@@ -55,9 +55,13 @@ const App = () => {
   }, [])
 
   const logout = async () => {
-    await BackEnd.getInstance().user.logout()
-    toastInstance.logout()
-    setLoginUser(null)
+    try {
+      await BackEnd.getInstance().user.logout()
+      toastInstance.logout()
+      setLoginUser(null)
+    } catch (e) {
+      if (e instanceof Error) toastInstance.error(e.message)
+    }
   }
 
   useEffect(() => {
@@ -82,10 +86,10 @@ const App = () => {
           favoritesMap: new Set(userFavorites?.favorites ?? []),
         })
       } catch (e) {
-        //
+        if (e instanceof Error) toastInstance.error(e)
       }
     })()
-  }, [loginUser!.uid])
+  }, [loginUser?.uid])
 
   const intersectingNavi = useRef<HTMLDivElement>(null)
 
