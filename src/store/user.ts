@@ -22,19 +22,21 @@ const getSession = () => {
     email: '',
     emailVerified: false,
     uid: '',
-    accessToken: '',
-    refreshToken: '',
-    expirationTime: 0,
+    // accessToken: '',
+    // refreshToken: '',
+    // expirationTime: 0,
+    photoURL: '',
   }
   if (session) {
     const sessionInfo = JSON.parse(session)
     userSessionInfo.displayName = sessionInfo.displayName
     userSessionInfo.email = sessionInfo.email
     userSessionInfo.emailVerified = sessionInfo.emailVerified
-    ;(userSessionInfo.uid = sessionInfo.uid),
-      (userSessionInfo.accessToken = sessionInfo.stsTokenManager.accessToken),
-      (userSessionInfo.refreshToken = sessionInfo.stsTokenManager.refreshToken),
-      (userSessionInfo.expirationTime = sessionInfo.stsTokenManager.expirationTime)
+    userSessionInfo.uid = sessionInfo.uid
+    userSessionInfo.photoURL = sessionInfo.photoURL
+    //   (userSessionInfo.accessToken = sessionInfo.stsTokenManager.accessToken)
+    //   (userSessionInfo.refreshToken = sessionInfo.stsTokenManager.refreshToken)
+    //   (userSessionInfo.expirationTime = sessionInfo.stsTokenManager.expirationTime)
   }
   return session ? userSessionInfo : null
 }

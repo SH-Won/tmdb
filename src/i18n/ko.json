@@ -51,7 +51,8 @@
       "login": "로그인",
       "signup": "회원가입",
       "logout": "로그아웃",
-      "search": "검색"
+      "search": "검색",
+      "user_status": "상태"
     },
     "toggle": {
       "trendding": "트렌딩",

@@ -1,4 +1,11 @@
-import { Button, Colors, LoadingSpinner, Navigation, PageLoadingSpinner } from 'my-react-component'
+import {
+  Button,
+  Colors,
+  Element,
+  LoadingSpinner,
+  Navigation,
+  PageLoadingSpinner,
+} from 'my-react-component'
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useBreakPoints, usePopup } from './hooks'
@@ -23,6 +30,7 @@ import {
   IOption,
 } from './const/overall'
 import '@/components/filter/Filter.scss'
+import UserProfilePopup from './views/user_popup/UserProfilePopup'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -68,7 +76,13 @@ const App = () => {
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
   const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
     usePopup(upCommingPopupConfig)
-
+  const { push: openUserStatusPopup, PopupRouter: UserStatusPopup } = usePopup([
+    {
+      name: 'UserStatus',
+      title: '내 정보',
+      component: () => (props: any) => <UserProfilePopup {...props} />,
+    },
+  ])
   const outletContext = useMemo(() => {
     return {
       openTrailerPopup: (item: BaseItem) => {
@@ -133,10 +147,26 @@ const App = () => {
                 color={Colors.white}
                 fontColor={Colors.grey_111}
                 border={Colors.grey_bbb}
+                click={() => {
+                  openUserStatusPopup({
+                    name: 'UserStatus',
+                    props: {
+                      logout,
+                    },
+                  })
+                }}
+              >
+                {/* {t('app.button.user_status')} */}
+                <Element size="medium" name="Gear" color={Colors.grey_111} />
+              </Button>
+              {/* <Button
+                color={Colors.white}
+                fontColor={Colors.grey_111}
+                border={Colors.grey_bbb}
                 click={logout}
               >
                 {t('app.button.logout')}
-              </Button>
+              </Button> */}
               <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
             </div>
           )}
@@ -149,6 +179,7 @@ const App = () => {
         <LoginPopupRouter />
         <SignUpPopupRouter />
         <UpCommingTrailerPopupRouter />
+        <UserStatusPopup />
         {loading && <LoadingSpinner opacity={0.6} />}
       </div>
     </>
