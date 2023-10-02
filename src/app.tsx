@@ -1,4 +1,11 @@
-import { Button, Colors, LoadingSpinner, Navigation, PageLoadingSpinner } from 'my-react-component'
+import {
+  Button,
+  Colors,
+  Element,
+  LoadingSpinner,
+  Navigation,
+  PageLoadingSpinner,
+} from 'my-react-component'
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useBreakPoints, usePopup } from './hooks'
@@ -23,6 +30,7 @@ import {
   IOption,
 } from './const/overall'
 import '@/components/filter/Filter.scss'
+import userPopupConfig from './views/user_popup/userPopupConfig'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -47,9 +55,13 @@ const App = () => {
   }, [])
 
   const logout = async () => {
-    await BackEnd.getInstance().user.logout()
-    toastInstance.logout()
-    setLoginUser(null)
+    try {
+      await BackEnd.getInstance().user.logout()
+      toastInstance.logout()
+      setLoginUser(null)
+    } catch (e) {
+      if (e instanceof Error) toastInstance.error(e.message)
+    }
   }
 
   useEffect(() => {
@@ -62,13 +74,29 @@ const App = () => {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
+  useEffect(() => {
+    if (!loginUser) return
+    ;(async () => {
+      try {
+        const userFavorites = await BackEnd.getInstance().user.getUserFavorites(loginUser.uid)
+        setLoginUser({
+          ...loginUser,
+          favorites: userFavorites?.favorites ?? [],
+          favoritesMap: new Set(userFavorites?.favorites ?? []),
+        })
+      } catch (e) {
+        if (e instanceof Error) toastInstance.error(e)
+      }
+    })()
+  }, [loginUser?.uid])
+
   const intersectingNavi = useRef<HTMLDivElement>(null)
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
+  const { push: openUserStatusPopup, PopupRouter: UserStatusPopup } = usePopup(userPopupConfig)
   const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
     usePopup(upCommingPopupConfig)
-
   const outletContext = useMemo(() => {
     return {
       openTrailerPopup: (item: BaseItem) => {
@@ -77,6 +105,11 @@ const App = () => {
           props: {
             item,
           },
+        })
+      },
+      login: () => {
+        login({
+          name: 'Login',
         })
       },
     }
@@ -133,11 +166,27 @@ const App = () => {
                 color={Colors.white}
                 fontColor={Colors.grey_111}
                 border={Colors.grey_bbb}
+                click={() => {
+                  openUserStatusPopup({
+                    name: 'UserStatus',
+                    props: {
+                      logout,
+                    },
+                  })
+                }}
+              >
+                {/* {t('app.button.user_status')} */}
+                <Element size="medium" name="Gear" color={Colors.grey_111} />
+              </Button>
+              {/* <Button
+                color={Colors.white}
+                fontColor={Colors.grey_111}
+                border={Colors.grey_bbb}
                 click={logout}
               >
                 {t('app.button.logout')}
-              </Button>
-              <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} />
+              </Button> */}
+              {/* <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} /> */}
             </div>
           )}
         </Navigation>
@@ -149,6 +198,7 @@ const App = () => {
         <LoginPopupRouter />
         <SignUpPopupRouter />
         <UpCommingTrailerPopupRouter />
+        <UserStatusPopup />
         {loading && <LoadingSpinner opacity={0.6} />}
       </div>
     </>

@@ -31,7 +31,10 @@ const ToastItemComponent = ({ deleteItem, item, isStartAnimation }: ToastItemPro
     WebkitAnimation: 'appearAndHide 3s linear',
   }
   return (
-    <div className="toast-item" style={isStartAnimation ? animation : {}}>
+    <div
+      className={`toast-item ${item.type === 'error' ? 'error' : ''}`}
+      style={isStartAnimation ? animation : {}}
+    >
       <Element name="Check" size="medium" color={Colors.white} />
       <span>{item.text}</span>
     </div>

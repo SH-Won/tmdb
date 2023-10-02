@@ -1,11 +1,11 @@
 @import 'my-react-component/src/styles/colors.module.scss';
 .toast {
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  top: 77px;
+  top: 10vh;
   left: 50%;
   width: 100%;
   transform: translate(-50%, 0);
@@ -14,6 +14,7 @@
   // -webkit-animation: appearAndHide 3s linear;
   overflow: hidden;
   box-sizing: border-box;
+  z-index: 10010;
 
   .desktop & {
     padding-left: var(--navigation-padding);
@@ -27,6 +28,10 @@
     // height: 20px;
     background-color: color('green');
     border-radius: 8px;
+    &.error {
+      background-color: color('red');
+      color: color('white');
+    }
     // transition: translateY(-100%) 0.3s linear 2.8s;
     // height: 30px;
     // height: 100%;

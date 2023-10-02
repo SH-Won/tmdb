@@ -7,7 +7,7 @@ import { Button, Colors, Element, InputBox } from 'my-react-component'
 import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import './LoginPopup.scss'
-
+import { User, UserProfile } from 'firebase/auth'
 const emailValidator = (email: string) => {
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
   return email === '' || email.match(regExp) != null
@@ -23,21 +23,37 @@ const Login = (props: PopupComponentProps) => {
   const [loginUser, setLoginUser] = useRecoilState(user)
   const toastInatance = useRecoilValue(toast)
   const login = async (providerName: string) => {
-    const result = await BackEnd.getInstance().user.login(providerName)
-    if (result.user) {
-      const { user }: { user: any } = result
-      const obj = {
-        displayName: user.displayName as string,
-        email: user.email as string,
-        emailVerified: user.emailVerified as boolean,
-        uid: user.uid as string,
-        accessToken: user.stsTokenManager.accessToken as string,
-        expirationTime: user.stsTokenManager.expirationTime as number,
-        refreshToken: user.stsTokenManager.refreshToken as string,
+    try {
+      const result = await BackEnd.getInstance()
+        .user.login(providerName)
+        .then(async (response) => {
+          const { user, token, credential } = response
+          const obj = {
+            displayName: user.displayName as string,
+            email: user.email as string,
+            emailVerified: user.emailVerified as boolean,
+            uid: user.uid as string,
+            // accessToken: user.stsTokenManager.accessToken as string,
+            // expirationTime: user.stsTokenManager.expirationTime as number,
+            // refreshToken: user.stsTokenManager.refreshToken as string,
+            photoURL: user.photoURL as string,
+            favorites: [],
+            favoritesMap: new Set<string>(),
+          }
+          // const userFavorites = await BackEnd.getInstance().user.getUserFavorites(user.uid)
+          // obj['favorites'] = userFavorites!.favorites
+          // obj['favoritesMap'].add(userFavorites!.favorites)
+
+          return obj
+        })
+      if (result) {
+        setLoginUser(result)
+        props.close?.()
+        toastInatance.login()
       }
-      setLoginUser(obj)
+    } catch (e) {
       props.close?.()
-      toastInatance.login()
+      if (e instanceof Error) toastInatance.error(e.message)
     }
   }
   // useEffect(() => {

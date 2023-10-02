@@ -1,3 +1,7 @@
+export type IOutletContext = {
+  openTrailerPopup: (item: BaseItem) => void
+  login: () => void
+}
 export interface IMovie extends BaseItem {
   release_date: string
 }

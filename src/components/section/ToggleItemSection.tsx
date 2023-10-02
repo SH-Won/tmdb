@@ -32,6 +32,9 @@ const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
     {
       staleTime: 30000,
       enabled: !!selectedItem,
+      onError: (e: Error) => {
+        //
+      },
     }
   )
   return (

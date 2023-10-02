@@ -51,7 +51,10 @@
       "login": "로그인",
       "signup": "회원가입",
       "logout": "로그아웃",
-      "search": "검색"
+      "search": "검색",
+      "user_status": "상태",
+      "add_user_favorite": "추가",
+      "remove_user_favorite": "해제"
     },
     "toggle": {
       "trendding": "트렌딩",
@@ -85,7 +88,13 @@
       "keep_login": "로그인 된 상태입니다",
       "login": "로그인 되었습니다",
       "logout": "로그아웃 되었습니다",
-      "test": "테스트 토스트 입니다"
+      "test": "테스트 토스트 입니다",
+      "success_add_favorite": "즐겨찾기에 추가 되었습니다",
+      "success_remove_favorite": "즐겨찾기에서 해제 되었습니다",
+      "add_favorite_fail": "즐겨찾기 추가에 실패 했습니다.\n다시 시도 해주세요",
+      "remove_favorite_fail": "즐겨찾기 해제에 실패했습니다.\n다시 시도해주세요",
+      "login_fail": "로그인에 실패했습니다.\n다시 시도해주세요",
+      "logout_fail": "로그아웃에 실패했습니다.\n다시 시도해주세요"
     },
     "person_page": {
       "loading_text": "인물 정보를 불러오고 있습니다"
