@@ -8,18 +8,18 @@ import {
   TOGGLE_UPCOMMING,
 } from '@/const/toggleBar'
 import SearchBox from '@/components/main/SearchBox'
-import { BaseItem } from 'types/interface'
+import { BaseItem, IOutletContext } from 'types/interface'
 import UpcommingItemSection from '@/components/section/UpcommingItemSection'
 import { useOutletContext } from 'react-router-dom'
 
-type ContextProps = {
-  openTrailerPopup: (item: BaseItem) => void
-}
+// type ContextProps = {
+//   openTrailerPopup: (item: BaseItem) => void
+// }
 const LandingPage = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage } = useHelper()
-  const { openTrailerPopup } = useOutletContext<ContextProps>()
+  const { openTrailerPopup } = useOutletContext<IOutletContext>()
 
   return (
     <div>

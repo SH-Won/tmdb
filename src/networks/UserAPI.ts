@@ -22,6 +22,7 @@ import {
   getDoc,
   DocumentData,
   DocumentReference,
+  arrayRemove,
 } from 'firebase/firestore'
 import FetchAPI from './FetchAPI'
 
@@ -93,7 +94,7 @@ export default class UserAPI extends FetchAPI {
       }).then((_) => true)
       return response
     } catch (e) {
-      throw new Error('app.toast.try_favorite')
+      throw new Error('app.toast.add_favorite_fail')
     }
   }
   addFavorite = async (uid: string, productId: string) => {
@@ -104,7 +105,18 @@ export default class UserAPI extends FetchAPI {
       }).then((_) => true)
       return response
     } catch (e) {
-      throw new Error('app.toast.try_favorite')
+      throw new Error('app.toast.add_favorite_fail')
+    }
+  }
+  removeFavorite = async (uid: string, productId: string) => {
+    const favoriteRef = doc(this.db, 'user', uid)
+    try {
+      const response = await updateDoc(favoriteRef, {
+        favorites: arrayRemove(productId),
+      }).then((_) => true)
+      return response
+    } catch (e) {
+      throw new Error('app.toast.remove_favorite_fail')
     }
   }
 }

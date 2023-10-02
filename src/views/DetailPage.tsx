@@ -2,13 +2,14 @@ import { MOVIE_CATEGORY } from '@/const'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { useQuery } from 'react-query'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useOutletContext } from 'react-router-dom'
 import {
   BaseCredits,
   BaseCrew,
   BaseItem,
   BaseItemDetail,
   BasicImage,
+  IOutletContext,
   RelativeImageResponse,
 } from 'types/interface'
 import '@/styles/DetailPage.scss'
@@ -28,9 +29,11 @@ import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { _user } from '@/store/user'
 import { toast } from '@/store/toast'
+import UserFavoriteButton from '@/components/user/UserFavoriteButton'
 const DetailPage = () => {
   const [loginUser, setLoginUser] = useRecoilState(_user)
   const toastInstance = useRecoilValue(toast)
+  const { login } = useOutletContext<IOutletContext>()
   const { media_type, id } = useLoaderData() as { media_type: string; id: string }
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
@@ -124,7 +127,11 @@ const DetailPage = () => {
   }, [loginUser, item])
 
   const addFavorite = async () => {
-    if (!loginUser?.uid) return
+    if (!loginUser?.uid) {
+      const userConfirm = confirm('로그인이 필요합니다')
+      if (userConfirm) login()
+      return
+    }
     try {
       let response
       if (!loginUser.favorites) {
@@ -139,7 +146,6 @@ const DetailPage = () => {
         const newFavorites = [...loginUser.favorites, id]
         setLoginUser({
           ...loginUser,
-          ...loginUser,
           favorites: newFavorites,
           favoritesMap: new Set(newFavorites),
         })
@@ -150,7 +156,26 @@ const DetailPage = () => {
     }
   }
   const removeFavorite = async () => {
-    console.log('remove')
+    if (!loginUser) return
+    try {
+      const response = await BackEnd.getInstance().user.removeFavorite(
+        loginUser!.uid,
+        item!.id.toString()
+      )
+
+      if (response) {
+        const newFavoritesMap = new Set(loginUser.favorites)
+        newFavoritesMap.delete(item!.id.toString())
+        setLoginUser({
+          ...loginUser,
+          favorites: Array.from(newFavoritesMap),
+          favoritesMap: newFavoritesMap,
+        })
+        toastInstance.successRemoveFavorite()
+      }
+    } catch (e) {
+      if (e instanceof Error) toastInstance.error(e.message)
+    }
   }
 
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
@@ -160,7 +185,7 @@ const DetailPage = () => {
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
-      <Button
+      {/* <Button
         border={Colors.grey_111}
         fontColor={Colors.grey_111}
         color={Colors.white}
@@ -175,7 +200,7 @@ const DetailPage = () => {
         click={() => toastInstance.test()}
       >
         토스트
-      </Button>
+      </Button> */}
       <div className="detail-content">
         <div className="content-cast-recommend">
           <Cast
@@ -222,6 +247,11 @@ const DetailPage = () => {
         </div>
         <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>
+      <UserFavoriteButton
+        addFavorite={addFavorite}
+        removeFavorite={removeFavorite}
+        isAlreadyUserFavorite={isAlreadyUserFavorite}
+      />
     </div>
   )
 }

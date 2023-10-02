@@ -8,6 +8,7 @@ interface IToast {
   logout: () => void
   keepLogin: () => void
   successAddFavorite: () => void
+  successRemoveFavorite: () => void
   error: (message: string) => void
 }
 export interface ToastItem {
@@ -69,8 +70,14 @@ export default class ToastController implements IToast {
   }
   successAddFavorite = () => {
     this.add({
-      text: t('app.toast.success_favorite'),
-      type: 'success_favorite',
+      text: t('app.toast.success_add_favorite'),
+      type: 'success_add_favorite',
+    })
+  }
+  successRemoveFavorite = () => {
+    this.add({
+      text: t('app.toast.success_remove_favorite'),
+      type: 'success_remove_favorite',
     })
   }
   error = (message: any) => {

@@ -30,7 +30,7 @@ import {
   IOption,
 } from './const/overall'
 import '@/components/filter/Filter.scss'
-import UserProfilePopup from './views/user_popup/UserProfilePopup'
+import userPopupConfig from './views/user_popup/userPopupConfig'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -76,7 +76,6 @@ const App = () => {
 
   useEffect(() => {
     if (!loginUser) return
-    console.log('main db useEffect')
     ;(async () => {
       try {
         const userFavorites = await BackEnd.getInstance().user.getUserFavorites(loginUser.uid)
@@ -95,15 +94,9 @@ const App = () => {
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
+  const { push: openUserStatusPopup, PopupRouter: UserStatusPopup } = usePopup(userPopupConfig)
   const { push: openTrailerPopup, PopupRouter: UpCommingTrailerPopupRouter } =
     usePopup(upCommingPopupConfig)
-  const { push: openUserStatusPopup, PopupRouter: UserStatusPopup } = usePopup([
-    {
-      name: 'UserStatus',
-      title: '내 정보',
-      component: () => (props: any) => <UserProfilePopup {...props} />,
-    },
-  ])
   const outletContext = useMemo(() => {
     return {
       openTrailerPopup: (item: BaseItem) => {
@@ -112,6 +105,11 @@ const App = () => {
           props: {
             item,
           },
+        })
+      },
+      login: () => {
+        login({
+          name: 'Login',
         })
       },
     }
