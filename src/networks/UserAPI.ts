@@ -92,6 +92,7 @@ export default class UserAPI extends FetchAPI {
       const response = await setDoc(userRef, {
         favorites: [productId],
       }).then((_) => true)
+
       return response
     } catch (e) {
       throw new Error('app.toast.add_favorite_fail')

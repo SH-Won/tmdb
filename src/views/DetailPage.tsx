@@ -134,7 +134,7 @@ const DetailPage = () => {
     }
     try {
       let response
-      if (!loginUser.favorites) {
+      if (!loginUser.favorites.length) {
         response = await BackEnd.getInstance().user.createFavorite(
           loginUser!.uid,
           item!.id.toString()
