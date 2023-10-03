@@ -6,7 +6,7 @@ const useBreakPoints = () => {
   const [currentClass, setCurrentClass] = useState<ClassType>('')
   const [breakPoints, setBreakPoints] = useState<number>(window.innerWidth)
   const defaultBreakPoinsts = {
-    mobile: 525,
+    mobile: 600,
     tablet: 900,
     desktop: 1100,
   }

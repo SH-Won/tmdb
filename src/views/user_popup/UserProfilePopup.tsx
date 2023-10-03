@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil'
 import { _user } from '@/store/user'
 import { Colors, Element } from 'my-react-component'
 import { PopupComponentProps } from '@/types/popup/RouterTypes'
+import { useI18nTypes } from '@/hooks'
 interface UserInfoDetailProps {
   title: string
   explain: string
@@ -21,6 +22,7 @@ interface UserProfilePopupProps extends PopupComponentProps {
 
 const UserProfilePopup = ({ logout, close }: UserProfilePopupProps) => {
   const user = useRecoilValue(_user)
+  const { t } = useI18nTypes()
   const onHandleLogout = () => {
     close?.()
     logout()
@@ -37,7 +39,8 @@ const UserProfilePopup = ({ logout, close }: UserProfilePopupProps) => {
       </div>
       <div className="user-action">
         <div className="logout" onClick={onHandleLogout}>
-          로그아웃 <Element name="Right" size="small" color={Colors.grey_333} />
+          <span>{t('app.button.logout')}</span>{' '}
+          <Element name="Logout" size="small" color={Colors.grey_333} />
         </div>
       </div>
     </div>

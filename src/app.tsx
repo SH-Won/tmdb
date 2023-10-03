@@ -31,6 +31,8 @@ import {
 } from './const/overall'
 import '@/components/filter/Filter.scss'
 import userPopupConfig from './views/user_popup/userPopupConfig'
+import IconButton from './components/common/Iconbutton'
+import UserImage from './components/user/UserImage'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -43,6 +45,7 @@ const App = () => {
     return location.pathname !== '/'
   }, [location.pathname])
   const mobile = isMobile() || breakPointsClass === 'mobile'
+  const desktop = breakPointsClass === 'desktop'
   const goBack = (isMain: boolean) => {
     if (isMain) {
       navigate('/')
@@ -136,33 +139,51 @@ const App = () => {
           </div>
           {!loginUser ? (
             <div className="user-button-container">
-              <Button
-                color={Colors.main}
-                fontColor={Colors.white}
+              <IconButton
+                iconName="Login"
+                iconSize={mobile ? 'medium' : 'small'}
+                iconPosition="back"
+                iconColor={Colors.grey_111}
+                fontColor={Colors.grey_111}
+                buttonBorder="transparent"
                 click={() =>
                   login({
                     name: 'Login',
                   })
                 }
               >
-                {t('app.button.login')}
-              </Button>
-              <Button
-                color={Colors.white}
+                {!mobile ? t('app.button.login') : null}
+              </IconButton>
+              <IconButton
+                iconName="Signup"
+                iconSize={mobile ? 'medium' : 'small'}
+                iconPosition="back"
+                iconColor={Colors.grey_111}
                 fontColor={Colors.grey_111}
-                border={Colors.grey_bbb}
+                buttonBorder="transparent"
                 click={() =>
                   signup({
                     name: 'Signup',
                   })
                 }
               >
-                {t('app.button.signup')}
-              </Button>
+                {!mobile ? t('app.button.signup') : null}
+              </IconButton>
             </div>
           ) : (
             <div className="user-button-container">
-              <Button
+              <UserImage
+                imageUrl={loginUser.photoURL}
+                click={() =>
+                  openUserStatusPopup({
+                    name: 'UserStatus',
+                    props: {
+                      logout,
+                    },
+                  })
+                }
+              />
+              {/* <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}
                 border={Colors.grey_bbb}
@@ -175,9 +196,9 @@ const App = () => {
                   })
                 }}
               >
-                {/* {t('app.button.user_status')} */}
+                {t('app.button.user_status')}
                 <Element size="medium" name="Gear" color={Colors.grey_111} />
-              </Button>
+              </Button> */}
               {/* <Button
                 color={Colors.white}
                 fontColor={Colors.grey_111}
