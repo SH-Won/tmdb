@@ -22,7 +22,7 @@ yarn set version berry
 
 ```
 nodeLinker: pnp
-yarnPath: .yarn/releases/yarn-3.2.0.cjs
+yarnPath: .yarn/releases/yarn-3.5.0.cjs
 ```
 
 3. yarn install

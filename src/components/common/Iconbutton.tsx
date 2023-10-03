@@ -9,16 +9,18 @@ interface IconProps {
 interface IconButtonProps {
   iconName: string
   iconSize: 'big' | 'medium' | 'small' | 'custom'
+  iconPosition?: 'front' | 'back'
   iconColor: string
   // Icon : ComponentType<IconProps>
   ButtonColor?: string
   fontColor?: string
   buttonBorder?: string
   buttionWidth?: string
-  children?: JSX.Element | JSX.Element[] | string
+  children?: JSX.Element | JSX.Element[] | string | null
   click: (() => void) | (() => Promise<void>)
 }
 const IconButton = (props: IconButtonProps) => {
+  const isBack = props.iconPosition === 'back'
   return (
     <Button
       click={props.click}
@@ -30,13 +32,23 @@ const IconButton = (props: IconButtonProps) => {
       <div
         style={{
           display: 'flex',
-          width: '80%',
+          width: '100%',
           justifyContent: 'space-around',
+          gap: '4px',
           alignItems: 'center',
         }}
       >
-        <Element name={props.iconName} color={props.iconColor} size={props.iconSize!} />
-        {props.children}
+        {!isBack ? (
+          <>
+            <Element name={props.iconName} color={props.iconColor} size={props.iconSize!} />
+            {props.children}
+          </>
+        ) : (
+          <>
+            {props.children}
+            <Element name={props.iconName} color={props.iconColor} size={props.iconSize!} />
+          </>
+        )}
       </div>
     </Button>
   )
