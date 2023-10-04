@@ -61,6 +61,10 @@ export const router = createBrowserRouter(
           Component: lazy(() => import('@/views/PersonPage')),
           path: '/person',
         },
+        {
+          Component: lazy(() => import('@/views/UserFavoritePage')),
+          path: '/:username/favorites',
+        },
       ],
     },
     // {

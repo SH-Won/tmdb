@@ -17,13 +17,7 @@ import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
-import {
-  RatioCardImage,
-  AutoCarousel,
-  PageLoadingSpinner,
-  Button,
-  Colors,
-} from 'my-react-component'
+import { RatioCardImage, AutoCarousel, PageLoadingSpinner } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -123,7 +117,7 @@ const DetailPage = () => {
   }, [credits])
 
   const isAlreadyUserFavorite = useMemo(() => {
-    return loginUser?.favoritesMap?.has(id)
+    return loginUser?.favoritesMap?.has(`${media_type}:${id}`)
   }, [loginUser, item])
 
   const addFavorite = async () => {
@@ -134,16 +128,20 @@ const DetailPage = () => {
     }
     try {
       let response
+
       if (!loginUser.favorites.length) {
         response = await BackEnd.getInstance().user.createFavorite(
           loginUser!.uid,
-          item!.id.toString()
+          `${media_type}:${id}`
         )
       } else {
-        response = await BackEnd.getInstance().user.addFavorite(loginUser!.uid, item!.id.toString())
+        response = await BackEnd.getInstance().user.addFavorite(
+          loginUser!.uid,
+          `${media_type}:${id}`
+        )
       }
       if (response) {
-        const newFavorites = [...loginUser.favorites, id]
+        const newFavorites = [...loginUser.favorites, `${media_type}:${id}`]
         setLoginUser({
           ...loginUser,
           favorites: newFavorites,
@@ -160,12 +158,12 @@ const DetailPage = () => {
     try {
       const response = await BackEnd.getInstance().user.removeFavorite(
         loginUser!.uid,
-        item!.id.toString()
+        `${media_type}:${id}`
       )
 
       if (response) {
         const newFavoritesMap = new Set(loginUser.favorites)
-        newFavoritesMap.delete(item!.id.toString())
+        newFavoritesMap.delete(`${media_type}:${id}`)
         setLoginUser({
           ...loginUser,
           favorites: Array.from(newFavoritesMap),

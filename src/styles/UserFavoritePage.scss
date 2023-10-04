@@ -1,0 +1,33 @@
+@import 'my-react-component/src/styles/typeface.module.scss';
+@import 'my-react-component/src/styles/colors.module.scss';
+.user-favorites-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 32px;
+  gap: 16px;
+  & > .user-favorites-items {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    .tablet & {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .mobile & {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  & > .user-favorites-option {
+    align-self: flex-end;
+    width: 40%;
+    max-width: 150px;
+    .mobile & {
+      @include typeface('Paragraph_3');
+    }
+    .tablet & {
+      @include typeface('Paragraph_2');
+    }
+    .desktop & {
+      @include typeface('Paragraph_1_m');
+    }
+  }
+}

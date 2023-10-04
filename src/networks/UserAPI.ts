@@ -12,19 +12,15 @@ import { initializeApp } from 'firebase/app'
 import { firebaseConfig } from '@/networks/firebase'
 import {
   getFirestore,
-  collection,
-  addDoc,
-  getDocs,
   doc,
   updateDoc,
   arrayUnion,
   setDoc,
   getDoc,
-  DocumentData,
-  DocumentReference,
   arrayRemove,
 } from 'firebase/firestore'
 import FetchAPI from './FetchAPI'
+import { IUser } from '@/store/user'
 
 const isMobile = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
@@ -46,11 +42,40 @@ export default class UserAPI extends FetchAPI {
     }
     //provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
   }
+  checkLogin = async (): Promise<IUser | null> => {
+    const auth = getAuth()
+    const sessionLoginUser: IUser = {
+      displayName: '',
+      email: '',
+      emailVerified: false,
+      favorites: [],
+      favoritesMap: new Set(),
+      uid: '',
+      photoURL: '',
+    }
+    return await new Promise((res, rej) => {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          sessionLoginUser.displayName = user.displayName as string
+          sessionLoginUser.email = user.email as string
+          sessionLoginUser.emailVerified = user.emailVerified
+          sessionLoginUser.favorites = []
+          sessionLoginUser.uid = user.uid
+          sessionLoginUser.photoURL = user.photoURL as string
+          sessionLoginUser.favoritesMap = new Set()
+          res(sessionLoginUser)
+        } else {
+          res(null)
+        }
+      })
+    })
+  }
   login = async (providerName: string) => {
     //
     try {
       const auth = getAuth()
       const provider = this.getProvider(providerName) as AuthProvider
+
       const result = await setPersistence(auth, browserSessionPersistence).then(async () => {
         return await signInWithPopup(auth, provider).then((result) => {
           const credential = GoogleAuthProvider.credentialFromResult(result)
