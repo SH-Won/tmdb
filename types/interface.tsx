@@ -28,7 +28,7 @@ export interface BaseItem {
   vote_count: number
 }
 
-export interface BaseItemDetail {
+export interface BaseItemDetail extends BaseItem {
   adult: boolean
   backdrop_path: string
   belongs_to_collection: object

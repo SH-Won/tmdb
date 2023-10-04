@@ -1,10 +1,10 @@
-import { BaseCast, BaseItem } from 'types/interface'
+import { BaseCast, BaseItem, BaseItemDetail } from 'types/interface'
 import { useNavigate } from 'react-router-dom'
 
 const useHelper = () => {
   const navigate = useNavigate()
 
-  const goDetailPage = (item: BaseItem) => {
+  const goDetailPage = (item: BaseItem | BaseItemDetail) => {
     let url = item.release_date ? '/movie/' : '/tv/'
     url += item.id
     navigate(url)
