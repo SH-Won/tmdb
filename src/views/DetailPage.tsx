@@ -183,22 +183,6 @@ const DetailPage = () => {
   return (
     <div className={`detail-page ${breakPointsClass}`}>
       <Intro item={item!} crews={crews} />
-      {/* <Button
-        border={Colors.grey_111}
-        fontColor={Colors.grey_111}
-        color={Colors.white}
-        click={isAlreadyUserFavorite ? removeFavorite : addFavorite}
-      >
-        {isAlreadyUserFavorite ? '해제' : '추가'}
-      </Button>
-      <Button
-        border={Colors.grey_111}
-        fontColor={Colors.grey_111}
-        color={Colors.white}
-        click={() => toastInstance.test()}
-      >
-        토스트
-      </Button> */}
       <div className="detail-content">
         <div className="content-cast-recommend">
           <Cast

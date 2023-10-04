@@ -4,7 +4,7 @@ import { useHelper, useI18nTypes } from '@/hooks'
 import BackEnd from '@/networks'
 import { _user } from '@/store/user'
 import '@/styles/UserFavoritePage.scss'
-import { OptionList, PageLoadingSpinner, PosterCard } from 'my-react-component'
+import { Notification, OptionList, PageLoadingSpinner, PosterCard } from 'my-react-component'
 import DropDown from 'my-react-component/src/components/dropdown/DropDown'
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
@@ -79,21 +79,29 @@ const UserFavoritePage = () => {
           <OptionList items={items} click={(item) => setSelected(item)} itemSize="small" />
         </DropDown>
       </div>
-      <div className="user-favorites-items">
-        {filteredData?.map((d) => {
-          return (
-            <PosterCard
-              key={d.id}
-              imageUrl={isValidImage(d.poster_path)}
-              ratio={1.2}
-              title={d.title ?? d.name}
-              releaseDate={getConvertedDate(d.release_date ?? d.first_air_date)}
-              voteAverage={Math.floor(d.vote_average * 10)}
-              click={() => goDetailPage(d)}
-            />
-          )
-        })}
-      </div>
+      {filteredData?.length ? (
+        <div className="user-favorites-items">
+          {filteredData?.map((d) => {
+            return (
+              <PosterCard
+                key={d.id}
+                imageUrl={isValidImage(d.poster_path)}
+                ratio={1.2}
+                title={d.title ?? d.name}
+                releaseDate={getConvertedDate(d.release_date ?? d.first_air_date)}
+                voteAverage={Math.floor(d.vote_average * 10)}
+                click={() => goDetailPage(d)}
+              />
+            )
+          })}
+        </div>
+      ) : (
+        <Notification
+          text={t('app.user.notification_no_favorite')}
+          height="30vh"
+          color="transparent"
+        />
+      )}
     </div>
   )
 }
