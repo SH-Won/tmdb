@@ -3,7 +3,8 @@
     "navigation": {
       "movie": "영화",
       "tv": "TV",
-      "person": "인물"
+      "person": "인물",
+      "total": "전체"
     },
     "search": {
       "title": "영화, TV 등을 검색해보세요",
@@ -99,6 +100,9 @@
     },
     "person_page": {
       "loading_text": "인물 정보를 불러오고 있습니다"
+    },
+    "user": {
+      "favorites": "즐겨찾기"
     }
   }
 }

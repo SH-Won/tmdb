@@ -163,7 +163,7 @@ const DetailPage = () => {
 
       if (response) {
         const newFavoritesMap = new Set(loginUser.favorites)
-        newFavoritesMap.delete(item!.id.toString())
+        newFavoritesMap.delete(`${media_type}:${id}`)
         setLoginUser({
           ...loginUser,
           favorites: Array.from(newFavoritesMap),

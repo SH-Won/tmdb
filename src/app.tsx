@@ -79,7 +79,6 @@ const App = () => {
             .user.checkLogin()
             .then((user) => {
               if (user) {
-                console.log(user)
                 setLoginUser(user)
                 toastInstance.keepLogin()
               }
@@ -102,7 +101,6 @@ const App = () => {
     ;(async () => {
       try {
         const userFavorites = await BackEnd.getInstance().user.getUserFavorites(loginUser.uid)
-        console.log(userFavorites)
         setLoginUser({
           ...loginUser,
           favorites: userFavorites?.favorites ?? [],
