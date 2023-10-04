@@ -32,10 +32,6 @@ const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
       enabled: !!selectedItem,
     }
   )
-  // const isValidImage = (imagePath: string) => {
-  //   if (!imagePath) return '/noImage.svg'
-  //   return import.meta.env.VITE_BASE_IMAGE_URL + imagePath
-  // }
   const getBackGroundImageUrl = (backdropPath: string) => {
     return `url(${import.meta.env.VITE_BASE_IMAGE_URL + backdropPath})`
   }

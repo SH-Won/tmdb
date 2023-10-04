@@ -147,8 +147,6 @@ const MoviePage = () => {
 
   const isProviderChange = useMemo<boolean>(() => {
     const isUserAlreadySelect = providers.some((providerId) => prevProviders.includes(providerId))
-    // 고른게 있어도 length 가 다르면 true
-    // 고른게 있고 length 도 같으면 false
     return (
       providers.length !== prevProviders.length ||
       (!isUserAlreadySelect && prevProviders.length !== 0)
@@ -226,14 +224,6 @@ const MoviePage = () => {
                 count={10}
                 onSelect={selectVoteAverage}
               />
-              {/* <span className="setting-title">평점</span>
-              <SettingBar
-                width={236}
-                initialCount={voteCount / 100}
-                magnification={100}
-                count={10}
-                onSelect={selectVoteCount}
-              /> */}
             </div>
           </BasicAccordion>
         </div>
@@ -268,20 +258,6 @@ const MoviePage = () => {
           </Button>
         )}
       </div>
-      {/* {providerLoading || isLoading ? (
-        <PageLoadingSpinner customHeight="100px" />
-      ) : (
-        <div style={{ padding: '0 16px 16px 16px' }}>
-          <Button
-            color={Colors.main}
-            fontColor={Colors.white}
-            width="auto"
-            click={() => setPage((prev) => prev + 1)}
-          >
-            {t('app.filter.load_more')}
-          </Button>
-        </div>
-      )} */}
       <FilterSearchButton
         show={isShowSearchButton}
         text={t('app.button.search')}

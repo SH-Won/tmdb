@@ -13,7 +13,6 @@ const UserFavoriteButton = ({
   addFavorite,
   isAlreadyUserFavorite,
 }: UserFavoirteButtonProps) => {
-  // if (isAlreadyUserFavorite === undefined) return null
   const { t } = useI18nTypes()
   return (
     <div

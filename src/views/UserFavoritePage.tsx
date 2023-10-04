@@ -43,9 +43,6 @@ const UserFavoritePage = () => {
       staleTime: Infinity,
       enabled: user?.favorites.length !== 0,
       cacheTime: 0,
-      onSuccess: () => {
-        //
-      },
     }
   )
   const items = [

@@ -5,7 +5,6 @@ import {
   signInWithPopup,
   setPersistence,
   browserSessionPersistence,
-  signInWithRedirect,
   GithubAuthProvider,
 } from 'firebase/auth'
 import { initializeApp } from 'firebase/app'
@@ -22,9 +21,6 @@ import {
 import FetchAPI from './FetchAPI'
 import { IUser } from '@/store/user'
 
-const isMobile = () => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-}
 export default class UserAPI extends FetchAPI {
   db
   constructor() {
@@ -71,7 +67,6 @@ export default class UserAPI extends FetchAPI {
     })
   }
   login = async (providerName: string) => {
-    //
     try {
       const auth = getAuth()
       const provider = this.getProvider(providerName) as AuthProvider
@@ -80,12 +75,9 @@ export default class UserAPI extends FetchAPI {
         return await signInWithPopup(auth, provider).then((result) => {
           const credential = GoogleAuthProvider.credentialFromResult(result)
           const token = credential?.accessToken
-          // The signed-in user info.
           const user = result.user
           return { token, credential, user }
         })
-
-        //signInWithRedirect
       })
 
       return result

@@ -1,19 +1,16 @@
-import { HeaderBar, Navigation } from 'my-react-component'
-import { useEffect, useLayoutEffect, useMemo } from 'react'
+import { Navigation } from 'my-react-component'
+import { useEffect, useMemo } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useBreakPoints, useI18nTypes } from './hooks'
 import '@/components/filter/Filter.scss'
 import HeaderItem from './components/header/HeaderItem'
 import { HEADER_MOVIE_OPTION, HEADER_PERSON_OPTION, HEADER_TV_OPTION } from './const/overall'
 import { isMobile } from './networks'
-// import { useRecoilValue } from 'recoil'
-// import { toast } from '@/store/toast'
 
 const Overall = () => {
   const { t } = useI18nTypes()
   const navigate = useNavigate()
   const { breakPointsClass } = useBreakPoints()
-  // const toastInstance = useRecoilValue(toast)
   const mobile = isMobile() || breakPointsClass === 'mobile'
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
@@ -25,7 +22,6 @@ const Overall = () => {
     } else {
       navigate(-1)
     }
-    // window.scrollTo(0, 0)
   }
   useEffect(() => {
     window.scrollTo(0, 0)

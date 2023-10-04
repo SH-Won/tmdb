@@ -97,7 +97,6 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     & > .content-cast-recommend {
-      // @include rightFade;
       overflow: hidden;
       display: flex;
       flex-direction: column;

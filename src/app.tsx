@@ -1,12 +1,5 @@
-import {
-  Button,
-  Colors,
-  Element,
-  LoadingSpinner,
-  Navigation,
-  PageLoadingSpinner,
-} from 'my-react-component'
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Colors, LoadingSpinner, Navigation, PageLoadingSpinner } from 'my-react-component'
+import { Suspense, useCallback, useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useBreakPoints, usePopup } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
@@ -14,7 +7,6 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { loadingState } from './store/loading'
 import '@/styles/app.scss'
 import '@/components/common/styles/common.scss'
-import HeaderSearchBox from './components/common/HeaderSearchBox'
 import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
 import { getSession, user } from './store/user'
@@ -85,7 +77,7 @@ const App = () => {
             })
         }
       } catch (e) {
-        //
+        // error 처리 + app.tsx useEffect 리팩토링 필요함
       } finally {
         setLoading(false)
       }
@@ -111,7 +103,6 @@ const App = () => {
       }
     })()
   }, [loginUser?.uid])
-  const intersectingNavi = useRef<HTMLDivElement>(null)
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
   const { push: login, PopupRouter: LoginPopupRouter } = usePopup(loginPopupConfig)
@@ -204,8 +195,6 @@ const App = () => {
             </div>
           )}
         </Navigation>
-        <div className="intersecting-navi" ref={intersectingNavi}></div>
-
         <Suspense fallback={<PageLoadingSpinner text="please wait a second" />}>
           {!loading && <Outlet context={outletContext} />}
         </Suspense>

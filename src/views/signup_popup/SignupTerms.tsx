@@ -1,8 +1,8 @@
 import './Signup.scss'
 import { COLLECTION_OF_USER_INFORMATION, TERMS_OF_USE } from '@/const/signup'
 import { BasicBottomButtons as BBB } from '@/components/common/BasicBottomButtons'
-import { PopupComponentProps, RouterPushParams } from '@/types/popup/RouterTypes'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { PopupComponentProps } from '@/types/popup/RouterTypes'
+import { useState } from 'react'
 
 const SignupTerms = (props: PopupComponentProps) => {
   const [useTermChecked, setUseTermChecked] = useState(false)
