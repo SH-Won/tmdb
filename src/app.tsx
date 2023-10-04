@@ -17,7 +17,7 @@ import '@/components/common/styles/common.scss'
 import HeaderSearchBox from './components/common/HeaderSearchBox'
 import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
-import { user } from './store/user'
+import { getSession, user } from './store/user'
 import BackEnd, { isMobile } from './networks'
 import upCommingPopupConfig from './views/upcomming_popup/upCommingPopupConfig'
 import { BaseItem } from 'types/interface'
@@ -38,7 +38,7 @@ const App = () => {
   const { breakPointsClass } = useBreakPoints()
   const location = useLocation()
   const navigate = useNavigate()
-  const loading = useRecoilValue(loadingState)
+  const [loading, setLoading] = useRecoilState(loadingState)
   const [loginUser, setLoginUser] = useRecoilState(user)
   const toastInstance = useRecoilValue(toast)
   const isNotDashBoardPage = useMemo(() => {
@@ -59,8 +59,10 @@ const App = () => {
 
   const logout = async () => {
     try {
-      await BackEnd.getInstance().user.logout()
-      toastInstance.logout()
+      await BackEnd.getInstance()
+        .user.logout()
+        .then(() => toastInstance.logout())
+
       setLoginUser(null)
     } catch (e) {
       if (e instanceof Error) toastInstance.error(e.message)
@@ -68,9 +70,26 @@ const App = () => {
   }
 
   useEffect(() => {
-    if (loginUser && toastInstance) {
-      toastInstance.keepLogin()
-    }
+    (async () => {
+      setLoading(true)
+      try {
+        const isSession = getSession()
+        if (isSession) {
+          await BackEnd.getInstance()
+            .user.checkLogin()
+            .then((user) => {
+              if (user) {
+                setLoginUser(user)
+                toastInstance.keepLogin()
+              }
+            })
+        }
+      } catch (e) {
+        //
+      } finally {
+        setLoading(false)
+      }
+    })()
   }, [toastInstance])
 
   useEffect(() => {
@@ -92,7 +111,6 @@ const App = () => {
       }
     })()
   }, [loginUser?.uid])
-
   const intersectingNavi = useRef<HTMLDivElement>(null)
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)
@@ -183,38 +201,13 @@ const App = () => {
                   })
                 }
               />
-              {/* <Button
-                color={Colors.white}
-                fontColor={Colors.grey_111}
-                border={Colors.grey_bbb}
-                click={() => {
-                  openUserStatusPopup({
-                    name: 'UserStatus',
-                    props: {
-                      logout,
-                    },
-                  })
-                }}
-              >
-                {t('app.button.user_status')}
-                <Element size="medium" name="Gear" color={Colors.grey_111} />
-              </Button> */}
-              {/* <Button
-                color={Colors.white}
-                fontColor={Colors.grey_111}
-                border={Colors.grey_bbb}
-                click={logout}
-              >
-                {t('app.button.logout')}
-              </Button> */}
-              {/* <HeaderSearchBox isNotDashBoardPage={isNotDashBoardPage} /> */}
             </div>
           )}
         </Navigation>
         <div className="intersecting-navi" ref={intersectingNavi}></div>
 
         <Suspense fallback={<PageLoadingSpinner text="please wait a second" />}>
-          <Outlet context={outletContext} />
+          {!loading && <Outlet context={outletContext} />}
         </Suspense>
         <LoginPopupRouter />
         <SignUpPopupRouter />

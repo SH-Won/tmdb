@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil'
 
-interface IUser {
+export interface IUser {
   displayName: string
   email: string
   emailVerified: boolean
@@ -9,9 +9,12 @@ interface IUser {
   favorites: string[]
   favoritesMap: Set<string>
 }
-const getSession = () => {
+export const getSession = () => {
   const sessionKey = `firebase:authUser:${import.meta.env.VITE_FIREBASE_API_KEY}:[DEFAULT]`
   const session = sessionStorage.getItem(sessionKey)
+
+  return session ? true : false
+
   const userSessionInfo = {
     displayName: '',
     email: '',
@@ -37,9 +40,18 @@ const getSession = () => {
   }
   return session ? userSessionInfo : null
 }
+// {
+//   displayName: '',
+//   email: '',
+//   emailVerified: false,
+//   uid: '',
+//   photoURL: '',
+//   favorites: [],
+//   favoritesMap: new Set(),
+// },
 export const _user = atom<IUser | null>({
   key: '_user',
-  default: getSession(),
+  default: null,
 })
 export const user = selector({
   key: 'user',

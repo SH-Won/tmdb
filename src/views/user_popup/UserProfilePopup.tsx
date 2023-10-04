@@ -4,6 +4,7 @@ import { _user } from '@/store/user'
 import { Colors, Element } from 'my-react-component'
 import { PopupComponentProps } from '@/types/popup/RouterTypes'
 import { useI18nTypes } from '@/hooks'
+import { useNavigate } from 'react-router-dom'
 interface UserInfoDetailProps {
   title: string
   explain: string
@@ -22,10 +23,15 @@ interface UserProfilePopupProps extends PopupComponentProps {
 
 const UserProfilePopup = ({ logout, close }: UserProfilePopupProps) => {
   const user = useRecoilValue(_user)
+  const navigate = useNavigate()
   const { t } = useI18nTypes()
   const onHandleLogout = () => {
     close?.()
     logout()
+  }
+  const goFavoritePage = () => {
+    navigate(`/${user?.displayName}/favorites`)
+    close?.()
   }
   return (
     <div className="user-profile">
@@ -38,6 +44,10 @@ const UserProfilePopup = ({ logout, close }: UserProfilePopupProps) => {
         <UserInfoDetail title={'로그인 상태'} explain={'로그인'} />
       </div>
       <div className="user-action">
+        <div className="favorite" onClick={goFavoritePage}>
+          <span>{t('app.button.user_favorite')}</span>
+          <Element name="Right" size="small" color={Colors.grey_111} />
+        </div>
         <div className="logout" onClick={onHandleLogout}>
           <span>{t('app.button.logout')}</span>{' '}
           <Element name="Logout" size="small" color={Colors.grey_333} />

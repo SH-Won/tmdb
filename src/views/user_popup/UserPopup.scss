@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 48px;
+  gap: 16px;
   & > .user-img {
     max-width: 100px;
     height: 100%;
@@ -43,9 +43,20 @@
     }
   }
   & > .user-action {
-    width: 90%;
+    width: 70%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    border-top: 1px solid color('grey_ccc');
+    padding-top: 20px;
+    & > .favorite {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      @include typeface('Paragraph_1_sb');
+    }
     & > .logout {
       @include typeface('Paragraph_1_b');
       display: flex;

@@ -54,7 +54,8 @@
       "search": "검색",
       "user_status": "상태",
       "add_user_favorite": "추가",
-      "remove_user_favorite": "해제"
+      "remove_user_favorite": "해제",
+      "user_favorite": "나의 즐겨찾기"
     },
     "toggle": {
       "trendding": "트렌딩",
