@@ -7,7 +7,6 @@ interface FilterSelectProps {
 }
 
 const FilterGenre = ({ items, selectGenre, genres }: FilterSelectProps) => {
-  ///genre/movie/list
   const selected = Object.fromEntries(genres.map((id) => [id, true]))
   return (
     <div className="filter-genre-container">

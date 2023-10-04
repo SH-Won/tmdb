@@ -8,7 +8,7 @@ export default class MovieAPI extends FetchAPI {
     super(baseUrl)
   }
   getMovies = async <T>(category: string): Promise<T> => {
-    // page 를 parameter 로 받??
+    // page 를 parameter 로 받을 수도 있음
     try {
       const response = await this.fetch({
         method: 'GET',

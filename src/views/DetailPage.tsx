@@ -177,7 +177,6 @@ const DetailPage = () => {
   }
 
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
-    // return <LoadingSpinner opacity={0.6} />
     return <PageLoadingSpinner text="please wait a second" />
   }
   return (

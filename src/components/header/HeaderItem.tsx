@@ -1,7 +1,6 @@
 import { OptionList } from 'my-react-component'
 import Accordion from 'my-react-component/src/components/accordion/Accordion'
 import { useState } from 'react'
-// import OptionItemList from '../common/OptionItemList'
 
 interface HeaderItemProps {
   title: string
@@ -21,7 +20,6 @@ const HeaderItem = ({ items, click, title, isMobile }: HeaderItemProps) => {
       onMouseEnter={() => !isMobile && setOpen(true)}
       onMouseLeave={() => !isMobile && setOpen(false)}
       onTouchStart={() => setOpen((prev) => !prev)}
-      // onTouchEnd={() => setOpen(false)}
     >
       {!isMobile ? (
         <>

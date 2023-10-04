@@ -19,8 +19,7 @@
       "notification": "아직 정보가 없습니다. 해당 정보는 업데이트 예정입니다.",
       "content": {
         "toggleMenu": {
-          "info": "정보",
-          "sub": "하위 상품"
+          "info": "정보"
         }
       },
       "information": {

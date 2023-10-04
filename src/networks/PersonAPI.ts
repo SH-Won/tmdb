@@ -2,7 +2,6 @@ import FetchAPI from './FetchAPI'
 
 export default class PersonAPI extends FetchAPI {
   urlPrefix: string
-  // personId: string | undefined
   constructor(public baseUrl: string) {
     super(baseUrl)
     this.urlPrefix = '/person/'

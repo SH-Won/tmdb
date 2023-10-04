@@ -23,7 +23,6 @@ const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
     [selectedItem.id, 1],
     async () => {
       const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
-        // url: selectedItem?.url,
         url: selectedItem?.value,
         page: 1,
       })

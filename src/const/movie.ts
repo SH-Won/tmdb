@@ -28,4 +28,3 @@ export const TRENDING_CATEGORY = {
   DAY: 'day',
   WEEK: 'week',
 }
-// export const POPULAR

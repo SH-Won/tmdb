@@ -1,6 +1,4 @@
 export const popupRouter = 1
-
-// import { markRaw } from 'vue'
 // import Event from 'eventemitter3'
 import type { RouterPushParams, RouteHistory, RegisterRouter } from './RouterTypes'
 
@@ -20,9 +18,6 @@ class PopupRouter {
   }
   push(route: RouterPushParams) {
     const component = this.registeredRoutes.find((r) => r.name === route.name)?.component
-    if (route.props) {
-      // markRaw(route.props)
-    }
     const historyObject = {
       name: route.name,
       component,

@@ -11,7 +11,6 @@ interface IconButtonProps {
   iconSize: 'big' | 'medium' | 'small' | 'custom'
   iconPosition?: 'front' | 'back'
   iconColor: string
-  // Icon : ComponentType<IconProps>
   ButtonColor?: string
   fontColor?: string
   buttonBorder?: string

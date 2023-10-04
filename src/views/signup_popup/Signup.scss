@@ -21,7 +21,6 @@
   & > .checkbox-wrapper {
     position: relative;
     display: flex;
-    // flex-direction: row-reverse;
     justify-content: space-between;
     & > input {
       display: none;
@@ -37,9 +36,6 @@
       &::after {
         content: url('/check.svg');
         background-color: color('main');
-        // background-image: url('/check.svg');
-        // background-repeat: no-repeat;
-        // background-position: center;
         position: absolute;
         display: flex;
         justify-content: center;
@@ -79,7 +75,6 @@
       margin-left: 5px;
     }
     :nth-child(2) {
-      // align-self: center;
       width: unset;
     }
   }

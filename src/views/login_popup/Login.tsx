@@ -1,13 +1,13 @@
-import { useSearch } from '@/hooks'
+// import { useSearch } from '@/hooks'
 import BackEnd from '@/networks'
 import { toast } from '@/store/toast'
 import { user } from '@/store/user'
 import { PopupComponentProps } from '@/types/popup/RouterTypes'
 import { Button, Colors, Element, InputBox } from 'my-react-component'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import './LoginPopup.scss'
-import { User, UserProfile } from 'firebase/auth'
+
 const emailValidator = (email: string) => {
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
   return email === '' || email.match(regExp) != null
@@ -40,10 +40,6 @@ const Login = (props: PopupComponentProps) => {
             favorites: [],
             favoritesMap: new Set<string>(),
           }
-          // const userFavorites = await BackEnd.getInstance().user.getUserFavorites(user.uid)
-          // obj['favorites'] = userFavorites!.favorites
-          // obj['favoritesMap'].add(userFavorites!.favorites)
-
           return obj
         })
       if (result) {
@@ -56,11 +52,6 @@ const Login = (props: PopupComponentProps) => {
       if (e instanceof Error) toastInatance.error(e.message)
     }
   }
-  // useEffect(() => {
-  //   if (loginUser) {
-  //     props.close?.()
-  //   }
-  // }, [])
 
   const loginItems = [
     {

@@ -1,11 +1,12 @@
 import { RegisterRouter, RouteHistory, RouterPushParams } from '@/types/popup/RouterTypes'
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useState } from 'react'
 // import Event from 'eventemitter3'
 import { useBreakPoints } from './useBreakPoints'
 import BasicPopup from '@/components/BasicPopup'
 import { LoadingSpinner } from 'my-react-component'
 
-// 이게 더 좋은 방법이 있을 꺼임 왜 클래스를 사용하지 못하는거지...?!?!?!
+// Popup 을 class 를 만들어 eventemitter 로 이벤트를 처리하고
+// class 속에서 history 를 처리하고 싶었지만 eact 는 state 불변성으로 Object.defineProperty 가 불가능
 const usePopup = (registedRoutes: RegisterRouter[]) => {
   const { breakPointsClass } = useBreakPoints()
   const [currentIndex, setCurrentIndex] = useState<number>(-1)

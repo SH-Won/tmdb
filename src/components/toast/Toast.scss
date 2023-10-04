@@ -10,8 +10,6 @@
   width: 100%;
   transform: translate(-50%, 0);
   justify-content: center;
-  // animation: appearAndHide 3s linear;
-  // -webkit-animation: appearAndHide 3s linear;
   overflow: hidden;
   box-sizing: border-box;
   z-index: 10010;
@@ -32,13 +30,6 @@
       background-color: color('red');
       color: color('white');
     }
-    // transition: translateY(-100%) 0.3s linear 2.8s;
-    // height: 30px;
-    // height: 100%;
-    // animation: appearAndHide 3s linear;
-    // -webkit-animation: appearAndHide 3s linear;
-    // animation: moveUp 0.3s linear 2.8s;
-    // -webkit-animation: moveUp 0.3s linear 2.8s;
     transition: all 0.3s linear 2.3s;
     overflow: hidden;
     & > span {

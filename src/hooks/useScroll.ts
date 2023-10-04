@@ -1,5 +1,0 @@
-const useScroll = () => {
-  //
-}
-
-export { useScroll }

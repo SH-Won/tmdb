@@ -11,9 +11,7 @@ export const isMobile = () => {
 const baseUrl = isMobile()
   ? import.meta.env.VITE_MOVIE_BASE_URL
   : import.meta.env.VITE_MOVIE_BASE_URL
-// interface InstanceParams {
-//   personId?: string | undefined
-// }
+
 export default class BackEnd extends FetchAPI {
   movie
   tv

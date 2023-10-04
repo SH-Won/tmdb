@@ -14,9 +14,6 @@
     }
   }
 }
-.main-container.desktop {
-  // padding-left: var(--navigation-padding);
-}
 .search {
   align-self: center;
   cursor: pointer;
@@ -36,8 +33,4 @@
   gap: 4px;
   flex: 1;
   justify-content: flex-end;
-  // .mobile & {
-  //   align-items: flex-end;
-  //   padding-bottom: 24px;
-  // }
 }
