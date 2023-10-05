@@ -11,6 +11,7 @@ import { useQuery } from 'react-query'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { IOutletContext, BaseItemDetail } from 'types/interface'
+type Favorite = ['tv' | 'movie', string]
 const UserFavoritePage = () => {
   const { login } = useOutletContext<IOutletContext>()
   const { t } = useI18nTypes()
@@ -25,17 +26,14 @@ const UserFavoritePage = () => {
       else navigate('/')
     }
   }, [])
+  const Backend = BackEnd.getInstance()
   const { data, isLoading } = useQuery(
     ['user_favorites', count],
     async () => {
       return Promise.all(
         user!.favorites.map((favorite) => {
-          const [media, id] = favorite.split(':')
-          if (media === MOVIE_CATEGORY.prefix) {
-            return BackEnd.getInstance().movie.getDetailMovie<BaseItemDetail>(parseInt(id))
-          } else {
-            return BackEnd.getInstance().tv.getDetailTv<BaseItemDetail>(parseInt(id))
-          }
+          const [media, id] = favorite.split(':') as Favorite
+          return Backend[media].getDetail<BaseItemDetail>(parseInt(id))
         })
       )
     },
