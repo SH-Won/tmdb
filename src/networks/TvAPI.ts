@@ -1,8 +1,8 @@
 import { ITv } from './../../types/interface'
 import { AxiosResponse } from 'axios'
-import FetchAPI from './FetchAPI'
+import FetchAPI, { MediaClassProps } from './FetchAPI'
 
-export default class TvAPI extends FetchAPI {
+export default class TvAPI extends FetchAPI implements MediaClassProps {
   constructor(public baseUrl: string) {
     super(baseUrl)
   }

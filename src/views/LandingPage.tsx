@@ -1,4 +1,4 @@
-import '@/styles/DashBoard.scss'
+import '@/styles/LandingPage.scss'
 import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
 import ToggleItemSection from '@/components/section/ToggleItemSection'
 import {

@@ -30,6 +30,7 @@ export const router = createBrowserRouter(
           Component: lazy(() => import('@/views/ActorPage')),
           loader: ({ params }) => {
             return {
+              media_type: 'person',
               personId: params.personId,
             }
           },

@@ -1,12 +1,22 @@
-import FetchAPI from './FetchAPI'
-
-export default class PersonAPI extends FetchAPI {
+import FetchAPI, { BaseClassProps } from './FetchAPI'
+export default class PersonAPI extends FetchAPI implements BaseClassProps {
   urlPrefix: string
   constructor(public baseUrl: string) {
     super(baseUrl)
     this.urlPrefix = '/person/'
   }
-  getPersonData = async <T>(personId: string): Promise<T> => {
+  getPopulars = async <T>(params: { page: number }): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: '/person/popular',
+      query: {
+        language: 'ko-KR',
+        page: params.page,
+      },
+    })
+    return response.data
+  }
+  getDetail = async <T>(personId: number): Promise<T> => {
     const url = this.urlPrefix + personId
     const response = await this.fetch({
       method: 'GET',
@@ -17,7 +27,7 @@ export default class PersonAPI extends FetchAPI {
     })
     return response.data
   }
-  getPersonCredits = async <T>(personId: string): Promise<T> => {
+  getCredits = async <T>(personId: number): Promise<T> => {
     const url = this.urlPrefix + personId + '/combined_credits'
     const response = await this.fetch({
       method: 'GET',
@@ -28,7 +38,7 @@ export default class PersonAPI extends FetchAPI {
     })
     return response.data
   }
-  getPersonImages = async <T>(personId: string): Promise<T> => {
+  getImages = async <T>(personId: number): Promise<T> => {
     const url = this.urlPrefix + personId + '/images'
     const response = await this.fetch({
       method: 'GET',

@@ -1,9 +1,9 @@
 import { TrendingMovieParams } from './../types/network/request'
 import { AxiosResponse } from 'axios'
 import { IMovie } from 'types/interface'
-import FetchAPI from './FetchAPI'
+import FetchAPI, { MediaClassProps } from './FetchAPI'
 
-export default class MovieAPI extends FetchAPI {
+export default class MovieAPI extends FetchAPI implements MediaClassProps {
   constructor(public baseUrl: string) {
     super(baseUrl)
   }

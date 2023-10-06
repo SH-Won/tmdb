@@ -12,6 +12,7 @@ const PersonPage = () => {
   const { isValidImage, goActorPage } = useHelper()
   const { t } = useI18nTypes()
   const [page, setPage] = useState(1)
+  const Backend = BackEnd.getInstance().person
   const { data, isLoading } = useQuery(
     ['person', 'popular', page],
     async () => {

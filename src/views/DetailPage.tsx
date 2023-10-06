@@ -30,31 +30,32 @@ const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
+  const Backend = BackEnd.getInstance()[media_type]
+  const { data: item, isLoading } = useFetch<BaseItemDetail, typeof media_type>(
+    media_type,
+    id,
+    'getDetail'
+  )
 
-  const { data: item, isLoading } = useFetch<BaseItemDetail>(media_type, id, 'getDetail')
-
-  const { data: credits, isLoading: creditsLoading } = useFetch<BaseCredits>(
+  const { data: credits, isLoading: creditsLoading } = useFetch<BaseCredits, typeof media_type>(
     media_type,
     id,
     'getCredits'
   )
-  const { data: recommends, isLoading: recommendLoading } = useFetch<MovieResponse<BaseItem[]>>(
+  const { data: recommends, isLoading: recommendLoading } = useFetch<
+    MovieResponse<BaseItem[]>,
+    typeof media_type
+  >(media_type, id, 'getRecommends')
+  const { data: keyword, isLoading: keywordLoading } = useFetch<KeyWordResponse, typeof media_type>(
     media_type,
     id,
-    'getRecommends'
-  )
-  const { data: keyword, isLoading: keywordLoading } = useFetch<KeyWordResponse>(
-    media_type,
-    id,
-    'getKeywords'
-  )
-
-  const { data: images, isLoading: imageLoading } = useFetch<RelativeImageResponse>(
-    media_type,
-    id,
-    'getImages'
+    'getCredits'
   )
 
+  const { data: images, isLoading: imageLoading } = useFetch<
+    RelativeImageResponse,
+    typeof media_type
+  >(media_type, id, 'getImages')
   const crews = useMemo(() => {
     const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director') ?? []
     const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer') ?? []

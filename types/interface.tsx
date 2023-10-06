@@ -8,6 +8,8 @@ export interface IMovie extends BaseItem {
 export interface ITv extends BaseItem {
   first_air_date: string
 }
+
+export type IMedia = IMovie | ITv | BaseActorItem
 export interface BaseItem {
   adult: boolean
   backdrop_path: string
