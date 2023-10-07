@@ -16,7 +16,7 @@ const SearchBox = () => {
 
   useEventListener({
     confirm: useCallback(() => {
-      if (!validatorXSS(searchText)) return
+      if (!validatorXSS(searchText) || searchText === '') return
       goSearchPage(searchText)
     }, [searchText]),
   })
@@ -39,7 +39,10 @@ const SearchBox = () => {
           fontColor={Colors.white}
           color={Colors.main}
           width="50px"
-          click={() => goSearchPage(searchText)}
+          click={() => {
+            if (!validatorXSS(searchText) || searchText === '') return
+            goSearchPage(searchText)
+          }}
         >
           {t('app.search.button')}
         </Button>
