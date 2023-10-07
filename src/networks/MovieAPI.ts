@@ -1,9 +1,9 @@
 import { TrendingMovieParams } from './../types/network/request'
 import { AxiosResponse } from 'axios'
 import { IMovie } from 'types/interface'
-import FetchAPI from './FetchAPI'
+import FetchAPI, { MediaClassProps } from './FetchAPI'
 
-export default class MovieAPI extends FetchAPI {
+export default class MovieAPI extends FetchAPI implements MediaClassProps {
   constructor(public baseUrl: string) {
     super(baseUrl)
   }
@@ -30,7 +30,7 @@ export default class MovieAPI extends FetchAPI {
     })
     return response
   }
-  getDetailMovie = async <T>(movieId: IMovie['id']): Promise<T> => {
+  getDetail = async <T>(movieId: IMovie['id']): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
       url: `/movie/${movieId}`,
@@ -47,6 +47,34 @@ export default class MovieAPI extends FetchAPI {
       query: {
         language: 'ko-KR',
       },
+    })
+    return response.data
+  }
+  getRecommends = async <T>(movieId: IMovie['id'], page = 1): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/movie/${movieId}/recommendations`,
+      query: {
+        language: 'ko-KR',
+        page,
+      },
+    })
+    return response.data
+  }
+  getKeywords = async <T>(movieId: IMovie['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/movie/${movieId}/keywords`,
+      query: {
+        language: 'ko-KR',
+      },
+    })
+    return response.data
+  }
+  getImages = async <T>(movieId: IMovie['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/movie/${movieId}/images`,
     })
     return response.data
   }

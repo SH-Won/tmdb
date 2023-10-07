@@ -12,46 +12,22 @@ import '@/styles/ActorPage.scss'
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
-import { useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
+import { useBreakPoints, useFetch, useHelper, useI18nTypes } from '@/hooks'
 const ActorPage = () => {
-  const { personId } = useLoaderData() as { personId: string }
+  const { media_type, personId } = useLoaderData() as { media_type: 'person'; personId: string }
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage, isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const backEndInstance = BackEnd.getInstance()
-  const { data, isLoading } = useQuery(
-    ['actor', personId],
-    async () => {
-      const response = await backEndInstance.person.getPersonData<BaseActorItem>(personId)
-      return response
-    },
-    {
-      staleTime: Infinity,
-      enabled: !!personId,
-    }
+  const { data, isLoading } = useFetch<BaseActorItem, 'person'>(media_type, personId, 'getDetail')
+  const { data: movies, isLoading: movieLoading } = useFetch<BaseCombineCredit, 'person'>(
+    media_type,
+    personId,
+    'getCredits'
   )
-  //combined_credits
-  const { data: movies, isLoading: loading } = useQuery(
-    ['actor', 'movies', personId],
-    async () => {
-      const response = await backEndInstance.person.getPersonCredits<BaseCombineCredit>(personId)
-      return response
-    },
-    {
-      staleTime: Infinity,
-      enabled: !!personId,
-    }
-  )
-  const { data: images, isLoading: imageLoading } = useQuery(
-    ['actor', 'images', personId],
-    async () => {
-      const response = await backEndInstance.person.getPersonImages<RelativeImageResponse>(personId)
-      return response.profiles
-    },
-    {
-      staleTime: Infinity,
-      enabled: !!personId,
-    }
+  const { data: images, isLoading: imageLoading } = useFetch<RelativeImageResponse, 'person'>(
+    media_type,
+    personId,
+    'getImages'
   )
 
   const biography = useRef<HTMLDivElement>(null)
@@ -93,7 +69,7 @@ const ActorPage = () => {
     )
   }, [sortMovies])
 
-  if (loading || isLoading || imageLoading)
+  if (movieLoading || isLoading || imageLoading)
     return <PageLoadingSpinner text="please wait a second" />
 
   return (
@@ -143,7 +119,9 @@ const ActorPage = () => {
         <div style={{ width: '50%', alignSelf: 'center' }}>
           <AutoCarousel<BasicImage>
             time={2000}
-            items={images && images.length > 0 ? images?.slice(0, 10) : []}
+            items={
+              images?.profiles && images.profiles.length > 0 ? images.profiles?.slice(0, 10) : []
+            }
             renderItems={(item, index) => (
               <RatioCardImage
                 key={index}

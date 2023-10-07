@@ -1,8 +1,8 @@
 import { ITv } from './../../types/interface'
 import { AxiosResponse } from 'axios'
-import FetchAPI from './FetchAPI'
+import FetchAPI, { MediaClassProps } from './FetchAPI'
 
-export default class TvAPI extends FetchAPI {
+export default class TvAPI extends FetchAPI implements MediaClassProps {
   constructor(public baseUrl: string) {
     super(baseUrl)
   }
@@ -17,7 +17,7 @@ export default class TvAPI extends FetchAPI {
     })
     return response
   }
-  getDetailTv = async <T>(tvId: ITv['id']): Promise<T> => {
+  getDetail = async <T>(tvId: ITv['id']): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
       url: `/tv/${tvId}`,
@@ -34,6 +34,34 @@ export default class TvAPI extends FetchAPI {
       query: {
         language: 'ko-KR',
       },
+    })
+    return response.data
+  }
+  getRecommends = async <T>(tvId: ITv['id'], page = 1): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/tv/${tvId}/recommendations`,
+      query: {
+        language: 'ko-KR',
+        page,
+      },
+    })
+    return response.data
+  }
+  getKeywords = async <T>(tvId: ITv['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/tv/${tvId}/keywords`,
+      query: {
+        language: 'ko-KR',
+      },
+    })
+    return response.data
+  }
+  getImages = async <T>(tvId: ITv['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/tv/${tvId}/images`,
     })
     return response.data
   }

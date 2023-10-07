@@ -1,4 +1,5 @@
 // import { useSearch } from '@/hooks'
+import { useUser } from '@/hooks'
 import BackEnd from '@/networks'
 import { toast } from '@/store/toast'
 import { user } from '@/store/user'
@@ -6,6 +7,7 @@ import { PopupComponentProps } from '@/types/popup/RouterTypes'
 import { Button, Colors, Element, InputBox } from 'my-react-component'
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import { ILoginProvider } from 'types/interface'
 import './LoginPopup.scss'
 
 const emailValidator = (email: string) => {
@@ -20,45 +22,14 @@ const passwordValidator = (password: string) => {
 const Login = (props: PopupComponentProps) => {
   // const { searchText: email, onChangeText: onChangeEmail } = useSearch()
   // const { searchText: password, onChangeText: onChangePassword } = useSearch()
-  const [loginUser, setLoginUser] = useRecoilState(user)
-  const toastInatance = useRecoilValue(toast)
-  const login = async (providerName: string) => {
-    try {
-      const result = await BackEnd.getInstance()
-        .user.login(providerName)
-        .then(async (response) => {
-          const { user, token, credential } = response
-          const obj = {
-            displayName: user.displayName as string,
-            email: user.email as string,
-            emailVerified: user.emailVerified as boolean,
-            uid: user.uid as string,
-            // accessToken: user.stsTokenManager.accessToken as string,
-            // expirationTime: user.stsTokenManager.expirationTime as number,
-            // refreshToken: user.stsTokenManager.refreshToken as string,
-            photoURL: user.photoURL as string,
-            favorites: [],
-            favoritesMap: new Set<string>(),
-          }
-          return obj
-        })
-      if (result) {
-        setLoginUser(result)
-        props.close?.()
-        toastInatance.login()
-      }
-    } catch (e) {
-      props.close?.()
-      if (e instanceof Error) toastInatance.error(e.message)
-    }
-  }
+  const { login } = useUser()
 
-  const loginItems = [
+  const loginItems: ILoginProvider[] = [
     {
       name: 'Google',
       svgPath: '/google.svg',
       providerName: 'google',
-      onClick: (providerName: string) => login(providerName),
+      onClick: (providerName: ILoginProvider['name']) => login(providerName, props.close),
     },
     {
       name: 'FaceBook',
@@ -115,7 +86,8 @@ const Login = (props: PopupComponentProps) => {
           placeholder="특수문자를 포함해서 비밀번호를 입력해주세요"
         />
       </div> */}
-      {!loginUser ? <RenderLoginItmes /> : <div>login 성공</div>}
+      {/* {!loginUser ? <RenderLoginItmes /> : <div>login 성공</div>} */}
+      <RenderLoginItmes />
     </div>
   )
 }

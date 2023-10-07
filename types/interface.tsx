@@ -1,3 +1,9 @@
+export interface ILoginProvider {
+  name: string
+  svgPath: string
+  providerName: 'google' | 'facebook' | 'gothub'
+  onClick: (providerName: ILoginProvider['name']) => void
+}
 export type IOutletContext = {
   openTrailerPopup: (item: BaseItem) => void
   login: () => void
@@ -8,6 +14,8 @@ export interface IMovie extends BaseItem {
 export interface ITv extends BaseItem {
   first_air_date: string
 }
+
+export type IMedia = IMovie | ITv | BaseActorItem
 export interface BaseItem {
   adult: boolean
   backdrop_path: string

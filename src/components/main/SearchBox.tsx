@@ -8,13 +8,17 @@ import './SearchBox.scss'
 
 // mainPage 인 DashBoard.tsx 의 최상단에서 search 를 하는 컴포넌트인데, 컴포넌트 네이밍이 뭔가 이상하지만
 // 일단 SearchBox 로 하고 추후에 더좋은 네이밍으로 변경해야 한다.
+
 const SearchBox = () => {
   const { t } = useI18nTypes()
-  const { searchText, onChangeText } = useSearch()
+  const { searchText, onChangeText, validatorXSS } = useSearch()
   const { goSearchPage } = useHelper()
 
   useEventListener({
-    confirm: useCallback(() => goSearchPage(searchText), [searchText]),
+    confirm: useCallback(() => {
+      if (!validatorXSS(searchText) || searchText === '') return
+      goSearchPage(searchText)
+    }, [searchText]),
   })
   return (
     <div className="search-box">
@@ -26,6 +30,7 @@ const SearchBox = () => {
         <InputBox
           searchText={searchText}
           onChange={onChangeText}
+          validator={validatorXSS}
           placeholder={t('app.input.search_placeholder')}
         >
           <Element name="Search" size="small" color={Colors.grey_bbb} />
@@ -34,7 +39,10 @@ const SearchBox = () => {
           fontColor={Colors.white}
           color={Colors.main}
           width="50px"
-          click={() => goSearchPage(searchText)}
+          click={() => {
+            if (!validatorXSS(searchText) || searchText === '') return
+            goSearchPage(searchText)
+          }}
         >
           {t('app.search.button')}
         </Button>

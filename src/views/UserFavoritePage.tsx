@@ -1,23 +1,22 @@
 import { MOVIE_CATEGORY } from '@/const'
 import { TV_CATEGORY } from '@/const/movie'
-import { useHelper, useI18nTypes } from '@/hooks'
+import { useHelper, useI18nTypes, useUser } from '@/hooks'
 import BackEnd from '@/networks'
-import { _user } from '@/store/user'
 import '@/styles/UserFavoritePage.scss'
 import { Notification, OptionList, PageLoadingSpinner, PosterCard } from 'my-react-component'
 import DropDown from 'my-react-component/src/components/dropdown/DropDown'
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useOutletContext } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
 import { IOutletContext, BaseItemDetail } from 'types/interface'
+type Favorite = ['tv' | 'movie', string]
 const UserFavoritePage = () => {
   const { login } = useOutletContext<IOutletContext>()
   const { t } = useI18nTypes()
   const navigate = useNavigate()
   const [count, setCount] = useState(0)
   const { isValidImage, getConvertedDate, goDetailPage } = useHelper()
-  const user = useRecoilValue(_user)
+  const { loginUser: user } = useUser()
   useEffect(() => {
     if (!user) {
       const userConfirmLogin = confirm('로그인이 필요합니다')
@@ -25,17 +24,14 @@ const UserFavoritePage = () => {
       else navigate('/')
     }
   }, [])
+  const Backend = BackEnd.getInstance()
   const { data, isLoading } = useQuery(
     ['user_favorites', count],
     async () => {
       return Promise.all(
         user!.favorites.map((favorite) => {
-          const [media, id] = favorite.split(':')
-          if (media === MOVIE_CATEGORY.prefix) {
-            return BackEnd.getInstance().movie.getDetailMovie<BaseItemDetail>(parseInt(id))
-          } else {
-            return BackEnd.getInstance().tv.getDetailTv<BaseItemDetail>(parseInt(id))
-          }
+          const [media, id] = favorite.split(':') as Favorite
+          return Backend[media].getDetail<BaseItemDetail>(parseInt(id))
         })
       )
     },
