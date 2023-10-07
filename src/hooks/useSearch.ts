@@ -9,9 +9,16 @@ const useSearch = () => {
     },
     [searchText]
   )
+  const validatorXSS = (text: string) => {
+    if (!text) return true
+    const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9| |]+$/
+    if (!regex.test(text)) return false
+    return true
+  }
   return {
     searchText,
     onChangeText,
+    validatorXSS,
   }
 }
 

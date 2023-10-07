@@ -1,3 +1,9 @@
+export interface ILoginProvider {
+  name: string
+  svgPath: string
+  providerName: 'google' | 'facebook' | 'gothub'
+  onClick: (providerName: ILoginProvider['name']) => void
+}
 export type IOutletContext = {
   openTrailerPopup: (item: BaseItem) => void
   login: () => void
