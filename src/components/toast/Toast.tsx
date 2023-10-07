@@ -1,9 +1,9 @@
-import { useI18nTypes } from '@/hooks'
-import { toast } from '@/store/toast'
+import { useI18nTypes, useToast } from '@/hooks'
+import { toast, toastItems } from '@/store/toast'
 import ToastController, { ToastItem } from '@/types/toast'
 import { Colors, Element } from 'my-react-component'
 import { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import './Toast.scss'
 interface ToastItemProps {
   item: ToastItem
@@ -12,7 +12,7 @@ interface ToastItemProps {
   deleteItem: (id: ToastItem['id']) => void
 }
 const ToastItemComponent = ({ deleteItem, item, isStartAnimation }: ToastItemProps) => {
-  const duration = 3000
+  const duration = 2000
 
   useEffect(() => {
     let removeTimer: NodeJS.Timeout
@@ -41,20 +41,22 @@ const ToastItemComponent = ({ deleteItem, item, isStartAnimation }: ToastItemPro
   )
 }
 export const Toast = () => {
-  const [toastInstance, setToastInstance] = useRecoilState(toast)
-  const [toastItems, setToastItems] = useState<ToastItem[]>([])
-  const { t } = useI18nTypes()
-  useEffect(() => {
-    setToastInstance(new ToastController(setToastItems, t))
-  }, [])
+  // const [toastInstance, setToastInstance] = useRecoilState(toast)
+  // const [toastItems, setToastItems] = useState<ToastItem[]>([])
+  // const { t } = useI18nTypes()
+  // const items = useRecoilValue(toastItems)
+  const { items, removeToast } = useToast()
+  // useEffect(() => {
+  //   setToastInstance(new ToastController(setToastItems, t))
+  // }, [])
   return (
     <div className="toast">
-      {toastItems.length > 0 &&
-        toastItems.map((item, index) => (
+      {items.length > 0 &&
+        items.map((item, index) => (
           <ToastItemComponent
             key={item.id}
             item={item}
-            deleteItem={toastInstance.delete}
+            deleteItem={removeToast}
             isStartAnimation={index === 0}
           />
         ))}

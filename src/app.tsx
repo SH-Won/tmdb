@@ -1,19 +1,15 @@
 import { Colors, LoadingSpinner, Navigation, PageLoadingSpinner } from 'my-react-component'
 import { Suspense, useCallback, useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useBreakPoints, usePopup } from './hooks'
+import { useBreakPoints, usePopup, useUser } from './hooks'
 import { useI18nTypes } from './hooks/useI18nTypes'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { loadingState } from './store/loading'
 import '@/styles/app.scss'
 import '@/components/common/styles/common.scss'
 import signupPopupConfig from './views/signup_popup/signupPopupConfig'
 import loginPopupConfig from './views/login_popup/loginPopupConfig'
-import { getSession, user } from './store/user'
-import BackEnd, { isMobile } from './networks'
+import { isMobile } from './networks'
 import upCommingPopupConfig from './views/upcomming_popup/upCommingPopupConfig'
 import { BaseItem } from 'types/interface'
-import { toast } from './store/toast'
 import HeaderItem from './components/header/HeaderItem'
 import {
   HEADER_MOVIE_OPTION,
@@ -30,14 +26,11 @@ const App = () => {
   const { breakPointsClass } = useBreakPoints()
   const location = useLocation()
   const navigate = useNavigate()
-  const [loading, setLoading] = useRecoilState(loadingState)
-  const [loginUser, setLoginUser] = useRecoilState(user)
-  const toastInstance = useRecoilValue(toast)
+  const { logout, getUserFavorites, checkLogin, loading, loginUser } = useUser()
   const isNotDashBoardPage = useMemo(() => {
     return location.pathname !== '/'
   }, [location.pathname])
   const mobile = isMobile() || breakPointsClass === 'mobile'
-  const desktop = breakPointsClass === 'desktop'
   const goBack = (isMain: boolean) => {
     if (isMain) {
       navigate('/')
@@ -49,59 +42,14 @@ const App = () => {
     navigate(item.value)
   }, [])
 
-  const logout = async () => {
-    try {
-      await BackEnd.getInstance()
-        .user.logout()
-        .then(() => toastInstance.logout())
-
-      setLoginUser(null)
-    } catch (e) {
-      if (e instanceof Error) toastInstance.error(e.message)
-    }
-  }
-
-  useEffect(() => {
-    (async () => {
-      setLoading(true)
-      try {
-        const isSession = getSession()
-        if (isSession) {
-          await BackEnd.getInstance()
-            .user.checkLogin()
-            .then((user) => {
-              if (user) {
-                setLoginUser(user)
-                toastInstance.keepLogin()
-              }
-            })
-        }
-      } catch (e) {
-        // error 처리 + app.tsx useEffect 리팩토링 필요함
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [toastInstance])
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [location.pathname])
-
   useEffect(() => {
-    if (!loginUser) return
-    ;(async () => {
-      try {
-        const userFavorites = await BackEnd.getInstance().user.getUserFavorites(loginUser.uid)
-        setLoginUser({
-          ...loginUser,
-          favorites: userFavorites?.favorites ?? [],
-          favoritesMap: new Set(userFavorites?.favorites ?? []),
-        })
-      } catch (e) {
-        if (e instanceof Error) toastInstance.error(e)
-      }
-    })()
+    checkLogin()
+  }, [])
+  useEffect(() => {
+    getUserFavorites()
   }, [loginUser?.uid])
 
   const { push: signup, PopupRouter: SignUpPopupRouter } = usePopup(signupPopupConfig)

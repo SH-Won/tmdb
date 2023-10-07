@@ -1,4 +1,4 @@
-import { useBreakPoints, useFetch, useHelper, useI18nTypes } from '@/hooks'
+import { useBreakPoints, useFetch, useHelper, useI18nTypes, useUser } from '@/hooks'
 import BackEnd from '@/networks'
 import { useLoaderData, useOutletContext } from 'react-router-dom'
 import {
@@ -18,19 +18,14 @@ import Information from '@/components/detail/Information'
 import { RatioCardImage, AutoCarousel, PageLoadingSpinner } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { _user } from '@/store/user'
-import { toast } from '@/store/toast'
 import UserFavoriteButton from '@/components/user/UserFavoriteButton'
 const DetailPage = () => {
-  const [loginUser, setLoginUser] = useRecoilState(_user)
-  const toastInstance = useRecoilValue(toast)
   const { login } = useOutletContext<IOutletContext>()
+  const { loginUser, addFavorite, removeFavorite } = useUser()
   const { media_type, id } = useLoaderData() as { media_type: 'movie' | 'tv'; id: string }
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const Backend = BackEnd.getInstance()[media_type]
   const { data: item, isLoading } = useFetch<BaseItemDetail, typeof media_type>(
     media_type,
     id,
@@ -69,60 +64,9 @@ const DetailPage = () => {
     return loginUser?.favoritesMap?.has(`${media_type}:${id}`)
   }, [loginUser, item])
 
-  const addFavorite = async () => {
-    if (!loginUser?.uid) {
-      const userConfirm = confirm('로그인이 필요합니다')
-      if (userConfirm) login()
-      return
-    }
-    try {
-      let response
-
-      if (!loginUser.favorites.length) {
-        response = await BackEnd.getInstance().user.createFavorite(
-          loginUser!.uid,
-          `${media_type}:${id}`
-        )
-      } else {
-        response = await BackEnd.getInstance().user.addFavorite(
-          loginUser!.uid,
-          `${media_type}:${id}`
-        )
-      }
-      if (response) {
-        const newFavorites = [...loginUser.favorites, `${media_type}:${id}`]
-        setLoginUser({
-          ...loginUser,
-          favorites: newFavorites,
-          favoritesMap: new Set(newFavorites),
-        })
-        toastInstance.successAddFavorite()
-      }
-    } catch (e) {
-      if (e instanceof Error) toastInstance.error(e.message)
-    }
-  }
-  const removeFavorite = async () => {
-    if (!loginUser) return
-    try {
-      const response = await BackEnd.getInstance().user.removeFavorite(
-        loginUser!.uid,
-        `${media_type}:${id}`
-      )
-
-      if (response) {
-        const newFavoritesMap = new Set(loginUser.favorites)
-        newFavoritesMap.delete(`${media_type}:${id}`)
-        setLoginUser({
-          ...loginUser,
-          favorites: Array.from(newFavoritesMap),
-          favoritesMap: newFavoritesMap,
-        })
-        toastInstance.successRemoveFavorite()
-      }
-    } catch (e) {
-      if (e instanceof Error) toastInstance.error(e.message)
-    }
+  const userAddFavorite = async () => {
+    const response = await addFavorite(media_type, id)
+    if (response === 'needLogin') login()
   }
 
   if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
@@ -181,8 +125,8 @@ const DetailPage = () => {
         <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
       </div>
       <UserFavoriteButton
-        addFavorite={addFavorite}
-        removeFavorite={removeFavorite}
+        addFavorite={userAddFavorite}
+        removeFavorite={() => removeFavorite(media_type, id)}
         isAlreadyUserFavorite={isAlreadyUserFavorite}
       />
     </div>
