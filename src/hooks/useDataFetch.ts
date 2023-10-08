@@ -1,4 +1,4 @@
-import { BaseCredits, BaseItem, RelativeImageResponse } from './../../types/interface'
+import { BaseCredits, BaseItem, RelativeImageResponse } from '../../types/interface'
 import BackEnd from '@/networks'
 import { useQueries, useQuery, UseQueryResult } from 'react-query'
 import { BaseItemDetail, IMedia, IMediaType } from 'types/interface'
@@ -132,7 +132,7 @@ interface IFetchReturnType extends IFetchBaseReturnType {
   getRecommends: <T>() => UseQueryResult<T>
 }
 
-const useFetch2 = (mediaType: IMediaType, id: IMedia['id']) => {
+const useDataFetch = (mediaType: IMediaType, id: IMedia['id']) => {
   return mediaType !== 'person'
     ? {
         getDetail: <T>() => getDetail<T>(mediaType, id),
@@ -147,4 +147,4 @@ const useFetch2 = (mediaType: IMediaType, id: IMedia['id']) => {
         getImages: <T>() => getImages<T>(mediaType, id),
       }
 }
-export { useFetch2 }
+export { useDataFetch }

@@ -2,7 +2,7 @@ import {
   getAllDetails,
   useBreakPoints,
   useFetch,
-  useFetch2,
+  useDataFetch,
   useHelper,
   useI18nTypes,
   useUser,
@@ -35,7 +35,7 @@ const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const { getDetail, getCredits, getImages, getKeywords, getRecommends } = useFetch2(
+  const { getDetail, getCredits, getImages, getKeywords, getRecommends } = useDataFetch(
     media_type,
     parseInt(id)
   )
