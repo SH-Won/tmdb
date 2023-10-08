@@ -1,6 +1,4 @@
-import BackEnd from '@/networks'
 import { AutoCarousel, PageLoadingSpinner, RatioCardImage, RatioImage } from 'my-react-component'
-import { useQuery } from 'react-query'
 import { useLoaderData } from 'react-router-dom'
 import {
   BaseActorItem,
@@ -12,23 +10,16 @@ import '@/styles/ActorPage.scss'
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
-import { useBreakPoints, useFetch, useHelper, useI18nTypes } from '@/hooks'
+import { useBreakPoints, useFetch, useDataFetch, useHelper, useI18nTypes } from '@/hooks'
 const ActorPage = () => {
   const { media_type, personId } = useLoaderData() as { media_type: 'person'; personId: string }
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage, isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const { data, isLoading } = useFetch<BaseActorItem, 'person'>(media_type, personId, 'getDetail')
-  const { data: movies, isLoading: movieLoading } = useFetch<BaseCombineCredit, 'person'>(
-    media_type,
-    personId,
-    'getCredits'
-  )
-  const { data: images, isLoading: imageLoading } = useFetch<RelativeImageResponse, 'person'>(
-    media_type,
-    personId,
-    'getImages'
-  )
+  const { getDetail, getCredits, getImages } = useDataFetch(media_type, parseInt(personId))
+  const { data, isLoading } = getDetail<BaseActorItem>()
+  const { data: movies, isLoading: movieLoading } = getCredits<BaseCombineCredit>()
+  const { data: images, isLoading: imageLoading } = getImages<RelativeImageResponse>()
 
   const biography = useRef<HTMLDivElement>(null)
   const readMore = useRef<HTMLDivElement>(null)
@@ -68,7 +59,6 @@ const ActorPage = () => {
       </div>
     )
   }, [sortMovies])
-
   if (movieLoading || isLoading || imageLoading)
     return <PageLoadingSpinner text="please wait a second" />
 

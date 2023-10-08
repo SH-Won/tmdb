@@ -8,6 +8,7 @@ export type IOutletContext = {
   openTrailerPopup: (item: BaseItem) => void
   login: () => void
 }
+export type IMediaType = 'movie' | 'tv' | 'person'
 export interface IMovie extends BaseItem {
   release_date: string
 }

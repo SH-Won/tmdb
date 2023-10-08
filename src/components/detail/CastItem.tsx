@@ -12,7 +12,10 @@ const CastItem = ({ item, click }: Props) => {
       <RatioCardImage
         imageUrl={isValidImage(item.profile_path)}
         ratio={1.3}
-        click={() => click(item.id)}
+        click={() => {
+          if (!item.profile_path) return
+          click(item.id)
+        }}
       />
       <div className="cast-info">
         <span>{item.name}</span>

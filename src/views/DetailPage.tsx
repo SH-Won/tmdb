@@ -1,4 +1,12 @@
-import { useBreakPoints, useFetch, useHelper, useI18nTypes, useUser } from '@/hooks'
+import {
+  getAllDetails,
+  useBreakPoints,
+  useFetch,
+  useDataFetch,
+  useHelper,
+  useI18nTypes,
+  useUser,
+} from '@/hooks'
 import BackEnd from '@/networks'
 import { useLoaderData, useOutletContext } from 'react-router-dom'
 import {
@@ -19,6 +27,7 @@ import { RatioCardImage, AutoCarousel, PageLoadingSpinner } from 'my-react-compo
 import Recommend from '@/components/detail/Recommend'
 import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 import UserFavoriteButton from '@/components/user/UserFavoriteButton'
+
 const DetailPage = () => {
   const { login } = useOutletContext<IOutletContext>()
   const { loginUser, addFavorite, removeFavorite } = useUser()
@@ -26,31 +35,21 @@ const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const { data: item, isLoading } = useFetch<BaseItemDetail, typeof media_type>(
+  const { getDetail, getCredits, getImages, getKeywords, getRecommends } = useDataFetch(
     media_type,
-    id,
-    'getDetail'
+    parseInt(id)
   )
+  const { data: item, isLoading } = getDetail<BaseItemDetail>()
+  const { data: credits, isLoading: creditsLoading } = getCredits<BaseCredits>()
+  const { data: recommends, isLoading: recommendLoading } =
+    getRecommends!<MovieResponse<BaseItem[]>>()
+  const { data: keyword, isLoading: keywordLoading } = getKeywords!<KeyWordResponse>()
+  const { data: images, isLoading: imageLoading } = getImages<RelativeImageResponse>()
 
-  const { data: credits, isLoading: creditsLoading } = useFetch<BaseCredits, typeof media_type>(
-    media_type,
-    id,
-    'getCredits'
-  )
-  const { data: recommends, isLoading: recommendLoading } = useFetch<
-    MovieResponse<BaseItem[]>,
-    typeof media_type
-  >(media_type, id, 'getRecommends')
-  const { data: keyword, isLoading: keywordLoading } = useFetch<KeyWordResponse, typeof media_type>(
-    media_type,
-    id,
-    'getCredits'
-  )
-
-  const { data: images, isLoading: imageLoading } = useFetch<
-    RelativeImageResponse,
-    typeof media_type
-  >(media_type, id, 'getImages')
+  // const { item, credits, recommends, keyword, images, isLoading } = getAllDetails(
+  //   media_type,
+  //   parseInt(id)
+  // )
   const crews = useMemo(() => {
     const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director') ?? []
     const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer') ?? []
