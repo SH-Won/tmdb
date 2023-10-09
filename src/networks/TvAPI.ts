@@ -1,6 +1,7 @@
 import { ITv } from './../../types/interface'
 import { AxiosResponse } from 'axios'
 import FetchAPI, { MediaClassProps } from './FetchAPI'
+import { IFilterObj } from '@/const/overall'
 
 export default class TvAPI extends FetchAPI implements MediaClassProps {
   constructor(public baseUrl: string) {
@@ -62,6 +63,24 @@ export default class TvAPI extends FetchAPI implements MediaClassProps {
     const response = await this.fetch({
       method: 'GET',
       url: `/tv/${tvId}/images`,
+    })
+    return response.data
+  }
+  getGenres = async <T>(language: string): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: '/genre/tv/list',
+      query: {
+        language,
+      },
+    })
+    return response.data
+  }
+  getDiscoverItems = async <T>(params: { filter: IFilterObj }): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: '/discover/tv',
+      query: params.filter,
     })
     return response.data
   }

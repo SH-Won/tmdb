@@ -1,10 +1,8 @@
 import { ItemType } from '@/const/toggleBar'
-import { useBreakPoints, useHelper } from '@/hooks'
-import BackEnd from '@/networks'
+import { useBreakPoints, useHelper, useQueryCommon } from '@/hooks'
 import { MovieResponse } from '@/types/network/response'
 import { PosterCard, ToggleBar } from 'my-react-component'
 import { useLayoutEffect, useRef, useState } from 'react'
-import { useQuery } from 'react-query'
 import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
 import SkeletonItemList from './SkeletonItemList'
@@ -18,20 +16,7 @@ const UpcommingItemSection = ({ toggleItems, title, click }: Props) => {
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
-  const { data, isLoading } = useQuery(
-    [selectedItem.id, 1],
-    async () => {
-      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
-        url: selectedItem?.value,
-        page: 1,
-      })
-      return response
-    },
-    {
-      staleTime: 30000,
-      enabled: !!selectedItem,
-    }
-  )
+  const { data, isLoading } = useQueryCommon<MovieResponse<BaseItem[]>>(selectedItem, 1)
   const getBackGroundImageUrl = (backdropPath: string) => {
     return `url(${import.meta.env.VITE_BASE_IMAGE_URL + backdropPath})`
   }

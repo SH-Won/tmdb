@@ -2,6 +2,7 @@ import { TrendingMovieParams } from './../types/network/request'
 import { AxiosResponse } from 'axios'
 import { IMovie } from 'types/interface'
 import FetchAPI, { MediaClassProps } from './FetchAPI'
+import { IFilterObj, Media } from '@/const/overall'
 
 export default class MovieAPI extends FetchAPI implements MediaClassProps {
   constructor(public baseUrl: string) {
@@ -75,6 +76,24 @@ export default class MovieAPI extends FetchAPI implements MediaClassProps {
     const response = await this.fetch({
       method: 'GET',
       url: `/movie/${movieId}/images`,
+    })
+    return response.data
+  }
+  getGenres = async <T>(language: string): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: '/genre/movie/list',
+      query: {
+        language,
+      },
+    })
+    return response.data
+  }
+  getDiscoverItems = async <T>(params: { filter: IFilterObj }): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: '/discover/movie',
+      query: params.filter,
     })
     return response.data
   }

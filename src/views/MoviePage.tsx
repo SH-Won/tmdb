@@ -1,4 +1,11 @@
-import { useHelper, useI18nTypes } from '@/hooks'
+import {
+  getQueryString,
+  useHelper,
+  useI18nTypes,
+  useQueryDiscover,
+  useQueryGenre,
+  useQueryProvider,
+} from '@/hooks'
 import BackEnd from '@/networks'
 import { CommonResponse, GenreResponse, IGenre, MovieResponse } from '@/types/network/response'
 import {
@@ -45,59 +52,23 @@ const MoviePage = () => {
     ...mapper[media][category],
   })
   const [voteCount, setVoteCount] = useState<number>(mapper[media!][category!]['vote_count.gte'])
-  const query = Object.entries(filter)
-    .map(([key, value]) => {
-      if (!value) return ''
-      return `${key}=${value}`
-    })
-    .filter((el) => !!el)
-    .join('&')
-  const { data: watchProviders, isLoading: providerLoading } = useQuery(
-    [media, 'provider'],
-    async () => {
-      const response = await BackEnd.getInstance().common.getProviders<
-        CommonResponse<BaseProvider[]>
-      >({
-        media: media,
-        watch_region: 'KR',
-      })
-      return response.results
-    },
-    {
-      staleTime: Infinity,
-      enabled: !!media,
-      onSuccess: (payload) => {
-        setFilter((prev) => ({
-          ...prev,
-          watch_region: 'KR',
-        }))
-      },
-    }
-  )
-  const { data, isLoading } = useQuery(
-    [`${media}_${category}`, page, query],
-    async () => {
-      const response = await BackEnd.getInstance().common.getItems<MovieResponse<BaseItem[]>>({
-        url: `/discover/${media}?${query}`,
-        page,
-      })
-      return response
-    },
-    {
-      staleTime: Infinity,
-      enabled: !!watchProviders,
-    }
-  )
-  const { data: movieGenre, isLoading: movieLoading } = useQuery(
-    [media, 'genre'],
-    async () => {
-      const response = await BackEnd.getInstance().common.getGenre<GenreResponse>(media as Media)
-      return response.genres
-    },
-    {
-      staleTime: Infinity,
-    }
-  )
+  const query = getQueryString(filter)
+
+  const { data: watchProviders, isLoading: providerLoading } = useQueryProvider(media, () => {
+    setFilter((prev) => ({
+      ...prev,
+      watch_region: t('app.query.watch_region'),
+    }))
+  })
+
+  const { data, isLoading } = useQueryDiscover({
+    mediaType: media,
+    category,
+    page,
+    filter,
+  })
+  const { data: mediaGenre, isLoading: genreLoading } = useQueryGenre(media)
+
   const onChangeFilter = <T extends keyof typeof filter>(
     key: T,
     value: (typeof filter)[T]
@@ -137,7 +108,9 @@ const MoviePage = () => {
   const prevProviders = useMemo<BaseProvider['provider_id'][]>(() => {
     if (!watchProviders || !filter['with_watch_providers']) return []
     const filterProviders = filter['with_watch_providers'].split('|')
-    return filterProviders.length === watchProviders.length ? [] : filterProviders.map(Number)
+    return filterProviders.length === watchProviders.results.length
+      ? []
+      : filterProviders.map(Number)
   }, [filter, watchProviders])
 
   const isGenreChange = useMemo<boolean>(() => {
@@ -184,7 +157,9 @@ const MoviePage = () => {
     if (!watchProviders) return
     setFilter(() => ({
       ...mapper[media][category],
-      with_watch_providers: watchProviders.map((provider) => provider.provider_id).join('|'),
+      with_watch_providers: watchProviders.results
+        .map((provider) => provider.provider_id)
+        .join('|'),
       watch_region: 'KR',
     }))
     setItems([])
@@ -194,6 +169,8 @@ const MoviePage = () => {
     setVoteAverage((prev) => mapper[media][category]['vote_average.gte'])
     setVoteCount((prev) => mapper[media][category]['vote_count.gte'])
   }, [category, media, watchProviders])
+
+  if (providerLoading || genreLoading) return <PageLoadingSpinner text="please wait a second" />
   return (
     <div className="movie-page">
       <div className="filter-total-container">
@@ -207,7 +184,7 @@ const MoviePage = () => {
           </BasicAccordion>
           <BasicAccordion title={t('app.filter.sort_providers_title')}>
             <FilterProvider
-              items={watchProviders!}
+              items={watchProviders!.results}
               selectProvider={selectProvider}
               providers={providers}
             />
@@ -215,7 +192,7 @@ const MoviePage = () => {
           <BasicAccordion title={t('app.filter.genre_rated')}>
             <div>
               <span className="setting-title">{t('app.filter.genre')}</span>
-              <FilterGenre items={movieGenre!} selectGenre={selectGenre} genres={genres} />
+              <FilterGenre items={mediaGenre!.genres} selectGenre={selectGenre} genres={genres} />
               <span className="setting-title">{t('app.filter.rated')}</span>
               <SettingBar
                 width={236}
@@ -236,7 +213,7 @@ const MoviePage = () => {
             <div className="movie-item-container" key={item.id}>
               <PosterCard
                 click={() => goDetailPage(item)}
-                ratio={1.5}
+                ratio={1.3}
                 imageUrl={isValidImage(item.poster_path)}
                 title={item.title ?? item.name}
                 voteAverage={Math.floor(item.vote_average * 10)}
@@ -266,7 +243,7 @@ const MoviePage = () => {
           onChangeFilter<'with_watch_providers'>(
             'with_watch_providers',
             !providers.length
-              ? watchProviders!.map((provider) => provider.provider_id).join('|')
+              ? watchProviders!.results.map((provider) => provider.provider_id).join('|')
               : providers.join('|')
           )
           onChangeFilter<'vote_average.gte'>('vote_average.gte', voteAverage)

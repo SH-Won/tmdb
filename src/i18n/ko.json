@@ -104,6 +104,11 @@
     "user": {
       "favorites": "즐겨찾기",
       "notification_no_favorite": "즐겨찾기에 추가 된 것이 없습니다"
+    },
+    "query": {
+      "language": "ko-KR",
+      "watch_region": "KR",
+      "genre_language": "ko"
     }
   }
 }

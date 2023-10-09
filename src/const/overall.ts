@@ -52,7 +52,10 @@ const getFormatDate = (isLastDay = false) => {
   return year + '-' + month + '-' + (!isLastDay ? day : lastDay)
 }
 export type Media = 'movie' | 'tv'
-
+export type IFilterObj = (typeof queryMapper)[Media][keyof (typeof queryMapper)[Media]] & {
+  page?: number
+  language?: string
+}
 export const queryMapper = {
   movie: {
     popular: {

@@ -1,13 +1,14 @@
 import {
-  getAllDetails,
   useBreakPoints,
-  useFetch,
-  useDataFetch,
+  useQueryDetail,
+  useQueryCredits,
+  useQueryImages,
+  useQueryKeywords,
+  useQueryRecommends,
   useHelper,
   useI18nTypes,
   useUser,
 } from '@/hooks'
-import BackEnd from '@/networks'
 import { useLoaderData, useOutletContext } from 'react-router-dom'
 import {
   BaseCredits,
@@ -35,21 +36,23 @@ const DetailPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const { getDetail, getCredits, getImages, getKeywords, getRecommends } = useDataFetch(
+  const { data: item, isLoading } = useQueryDetail<BaseItemDetail>(media_type, parseInt(id))
+  const { data: credits, isLoading: creditsLoading } = useQueryCredits<BaseCredits>(
     media_type,
     parseInt(id)
   )
-  const { data: item, isLoading } = getDetail<BaseItemDetail>()
-  const { data: credits, isLoading: creditsLoading } = getCredits<BaseCredits>()
-  const { data: recommends, isLoading: recommendLoading } =
-    getRecommends!<MovieResponse<BaseItem[]>>()
-  const { data: keyword, isLoading: keywordLoading } = getKeywords!<KeyWordResponse>()
-  const { data: images, isLoading: imageLoading } = getImages<RelativeImageResponse>()
+  const { data: recommends, isLoading: recommendLoading } = useQueryRecommends<
+    MovieResponse<BaseItem[]>
+  >(media_type, parseInt(id))
+  const { data: keyword, isLoading: keywordLoading } = useQueryKeywords<KeyWordResponse>(
+    media_type,
+    parseInt(id)
+  )
+  const { data: images, isLoading: imageLoading } = useQueryImages<RelativeImageResponse>(
+    media_type,
+    parseInt(id)
+  )
 
-  // const { item, credits, recommends, keyword, images, isLoading } = getAllDetails(
-  //   media_type,
-  //   parseInt(id)
-  // )
   const crews = useMemo(() => {
     const directors = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Director') ?? []
     const writers = credits?.crew.filter((crew: BaseCrew) => crew.job === 'Writer') ?? []

@@ -1,71 +1,141 @@
-import { BaseCredits, BaseItem, RelativeImageResponse } from '../../types/interface'
+import { useI18nTypes } from '@/hooks'
+import { ItemType } from '@/const/toggleBar'
+import { BaseCredits, BaseItem, BaseProvider, RelativeImageResponse } from '../../types/interface'
 import BackEnd from '@/networks'
-import { useQueries, useQuery, UseQueryResult } from 'react-query'
+import { useQueries, useQuery, useQueryClient, UseQueryResult } from 'react-query'
 import { BaseItemDetail, IMedia, IMediaType } from 'types/interface'
-import { KeyWordResponse, MovieResponse } from '@/types/network/response'
+import {
+  CommonResponse,
+  GenreResponse,
+  KeyWordResponse,
+  MovieResponse,
+} from '@/types/network/response'
+import { IFilterObj, Media, queryMapper } from '@/const/overall'
 
 interface IFetchFuncParams {
   mediaType: IMediaType
   id: IMedia['id']
 }
 
-export const getDetail = <T>(mediaType: IMediaType, id: IMedia['id']): UseQueryResult<T> => {
-  return useQuery<T>(
+interface IQueryDiscoverParams {
+  mediaType: Media
+  category: keyof (typeof queryMapper)[Media]
+  page: number
+  filter: IFilterObj
+}
+interface IGenericQueryFn<U> {
+  <T>(mediaType: U, ...arg: IMedia['id'][]): UseQueryResult<T>
+}
+export const getQueryConfig = (staleTime: number, enabled: boolean, onSuccess?: () => void) => {
+  return {
+    staleTime,
+    enabled,
+    onSuccess: () => onSuccess?.(),
+  }
+}
+export const getQueryString = (queryObj: IQueryDiscoverParams['filter']) => {
+  return Object.entries(queryObj)
+    .map(([key, value]) => {
+      if (value === '' || value === null) return ''
+      return `${key}=${value}`
+    })
+    .filter((el) => !!el)
+    .join('&')
+}
+export const useQueryProvider = (
+  mediaType: Exclude<IMediaType, 'person'>,
+  onSuccess: () => void
+): UseQueryResult<CommonResponse<BaseProvider[]>> => {
+  const { t } = useI18nTypes()
+  return useQuery(
+    [mediaType, 'provider'],
+    () =>
+      BackEnd.getInstance().common.getProviders<CommonResponse<BaseProvider[]>>({
+        media: mediaType,
+        watch_region: t('app.query.watch_region'),
+      }),
+
+    getQueryConfig(Infinity, !!mediaType, onSuccess)
+  )
+}
+export const useQueryCommon = <T>(queryInfo: ItemType, page: number): UseQueryResult<T> => {
+  return useQuery(
+    [queryInfo.id, page],
+    () =>
+      BackEnd.getInstance().common.getItems({
+        url: queryInfo.value,
+        page,
+      }),
+    getQueryConfig(30000, !!queryInfo)
+  )
+}
+export const useQueryGenre = (mediaType: Exclude<IMediaType, 'person'>) => {
+  const { t } = useI18nTypes()
+  return useQuery(
+    [mediaType, 'genre'],
+    () => BackEnd.getInstance()[mediaType].getGenres<GenreResponse>(t('app.query.genre_language')),
+    getQueryConfig(Infinity, !!mediaType)
+  )
+}
+
+export const useQueryDiscover = ({
+  mediaType,
+  category,
+  page,
+  filter,
+}: IQueryDiscoverParams): UseQueryResult<MovieResponse<BaseItem[]>> => {
+  const query = getQueryString(filter)
+  const { t } = useI18nTypes()
+  filter['page'] = page
+  filter['language'] = t('app.query.language')
+  // const queryClient = useQueryClient()
+  // const providerCache = queryClient.getQueryData([mediaType, 'provider'])
+  return useQuery(
+    [`${mediaType}_${category}`, page, query],
+    () => BackEnd.getInstance()[mediaType].getDiscoverItems({ filter }),
+    getQueryConfig(Infinity, true)
+  )
+}
+
+export const useQueryDetail: IGenericQueryFn<IMediaType> = (mediaType, id) => {
+  return useQuery(
     [mediaType, id, 'detail'],
     () => BackEnd.getInstance()[mediaType].getDetail(id),
-    {
-      staleTime: Infinity,
-      enabled: !!id,
-    }
+    getQueryConfig(Infinity, !!id)
   )
 }
-export const getCredits = <T>(mediaType: IMediaType, id: IMedia['id']): UseQueryResult<T> => {
-  return useQuery<T>(
+export const useQueryCredits: IGenericQueryFn<IMediaType> = (mediaType, id) => {
+  return useQuery(
     [mediaType, id, 'credits'],
     () => BackEnd.getInstance()[mediaType].getCredits(id),
-    {
-      staleTime: Infinity,
-      enabled: !!id,
-    }
+    getQueryConfig(Infinity, !!id)
   )
 }
-export const getImages = <T>(mediaType: IMediaType, id: IMedia['id']): UseQueryResult<T> => {
-  return useQuery<T>(
+export const useQueryImages: IGenericQueryFn<IMediaType> = (mediaType, id) => {
+  return useQuery(
     [mediaType, id, 'images'],
     () => BackEnd.getInstance()[mediaType].getImages(id),
-    {
-      staleTime: Infinity,
-      enabled: !!id,
-    }
+    getQueryConfig(Infinity, !!id)
   )
 }
-export const getRecommends = <T>(
-  mediaType: Exclude<IMediaType, 'person'>,
-  id: IMedia['id']
-): UseQueryResult<T> => {
-  return useQuery<T>(
+export const useQueryRecommends: IGenericQueryFn<Exclude<IMediaType, 'person'>> = (
+  mediaType,
+  id
+) => {
+  return useQuery(
     [mediaType, id, 'recommends'],
     () => BackEnd.getInstance()[mediaType].getRecommends(id),
-    {
-      staleTime: Infinity,
-      enabled: !!id,
-    }
+    getQueryConfig(Infinity, !!id)
   )
 }
-export const getKeywords = <T>(
-  mediaType: Exclude<IMediaType, 'person'>,
-  id: IMedia['id']
-): UseQueryResult<T> => {
-  return useQuery<T>(
+export const useQueryKeywords: IGenericQueryFn<Exclude<IMediaType, 'person'>> = (mediaType, id) => {
+  return useQuery(
     [mediaType, id, 'keywords'],
     () => BackEnd.getInstance()[mediaType].getKeywords(id),
-    {
-      staleTime: Infinity,
-      enabled: !!id,
-    }
+    getQueryConfig(Infinity, !!id)
   )
 }
-export const getAllDetails = (mediaType: Exclude<IMediaType, 'person'>, id: IMedia['id']) => {
+export const useQueryDetails = (mediaType: Exclude<IMediaType, 'person'>, id: IMedia['id']) => {
   const fetchArr = [
     {
       queryKey: 'detail',
@@ -123,28 +193,28 @@ export const getAllDetails = (mediaType: Exclude<IMediaType, 'person'>, id: IMed
 }
 
 interface IFetchBaseReturnType {
-  getDetail: <T>() => UseQueryResult<T>
-  getCredits: <T>() => UseQueryResult<T>
-  getImages: <T>() => UseQueryResult<T>
+  getDetail: typeof useQueryDetail
+  getCredits: typeof useQueryCredits
+  getImages: typeof useQueryImages
 }
 interface IFetchReturnType extends IFetchBaseReturnType {
-  getKeywords: <T>() => UseQueryResult<T>
-  getRecommends: <T>() => UseQueryResult<T>
+  getKeywords: typeof useQueryKeywords
+  getRecommends: typeof useQueryRecommends
 }
 
-const useDataFetch = (mediaType: IMediaType, id: IMedia['id']) => {
-  return mediaType !== 'person'
-    ? {
-        getDetail: <T>() => getDetail<T>(mediaType, id),
-        getCredits: <T>() => getCredits<T>(mediaType, id),
-        getImages: <T>() => getImages<T>(mediaType, id),
-        getKeywords: <T>() => getKeywords<T>(mediaType, id),
-        getRecommends: <T>() => getRecommends<T>(mediaType, id),
-      }
-    : {
-        getDetail: <T>() => getDetail<T>(mediaType, id),
-        getCredits: <T>() => getCredits<T>(mediaType, id),
-        getImages: <T>() => getImages<T>(mediaType, id),
-      }
-}
-export { useDataFetch }
+// const useDataFetch = <T extends IMediaType>(mediaType: T, id: IMedia['id']): IFetchReturnType => {
+//   return mediaType !== 'person'
+//     ? {
+//         getDetail: <T>() => getDetail<T>(mediaType, id),
+//         getCredits: <T>() => getCredits<T>(mediaType, id),
+//         getImages: <T>() => getImages<T>(mediaType, id),
+//         // getKeywords: <T>() => getKeywords<T>(mediaType, id),
+//         // getRecommends: <T>() => getRecommends<T>(mediaType, id),
+//       }
+//     : {
+//         getDetail: <T>() => getDetail<T>(mediaType, id),
+//         getCredits: <T>() => getCredits<T>(mediaType, id),
+//         getImages: <T>() => getImages<T>(mediaType, id),
+//       }
+// }
+// export { useDataFetch }
