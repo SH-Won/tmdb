@@ -108,7 +108,8 @@
     "query": {
       "language": "ko-KR",
       "watch_region": "KR",
-      "genre_language": "ko"
+      "genre_language": "ko",
+      "search_language": "ko"
     }
   }
 }

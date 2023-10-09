@@ -1,3 +1,4 @@
+import { ISearchFilter } from './../../types/interface'
 import { useI18nTypes } from '@/hooks'
 import { ItemType } from '@/const/toggleBar'
 import { BaseCredits, BaseItem, BaseProvider, RelativeImageResponse } from '../../types/interface'
@@ -12,6 +13,17 @@ import {
 } from '@/types/network/response'
 import { IFilterObj, Media, queryMapper } from '@/const/overall'
 
+export const QUERY_KEY = {
+  SEARCH: 'search',
+  PROVIDER: 'provider',
+  GENRE: 'genre',
+  DETAIL: 'detail',
+  CREDITS: 'credits',
+  IMAGES: 'images',
+  RECOMMENDS: 'recommends',
+  KEYWORDS: 'keywords',
+  VIDEO: 'video',
+}
 interface IFetchFuncParams {
   mediaType: IMediaType
   id: IMedia['id']
@@ -42,13 +54,21 @@ export const getQueryString = (queryObj: IQueryDiscoverParams['filter']) => {
     .filter((el) => !!el)
     .join('&')
 }
+export const useQueryVideo: IGenericQueryFn<Media> = (mediaType, id) => {
+  return useQuery(
+    [mediaType, id, QUERY_KEY.VIDEO],
+    () => BackEnd.getInstance()[mediaType].getVideo(id),
+    getQueryConfig(Infinity, !!id)
+  )
+}
+
 export const useQueryProvider = (
   mediaType: Exclude<IMediaType, 'person'>,
   onSuccess: () => void
 ): UseQueryResult<CommonResponse<BaseProvider[]>> => {
   const { t } = useI18nTypes()
   return useQuery(
-    [mediaType, 'provider'],
+    [mediaType, QUERY_KEY.PROVIDER],
     () =>
       BackEnd.getInstance().common.getProviders<CommonResponse<BaseProvider[]>>({
         media: mediaType,
@@ -69,10 +89,21 @@ export const useQueryCommon = <T>(queryInfo: ItemType, page: number): UseQueryRe
     getQueryConfig(30000, !!queryInfo)
   )
 }
+export const useQuerySearch = <T>(
+  mediaType: Exclude<IMediaType, 'person'>,
+  filter: ISearchFilter,
+  enable: boolean
+): UseQueryResult<T> => {
+  return useQuery(
+    [mediaType, QUERY_KEY.SEARCH, filter.query, filter.page],
+    () => BackEnd.getInstance()[mediaType].getSearch({ filter }),
+    getQueryConfig(Infinity, enable)
+  )
+}
 export const useQueryGenre = (mediaType: Exclude<IMediaType, 'person'>) => {
   const { t } = useI18nTypes()
   return useQuery(
-    [mediaType, 'genre'],
+    [mediaType, QUERY_KEY.GENRE],
     () => BackEnd.getInstance()[mediaType].getGenres<GenreResponse>(t('app.query.genre_language')),
     getQueryConfig(Infinity, !!mediaType)
   )
@@ -99,21 +130,21 @@ export const useQueryDiscover = ({
 
 export const useQueryDetail: IGenericQueryFn<IMediaType> = (mediaType, id) => {
   return useQuery(
-    [mediaType, id, 'detail'],
+    [mediaType, id, QUERY_KEY.DETAIL],
     () => BackEnd.getInstance()[mediaType].getDetail(id),
     getQueryConfig(Infinity, !!id)
   )
 }
 export const useQueryCredits: IGenericQueryFn<IMediaType> = (mediaType, id) => {
   return useQuery(
-    [mediaType, id, 'credits'],
+    [mediaType, id, QUERY_KEY.CREDITS],
     () => BackEnd.getInstance()[mediaType].getCredits(id),
     getQueryConfig(Infinity, !!id)
   )
 }
 export const useQueryImages: IGenericQueryFn<IMediaType> = (mediaType, id) => {
   return useQuery(
-    [mediaType, id, 'images'],
+    [mediaType, id, QUERY_KEY.IMAGES],
     () => BackEnd.getInstance()[mediaType].getImages(id),
     getQueryConfig(Infinity, !!id)
   )
@@ -123,14 +154,14 @@ export const useQueryRecommends: IGenericQueryFn<Exclude<IMediaType, 'person'>> 
   id
 ) => {
   return useQuery(
-    [mediaType, id, 'recommends'],
+    [mediaType, id, QUERY_KEY.RECOMMENDS],
     () => BackEnd.getInstance()[mediaType].getRecommends(id),
     getQueryConfig(Infinity, !!id)
   )
 }
 export const useQueryKeywords: IGenericQueryFn<Exclude<IMediaType, 'person'>> = (mediaType, id) => {
   return useQuery(
-    [mediaType, id, 'keywords'],
+    [mediaType, id, QUERY_KEY.KEYWORDS],
     () => BackEnd.getInstance()[mediaType].getKeywords(id),
     getQueryConfig(Infinity, !!id)
   )

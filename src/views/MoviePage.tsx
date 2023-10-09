@@ -28,6 +28,7 @@ import FilterSearchButton from '@/components/filter/FilterSearchButton'
 import { type Media, queryMapper as mapper } from '@/const/overall'
 import FilterProvider from '@/components/filter/FilterProvider'
 import ItemList from '@/components/common/ItemList'
+import Transition from '@/layout/Transition'
 
 // const convertedUserSelectItems = (items: { [key: number]: boolean }) => {
 //   return Object.entries(items)
@@ -51,8 +52,7 @@ const MoviePage = () => {
   const [filter, setFilter] = useState({
     ...mapper[media][category],
   })
-  const [voteCount, setVoteCount] = useState<number>(mapper[media!][category!]['vote_count.gte'])
-  const query = getQueryString(filter)
+  const [voteCount, setVoteCount] = useState<number>(mapper[media][category]['vote_count.gte'])
 
   const { data: watchProviders, isLoading: providerLoading } = useQueryProvider(media, () => {
     setFilter((prev) => ({
@@ -160,7 +160,7 @@ const MoviePage = () => {
       with_watch_providers: watchProviders.results
         .map((provider) => provider.provider_id)
         .join('|'),
-      watch_region: 'KR',
+      watch_region: t('app.query.watch_region'),
     }))
     setItems([])
     setPage(1)

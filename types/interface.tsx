@@ -9,6 +9,16 @@ export type IOutletContext = {
   login: () => void
 }
 export type IMediaType = 'movie' | 'tv' | 'person'
+
+export interface ISearchFilter {
+  page: number
+  query: string
+  language: string
+}
+export interface IMediaFilter {
+  movie: ISearchFilter
+  tv: ISearchFilter
+}
 export interface IMovie extends BaseItem {
   release_date: string
 }

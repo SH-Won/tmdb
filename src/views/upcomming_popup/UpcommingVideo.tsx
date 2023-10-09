@@ -1,7 +1,7 @@
-import BackEnd from '@/networks'
+import { Media } from '@/const/overall'
+import { useQueryVideo } from '@/hooks'
 import { Notification, PageLoadingSpinner } from 'my-react-component'
 import { useCallback, useLayoutEffect } from 'react'
-import { useQuery } from 'react-query'
 import { BaseItem } from 'types/interface'
 import './UpcommingPopup.scss'
 interface UpcommingVideoProps {
@@ -9,24 +9,11 @@ interface UpcommingVideoProps {
 }
 
 const UpcommingVideo = ({ item }: UpcommingVideoProps) => {
-  const { data, isLoading } = useQuery(
-    ['upcomming', item.id],
-    async () => {
-      const mediaType = item.release_date ? 'movie' : 'tv'
-      const id = item.id
-      const response = await BackEnd.getInstance().common.getSearch<{ id: number; results: any[] }>(
-        {
-          url: `/${mediaType}/${id}/videos`,
-        }
-      )
-      return response
-    },
-    {
-      staleTime: Infinity,
-      enabled: !!item,
-    }
-  )
+  const mediaType: Media = item.release_date ? 'movie' : 'tv'
+  const { data, isLoading } = useQueryVideo<{ id: number; results: any[] }>(mediaType, item.id)
+
   const Trailer = useCallback(() => {
+    // 반응형 breakPoints 때문에 계속 실행되므로 메모이제이션
     const result = !isLoading ? data?.results[0] : ''
     if (!result) return <Notification text="트레일러가 없습니다!" height="300px" />
     return (

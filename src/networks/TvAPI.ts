@@ -1,5 +1,4 @@
-import { ITv } from './../../types/interface'
-import { AxiosResponse } from 'axios'
+import { ISearchFilter, ITv } from './../../types/interface'
 import FetchAPI, { MediaClassProps } from './FetchAPI'
 import { IFilterObj } from '@/const/overall'
 
@@ -7,17 +6,22 @@ export default class TvAPI extends FetchAPI implements MediaClassProps {
   constructor(public baseUrl: string) {
     super(baseUrl)
   }
-  getTvItems = async <T>(category: string): Promise<AxiosResponse<T>> => {
+  getSearch = async <T>(params: { filter: ISearchFilter }): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
-      url: `/tv/${category}`,
-      query: {
-        language: 'ko-KR',
-        page: 1,
-      },
+      url: '/search/tv',
+      query: params.filter,
     })
-    return response
+    return response.data
   }
+  getVideo = async <T>(id: ITv['id']): Promise<T> => {
+    const response = await this.fetch({
+      method: 'GET',
+      url: `/tv/${id}/videos`,
+    })
+    return response.data
+  }
+
   getDetail = async <T>(tvId: ITv['id']): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
