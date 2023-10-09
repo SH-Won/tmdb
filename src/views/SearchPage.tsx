@@ -1,67 +1,44 @@
 import { MOVIE_CATEGORY } from '@/const'
 import { TV_CATEGORY } from '@/const/movie'
-import BackEnd from '@/networks'
 import { MovieResponse } from '@/types/network/response'
 import { useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 import { IMovie, ITv } from 'types/interface'
 import '@/styles/SearchPage.scss'
 import SearchNavigation from '@/components/search/SearchNavigation'
 import SearchPagination from '@/components/search/SearchPagination'
-import { useBreakPoints, useI18nTypes } from '@/hooks'
+import { useBreakPoints, useI18nTypes, useQuerySearch } from '@/hooks'
 import { PageLoadingSpinner } from 'my-react-component'
 const SearchPage = () => {
   const { breakPointsClass } = useBreakPoints()
   const { t } = useI18nTypes()
   const [searchParam] = useSearchParams()
-  const searchQuery = searchParam.get('query')
-  const language = searchParam.get('language')
-  const [pageState, setPageState] = useState({
+  const searchQuery = searchParam.get('query') as string
+  const [filter, setFilter] = useState({
     movie: {
       page: 1,
+      query: searchQuery,
+      language: t('app.query.search_language'),
     },
     tv: {
       page: 1,
+      query: searchQuery,
+      language: t('app.query.search_language'),
     },
   })
-  const [selected, setSelected] = useState<keyof typeof pageState>('movie')
-  const { data: searchMovieData, isLoading } = useQuery(
-    ['search', 'movie', searchQuery, pageState['movie'].page],
-    async () => {
-      const response = await BackEnd.getInstance().common.getSearch<MovieResponse<IMovie[]>>({
-        url: '/search/movie',
-        query: {
-          language,
-          query: searchQuery,
-          page: pageState['movie'].page,
-        },
-      })
-      return response
-    },
-    {
-      staleTime: Infinity,
-      enabled: selected === 'movie',
-    }
+  const [selected, setSelected] = useState<keyof typeof filter>('movie')
+
+  const { data: searchMovieData, isLoading } = useQuerySearch<MovieResponse<IMovie[]>>(
+    selected,
+    filter[selected],
+    selected === 'movie'
   )
-  const { data: searchTvData, isLoading: tvloading } = useQuery(
-    ['search', 'tv', searchQuery, pageState['tv'].page],
-    async () => {
-      const response = await BackEnd.getInstance().common.getSearch<MovieResponse<ITv[]>>({
-        url: '/search/tv',
-        query: {
-          language,
-          query: searchQuery,
-          page: pageState['tv'].page,
-        },
-      })
-      return response
-    },
-    {
-      staleTime: Infinity,
-      enabled: selected === 'tv',
-    }
+  const { data: searchTvData, isLoading: tvloading } = useQuerySearch<MovieResponse<ITv[]>>(
+    selected,
+    filter[selected],
+    selected === 'tv'
   )
+
   const navigationItems = useMemo(() => {
     return [
       {
@@ -82,10 +59,10 @@ const SearchPage = () => {
       case TV_CATEGORY.prefix:
         return searchTvData
     }
-  }, [pageState, selected, isLoading, tvloading])
+  }, [filter, selected, isLoading, tvloading])
 
   const onClickNextPage = (pageNumber: number) => {
-    setPageState((prevState) => ({
+    setFilter((prevState) => ({
       ...prevState,
       [selected]: {
         page: pageNumber,

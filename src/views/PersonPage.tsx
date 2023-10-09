@@ -8,11 +8,12 @@ import { BasePopularPerson } from 'types/interface'
 import '@/styles/PersonPage.scss'
 import ColumnExplain from '@/components/common/ColumnExplain'
 import { useEffect, useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
 const PersonPage = () => {
+  const { media_type } = useLoaderData() as { media_type: 'person' }
   const { isValidImage, goActorPage } = useHelper()
   const { t } = useI18nTypes()
   const [page, setPage] = useState(1)
-  const Backend = BackEnd.getInstance().person
   const { data, isLoading } = useQuery(
     ['person', 'popular', page],
     async () => {

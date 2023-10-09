@@ -10,16 +10,29 @@ import '@/styles/ActorPage.scss'
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import ItemList from '@/components/common/ItemList'
 import ColumnExplain from '@/components/common/ColumnExplain'
-import { useBreakPoints, useFetch, useDataFetch, useHelper, useI18nTypes } from '@/hooks'
+import {
+  useBreakPoints,
+  useFetch,
+  useHelper,
+  useI18nTypes,
+  useQueryDetail,
+  useQueryCredits,
+  useQueryImages,
+} from '@/hooks'
 const ActorPage = () => {
   const { media_type, personId } = useLoaderData() as { media_type: 'person'; personId: string }
   const { breakPointsClass } = useBreakPoints()
   const { goDetailPage, isValidImage } = useHelper()
   const { t } = useI18nTypes()
-  const { getDetail, getCredits, getImages } = useDataFetch(media_type, parseInt(personId))
-  const { data, isLoading } = getDetail<BaseActorItem>()
-  const { data: movies, isLoading: movieLoading } = getCredits<BaseCombineCredit>()
-  const { data: images, isLoading: imageLoading } = getImages<RelativeImageResponse>()
+  const { data, isLoading } = useQueryDetail<BaseActorItem>(media_type, parseInt(personId))
+  const { data: movies, isLoading: movieLoading } = useQueryCredits<BaseCombineCredit>(
+    media_type,
+    parseInt(personId)
+  )
+  const { data: images, isLoading: imageLoading } = useQueryImages<RelativeImageResponse>(
+    media_type,
+    parseInt(personId)
+  )
 
   const biography = useRef<HTMLDivElement>(null)
   const readMore = useRef<HTMLDivElement>(null)

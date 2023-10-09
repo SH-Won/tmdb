@@ -37,6 +37,15 @@ export default class FetchAPI implements InterfaceAPI {
       url: this.baseUrl + params.url!,
       headers,
       params: params.query,
+      paramsSerializer: (params: object) => {
+        return Object.entries(params)
+          .map(([key, value]) => {
+            if (value === '' || value === null) return ''
+            return `${key}=${value}`
+          })
+          .filter((el) => !!el)
+          .join('&')
+      },
     })
   }
 }

@@ -5,7 +5,7 @@ export default class PersonAPI extends FetchAPI implements BaseClassProps {
     super(baseUrl)
     this.urlPrefix = '/person/'
   }
-  getPopulars = async <T>(params: { page: number }): Promise<T> => {
+  getPopular = async <T>(params: { page: number }): Promise<T> => {
     const response = await this.fetch({
       method: 'GET',
       url: '/person/popular',

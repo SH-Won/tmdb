@@ -49,6 +49,11 @@ export const router = createBrowserRouter(
         {
           Component: lazy(() => import('@/views/PersonPage')),
           path: '/person',
+          loader: ({ params }) => {
+            return {
+              media_type: 'person',
+            }
+          },
         },
         {
           Component: lazy(() => import('@/views/UserFavoritePage')),
