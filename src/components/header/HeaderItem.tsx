@@ -1,5 +1,4 @@
-import { OptionList } from 'my-react-component'
-import Accordion from 'my-react-component/src/components/accordion/Accordion'
+import { OptionList, BasicAccordion } from 'my-react-component'
 import { useState } from 'react'
 
 interface HeaderItemProps {
@@ -29,7 +28,7 @@ const HeaderItem = ({ items, click, title, isMobile }: HeaderItemProps) => {
           </div>
         </>
       ) : (
-        <Accordion title={title} border={false}>
+        <BasicAccordion title={title} border={false}>
           <div className="mobile-option-list-container">
             {items.map((item) => (
               <span key={item.value} onClick={() => click?.(item)}>
@@ -37,7 +36,7 @@ const HeaderItem = ({ items, click, title, isMobile }: HeaderItemProps) => {
               </span>
             ))}
           </div>
-        </Accordion>
+        </BasicAccordion>
       )}
     </div>
   )
