@@ -1,54 +1,23 @@
-import {
-  useBreakPoints,
-  useQueryDetail,
-  useQueryCredits,
-  useQueryImages,
-  useQueryKeywords,
-  useQueryRecommends,
-  useHelper,
-  useI18nTypes,
-  useUser,
-} from '@/hooks'
+import { useBreakPoints, useQueryDetail, useQueryCredits, useI18nTypes, useUser } from '@/hooks'
 import { useLoaderData, useOutletContext } from 'react-router-dom'
-import {
-  BaseCredits,
-  BaseCrew,
-  BaseItem,
-  BaseItemDetail,
-  BasicImage,
-  IOutletContext,
-  RelativeImageResponse,
-} from 'types/interface'
+import { BaseCredits, BaseCrew, BaseItemDetail, IOutletContext } from 'types/interface'
 import '@/styles/DetailPage.scss'
 import Intro from '@/components/detail/Intro'
 import { useMemo } from 'react'
 import Cast from '@/components/detail/Cast'
 import Information from '@/components/detail/Information'
-import { RatioCardImage, AutoCarousel, PageLoadingSpinner } from 'my-react-component'
 import Recommend from '@/components/detail/Recommend'
-import { KeyWordResponse, MovieResponse } from '@/types/network/response'
 import UserFavoriteButton from '@/components/user/UserFavoriteButton'
+import MediaImageCarousel from '@/components/detail/MediaImageCarousel'
 
 const DetailPage = () => {
   const { login } = useOutletContext<IOutletContext>()
   const { loginUser, addFavorite, removeFavorite } = useUser()
   const { media_type, id } = useLoaderData() as { media_type: 'movie' | 'tv'; id: string }
   const { breakPointsClass } = useBreakPoints()
-  const { isValidImage } = useHelper()
   const { t } = useI18nTypes()
   const { data: item, isLoading } = useQueryDetail<BaseItemDetail>(media_type, parseInt(id))
   const { data: credits, isLoading: creditsLoading } = useQueryCredits<BaseCredits>(
-    media_type,
-    parseInt(id)
-  )
-  const { data: recommends, isLoading: recommendLoading } = useQueryRecommends<
-    MovieResponse<BaseItem[]>
-  >(media_type, parseInt(id))
-  const { data: keyword, isLoading: keywordLoading } = useQueryKeywords<KeyWordResponse>(
-    media_type,
-    parseInt(id)
-  )
-  const { data: images, isLoading: imageLoading } = useQueryImages<RelativeImageResponse>(
     media_type,
     parseInt(id)
   )
@@ -71,9 +40,9 @@ const DetailPage = () => {
     if (response === 'needLogin') login()
   }
 
-  if (isLoading || creditsLoading || recommendLoading || keywordLoading || imageLoading) {
-    return <PageLoadingSpinner text="please wait a second" />
-  }
+  // if (isLoading) {
+  //   return <PageLoadingSpinner text="please wait a second" />
+  // }
 
   return (
     <div className={`detail-page ${breakPointsClass}`}>
@@ -81,50 +50,16 @@ const DetailPage = () => {
       <div className="detail-content">
         <div className="content-cast-recommend">
           <Cast
-            casts={credits!.cast}
+            casts={credits?.cast}
             title={t('app.detail.cast.title')}
             notification={t('app.detail.cast.no_actors')}
           />
-          <Recommend
-            items={recommends!.results}
-            title={t('app.detail.recommend.title')}
-            notification={t('app.detail.recommend.no_recommends')}
-          />
+          <Recommend media_type={media_type} id={id} />
           <div className="content-carousel">
-            <h3>{t('app.detail.image.background')}</h3>
-            {images?.backdrops && (
-              <AutoCarousel<BasicImage>
-                time={2000}
-                items={
-                  images.backdrops.length >= 2
-                    ? images.backdrops.slice(1, 10)
-                    : images.backdrops!.length === 0
-                    ? [
-                        {
-                          file_path: item!.backdrop_path,
-                          aspect_ratio: 1.576,
-                          height: 0,
-                          iso_639_1: '',
-                          vote_average: 0,
-                          vote_count: 0,
-                          width: 0,
-                        },
-                      ]
-                    : images.backdrops!.slice(0)
-                }
-                renderItems={(item, index) => (
-                  <RatioCardImage
-                    key={index}
-                    ratio={1 / (item.aspect_ratio ?? 1)}
-                    eager={true}
-                    imageUrl={isValidImage(item.file_path)}
-                  />
-                )}
-              />
-            )}
+            <MediaImageCarousel media_type={media_type} id={id} />
           </div>
         </div>
-        <Information item={item!} keywords={keyword!.keywords ?? keyword!.results} />
+        <Information media_type={media_type} id={id} />
       </div>
       <UserFavoriteButton
         addFavorite={userAddFavorite}
