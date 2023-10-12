@@ -74,10 +74,10 @@ export const useQueryProvider = (
         media: mediaType,
         watch_region: t('app.query.watch_region'),
       }),
-
     getQueryConfig(Infinity, !!mediaType, onSuccess)
   )
 }
+
 export const useQueryCommon = <T>(queryInfo: ItemType, page: number): UseQueryResult<T> => {
   return useQuery(
     [queryInfo.id, page],
@@ -132,7 +132,11 @@ export const useQueryDetail: IGenericQueryFn<IMediaType> = (mediaType, id) => {
   return useQuery(
     [mediaType, id, QUERY_KEY.DETAIL],
     () => BackEnd.getInstance()[mediaType].getDetail(id),
-    getQueryConfig(Infinity, !!id)
+    // {
+    //   suspense: true,
+    //   ...getQueryConfig(Infinity, !!mediaType),
+    // }
+    getQueryConfig(Infinity, !!mediaType)
   )
 }
 export const useQueryCredits: IGenericQueryFn<IMediaType> = (mediaType, id) => {
@@ -163,7 +167,11 @@ export const useQueryKeywords: IGenericQueryFn<Exclude<IMediaType, 'person'>> = 
   return useQuery(
     [mediaType, id, QUERY_KEY.KEYWORDS],
     () => BackEnd.getInstance()[mediaType].getKeywords(id),
-    getQueryConfig(Infinity, !!id)
+    // {
+    //   suspense: true,
+    //   ...getQueryConfig(Infinity, !!mediaType),
+    // }
+    getQueryConfig(Infinity, !!mediaType)
   )
 }
 export const useQueryDetails = (mediaType: Exclude<IMediaType, 'person'>, id: IMedia['id']) => {

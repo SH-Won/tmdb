@@ -13,7 +13,13 @@ const rootElement = document.querySelector('#root')
 if (!rootElement) {
   throw new Error('Failed to find the root element')
 }
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  // defaultOptions: {
+  //   queries: {
+  //     suspense: true,
+  //   },
+  // },
+})
 const root = createRoot(rootElement)
 
 root.render(

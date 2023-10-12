@@ -1,4 +1,5 @@
-import { useHelper } from '@/hooks'
+import { Media } from '@/const/overall'
+import { useHelper, useI18nTypes } from '@/hooks'
 import { Notification } from 'my-react-component'
 
 import { BaseCast } from 'types/interface'
@@ -6,17 +7,21 @@ import ItemList from '../common/ItemList'
 import CastItem from './CastItem'
 
 interface Props {
-  casts: BaseCast[]
+  casts: BaseCast[] | undefined
   title: string
   notification: string
+  media_type?: Media
+  id?: string
 }
 
 const Cast = ({ casts, title, notification }: Props) => {
+  const { t } = useI18nTypes()
   const { goActorPage } = useHelper()
+
   return (
     <div className="list-container-right-fade">
-      <h3 style={{ margin: 0 }}>주요 출연진</h3>
-      {casts.length ? (
+      <h3 style={{ margin: 0 }}>{t('app.detail.cast.title')}</h3>
+      {casts && casts.length ? (
         <div className="item-container">
           <ItemList
             className="item-list cast"
