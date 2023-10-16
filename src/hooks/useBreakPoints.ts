@@ -36,7 +36,7 @@ const useBreakPoints = () => {
   }, [])
 
   useEffect(() => {
-    const windowResize = throttle(resize, 200)
+    const windowResize = throttle(resize, 300)
     window.addEventListener('resize', windowResize)
     resize()
     return () => {

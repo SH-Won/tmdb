@@ -1,6 +1,6 @@
 import { useHelper } from '@/hooks'
 import { MovieResponse } from '@/types/network/response'
-import { PaginationNumbers } from 'my-react-component'
+import { PaginationNumbers, RatioCardImage } from 'my-react-component'
 import { BaseItem } from 'types/interface'
 
 interface SearchPaginationProps {
@@ -17,6 +17,9 @@ const SearchPagination = (props: SearchPaginationProps) => {
           props.data.results.map((item) => (
             <div className="search-item" key={item.id}>
               <img src={isValidImage(item.poster_path)} onClick={() => goDetailPage(item)} />
+              {/* <div>
+                <RatioCardImage imageUrl={isValidImage(item.poster_path)} ratio={0} />
+              </div> */}
               <div className="explain">
                 <div className="title">
                   <h2>{item.original_title ?? item.original_name}</h2>

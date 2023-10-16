@@ -93,10 +93,15 @@
     position: relative;
     z-index: 3;
     align-items: center;
+    & > .retry {
+      margin-left: 30px;
+      cursor: pointer;
+      @include typeface('Heading_3');
+      color: color('grey_bbb');
+    }
     & > h2 {
       margin: 0;
     }
-    display: flex;
     padding-left: 40px;
   }
   &:nth-child(1) {

@@ -3,7 +3,8 @@ import { useBreakPoints, useQueryCommon } from '@/hooks'
 import { useHelper } from '@/hooks/useHelper'
 import { MovieResponse } from '@/types/network/response'
 import { PosterCard, ToggleBar } from 'my-react-component'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { QueryClient, useQueryClient } from 'react-query'
 import { BaseItem } from 'types/interface'
 import ItemList from '../common/ItemList'
 import SkeletonItemList from './SkeletonItemList'
@@ -13,11 +14,31 @@ interface Props {
   toggleItems: ItemType[]
   click: ((item: BaseItem) => void) | (() => void)
 }
+
 const ToggleItemSection = ({ toggleItems, title, click }: Props) => {
   const { breakPointsClass } = useBreakPoints()
   const { isValidImage, getConvertedDate } = useHelper()
   const [selectedItem, setSelectedItem] = useState<ItemType>(toggleItems[0])
-  const { data, isLoading } = useQueryCommon<MovieResponse<BaseItem[]>>(selectedItem, 1)
+  const { data, isLoading, error } = useQueryCommon<MovieResponse<BaseItem[]>>(selectedItem, 1)
+
+  const ErrorComponent = ({ item, retryFunc }: { item: ItemType; retryFunc?: () => void }) => {
+    const queryClient = useQueryClient()
+    const click = () => {
+      queryClient.invalidateQueries([item.id, 1])
+    }
+    return (
+      <div className="list-container">
+        <div className="header">
+          <h2>{title}</h2>
+          <span className="retry" onClick={click}>
+            다시 불러오기
+          </span>
+        </div>
+        <SkeletonItemList ratio={1.5} />
+      </div>
+    )
+  }
+  if (error) return <ErrorComponent item={selectedItem} />
   return (
     <div className="list-container">
       <div className="header">

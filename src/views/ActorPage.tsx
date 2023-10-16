@@ -21,7 +21,6 @@ import {
 } from '@/hooks'
 const ActorPage = () => {
   const { media_type, personId } = useLoaderData() as { media_type: 'person'; personId: string }
-  const { breakPointsClass } = useBreakPoints()
   const { goDetailPage, isValidImage } = useHelper()
   const { t } = useI18nTypes()
   const { data, isLoading } = useQueryDetail<BaseActorItem>(media_type, parseInt(personId))
@@ -54,12 +53,12 @@ const ActorPage = () => {
   }, [biography.current, data])
   const RenderPopularMovies = useCallback(() => {
     return (
-      <div className="appearance-container">
+      <div className="list-container">
         <ItemList
           className="item-list appearance"
           items={sortMovies}
           renderItem={(item) => (
-            <div key={item.id + item.popularity}>
+            <div key={item.credit_id}>
               <RatioCardImage
                 imageUrl={isValidImage(item.backdrop_path)}
                 ratio={1.5}
@@ -76,7 +75,7 @@ const ActorPage = () => {
     return <PageLoadingSpinner text="please wait a second" />
 
   return (
-    <div className={`actor-page ${breakPointsClass}`}>
+    <div className="actor-page">
       <div className="actor-profile">
         <RatioImage
           imageUrl={import.meta.env.VITE_BASE_IMAGE_URL + data?.profile_path}

@@ -3,7 +3,13 @@ import { TV_CATEGORY } from '@/const/movie'
 import { useHelper, useI18nTypes, useUser } from '@/hooks'
 import BackEnd from '@/networks'
 import '@/styles/UserFavoritePage.scss'
-import { Notification, OptionList, PageLoadingSpinner, PosterCard } from 'my-react-component'
+import {
+  LoadingSpinner,
+  Notification,
+  OptionList,
+  PageLoadingSpinner,
+  PosterCard,
+} from 'my-react-component'
 import DropDown from 'my-react-component/src/components/dropdown/DropDown'
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
@@ -25,20 +31,22 @@ const UserFavoritePage = () => {
     }
   }, [])
   const Backend = BackEnd.getInstance()
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isFetching } = useQuery(
     ['user_favorites', count],
     async () => {
       return Promise.all(
-        user!.favorites.map((favorite) => {
-          const [media, id] = favorite.split(':') as Favorite
-          return Backend[media].getDetail<BaseItemDetail>(parseInt(id))
-        })
+        user!.favorites
+          .map((favorite) => {
+            const [media, id] = favorite.split(':') as Favorite
+            return Backend[media].getDetail<BaseItemDetail>(parseInt(id))
+          })
+          .reverse()
       )
     },
     {
-      staleTime: Infinity,
+      staleTime: 0,
       enabled: user?.favorites.length !== 0,
-      cacheTime: 0,
+      cacheTime: 100000,
     }
   )
   const items = [

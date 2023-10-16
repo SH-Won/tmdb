@@ -1,6 +1,6 @@
 import { useBreakPoints, useI18nTypes } from '@/hooks'
 import { CircularProgressBar } from 'my-react-component'
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { BaseCrew, BaseItemDetail } from 'types/interface'
 
 interface Props {
@@ -11,14 +11,28 @@ interface Props {
   }
 }
 
+const animationStyle = {
+  animation: 'fadeInout 0.5s ease',
+  WebkitAnimation: 'fadeInout 0.5s ease',
+}
+const resetAnimationStyle = {
+  animation: '',
+  WebkitAnimation: '',
+}
 const Intro = ({ item, crews }: Props) => {
   const { breakPointsClass } = useBreakPoints()
   const { t } = useI18nTypes()
-  const [opacity, setOpacity] = useState<number>()
+  const [opacity, setOpacity] = useState<number>(0)
   const loading = !item || !opacity
+  useLayoutEffect(() => {
+    setOpacity(0)
+  }, [item])
   return (
     <div className={`detail-intro ${breakPointsClass}`}>
-      <div className={`detail-background ${breakPointsClass}`}>
+      <div
+        className={`detail-background ${breakPointsClass}`}
+        style={!opacity ? animationStyle : resetAnimationStyle}
+      >
         <div style={{ opacity }}>
           <img
             loading="lazy"

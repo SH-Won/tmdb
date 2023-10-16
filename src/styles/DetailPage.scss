@@ -3,7 +3,7 @@
 @import '../styles/common.scss';
 @keyframes fadeInout {
   0% {
-    opacity: 0;
+    opacity: 0.2;
   }
   100% {
     opacity: 1;
@@ -12,7 +12,7 @@
 .detail-page {
   height: 100%;
   padding-bottom: 150px;
-  &.mobile {
+  .mobile & {
     .detail-content {
       display: flex;
       flex-direction: column;
@@ -96,8 +96,10 @@
       background-size: cover;
       background-color: #1d1d1d;
       background-blend-mode: overlay;
-      animation: fadeInout 0.5s ease;
-      -webkit-animation: fadeInout 0.5s ease;
+      // animation: fadeInout 0.5s ease;
+      // -webkit-animation: fadeInout 0.5s ease;
+      // opacity: 0;
+      // transition: opacity 0.5s ease-in-out;
       & > div {
         color: transparent;
         height: 100%;

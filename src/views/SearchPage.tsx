@@ -7,10 +7,9 @@ import { IMovie, ITv } from 'types/interface'
 import '@/styles/SearchPage.scss'
 import SearchNavigation from '@/components/search/SearchNavigation'
 import SearchPagination from '@/components/search/SearchPagination'
-import { useBreakPoints, useI18nTypes, useQuerySearch } from '@/hooks'
+import { useI18nTypes, useQuerySearch } from '@/hooks'
 import { PageLoadingSpinner } from 'my-react-component'
 const SearchPage = () => {
-  const { breakPointsClass } = useBreakPoints()
   const { t } = useI18nTypes()
   const [searchParam] = useSearchParams()
   const searchQuery = searchParam.get('query') as string
@@ -72,7 +71,7 @@ const SearchPage = () => {
   }
   const loading = isLoading || tvloading
   return (
-    <div className={`search-page ${breakPointsClass}`}>
+    <div className="search-page">
       <SearchNavigation items={navigationItems} onSelect={setSelected} selected={selected} />
       {loading ? (
         <PageLoadingSpinner text={t('app.search_page.loading_text')} />
