@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from '@/app'
 import { lazy } from 'react'
-import TestPage from '@/test/TestPage'
 
 export const router = createBrowserRouter(
   [
@@ -61,10 +60,6 @@ export const router = createBrowserRouter(
           path: '/:username/favorites',
         },
       ],
-    },
-    {
-      path: '/test',
-      element: <TestPage />,
     },
   ],
   {
