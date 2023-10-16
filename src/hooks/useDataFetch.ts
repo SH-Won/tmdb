@@ -1,5 +1,5 @@
 import { ISearchFilter } from './../../types/interface'
-import { useI18nTypes } from '@/hooks'
+import { useI18nTypes, useToast } from '@/hooks'
 import { ItemType } from '@/const/toggleBar'
 import { BaseCredits, BaseItem, BaseProvider, RelativeImageResponse } from '../../types/interface'
 import BackEnd from '@/networks'
@@ -38,6 +38,11 @@ interface IQueryDiscoverParams {
 interface IGenericQueryFn<U> {
   <T>(mediaType: U, ...arg: IMedia['id'][]): UseQueryResult<T>
 }
+// react-query staleTime, cacheTime
+// staleTime 은 데이터가 fetching 되고 데이터가 fresh 한 시간이다
+// staleTime 이 지나면 refetching 을 하게 되는데 이때 캐시가 남아있다면 cache 된 데이터를 먼저 보여줄 수 있다
+// cacheTime은 데이터가 inactive 할때 부터 시간이 카운트 다운 된다
+// cacheTime 이 지나면 메모리에서 삭제되므로 refetching
 export const getQueryConfig = (staleTime: number, enabled: boolean, onSuccess?: () => void) => {
   return {
     staleTime,
@@ -79,6 +84,7 @@ export const useQueryProvider = (
 }
 
 export const useQueryCommon = <T>(queryInfo: ItemType, page: number): UseQueryResult<T> => {
+  const { showToast } = useToast()
   return useQuery(
     [queryInfo.id, page],
     () =>
@@ -86,7 +92,16 @@ export const useQueryCommon = <T>(queryInfo: ItemType, page: number): UseQueryRe
         url: queryInfo.value,
         page,
       }),
-    getQueryConfig(30000, !!queryInfo)
+    {
+      ...getQueryConfig(300000, !!queryInfo),
+      retry: 1,
+      onError: (e) => {
+        showToast({
+          type: 'error',
+          text: '정보를 가져오는데 실패했습니다. 다시 불러오는 중입니다',
+        })
+      },
+    }
   )
 }
 export const useQuerySearch = <T>(

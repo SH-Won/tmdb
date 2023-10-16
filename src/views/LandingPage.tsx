@@ -1,5 +1,5 @@
 import '@/styles/LandingPage.scss'
-import { QUERY_KEY, useBreakPoints, useHelper, useI18nTypes } from '@/hooks'
+import { useHelper, useI18nTypes } from '@/hooks'
 import ToggleItemSection from '@/components/section/ToggleItemSection'
 import {
   TOGGLE_MOVIE_ITEM,
@@ -8,38 +8,22 @@ import {
   TOGGLE_UPCOMMING,
 } from '@/const/toggleBar'
 import SearchBox from '@/components/main/SearchBox'
-import { BaseItem, IOutletContext } from 'types/interface'
+import { IOutletContext } from 'types/interface'
 import UpcommingItemSection from '@/components/section/UpcommingItemSection'
 import { useOutletContext } from 'react-router-dom'
-import { QueryClient } from 'react-query'
-import BackEnd from '@/networks'
-import { Media } from '@/const/overall'
 
 const LandingPage = () => {
   const { t } = useI18nTypes()
-  const { breakPointsClass } = useBreakPoints()
   const { goDetailPage: goDetail } = useHelper()
   const { openTrailerPopup } = useOutletContext<IOutletContext>()
-
-  const goDetailPage = (item: BaseItem) => {
-    const media_type: Media = item.release_date ? 'movie' : 'tv'
-    const queryClient = new QueryClient()
-    queryClient.prefetchQuery(
-      [media_type, item.id, QUERY_KEY.DETAIL],
-      async () => await BackEnd.getInstance()[media_type].getDetail(item.id),
-      { staleTime: Infinity }
-    )
-    goDetail(item)
-  }
-
   return (
     <div>
       <SearchBox />
-      <div className={`dashboard ${breakPointsClass}`}>
+      <div className="dashboard">
         <ToggleItemSection
           toggleItems={TOGGLE_TRENDING_ITEMS}
           title={t('app.toggle.trendding')}
-          click={goDetailPage}
+          click={goDetail}
         />
         <UpcommingItemSection
           toggleItems={TOGGLE_UPCOMMING}
@@ -49,12 +33,12 @@ const LandingPage = () => {
         <ToggleItemSection
           toggleItems={TOGGLE_MOVIE_ITEM}
           title={t('app.toggle.movie')}
-          click={goDetailPage}
+          click={goDetail}
         />
         <ToggleItemSection
           toggleItems={TOGGLE_TV_ITEM}
           title={t('app.toggle.tv')}
-          click={goDetailPage}
+          click={goDetail}
         />
       </div>
     </div>

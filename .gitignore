@@ -14,7 +14,7 @@ dist-ssr
 .env
 WidgetPage.tsx
 WidgetPage.scss
-
+src/test
 
 # Editor directories and files
 # .vscode/*

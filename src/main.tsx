@@ -1,4 +1,3 @@
-import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.scss'
 import { RouterProvider } from 'react-router-dom'
@@ -8,6 +7,7 @@ import '@/i18n'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { RecoilRoot } from 'recoil'
 import { Toast } from './components/toast/Toast'
+import ResponsiveWindow from './layout/ResponsiveWindow'
 const rootElement = document.querySelector('#root')
 
 if (!rootElement) {
@@ -25,7 +25,9 @@ const root = createRoot(rootElement)
 root.render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <ResponsiveWindow>
+        <RouterProvider router={router} />
+      </ResponsiveWindow>
       <Toast />
     </QueryClientProvider>
   </RecoilRoot>

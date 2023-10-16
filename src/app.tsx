@@ -21,6 +21,7 @@ import '@/components/filter/Filter.scss'
 import userPopupConfig from './views/user_popup/userPopupConfig'
 import IconButton from './components/common/Iconbutton'
 import UserImage from './components/user/UserImage'
+import ResponsiveWindow from './layout/ResponsiveWindow'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()
@@ -77,81 +78,75 @@ const App = () => {
 
   return (
     <>
-      <div className={`main-container ${breakPointsClass}`}>
-        <Navigation
-          title={t('app.dashboard.title')}
-          isMobile={mobile}
-          back={isNotDashBoardPage ? goBack : undefined}
-          fixed={true}
-        >
-          <div className="header-items">
-            <HeaderItem items={HEADER_MOVIE_OPTION} click={goPage} title="영화" isMobile={mobile} />
-            <HeaderItem items={HEADER_TV_OPTION} click={goPage} title="TV" isMobile={mobile} />
-            <HeaderItem
-              items={HEADER_PERSON_OPTION}
-              click={goPage}
-              title="인물"
-              isMobile={mobile}
+      <Navigation
+        title={t('app.dashboard.title')}
+        isMobile={mobile}
+        back={isNotDashBoardPage ? goBack : undefined}
+        fixed={true}
+      >
+        <div className="header-items">
+          <HeaderItem items={HEADER_MOVIE_OPTION} click={goPage} title="영화" isMobile={mobile} />
+          <HeaderItem items={HEADER_TV_OPTION} click={goPage} title="TV" isMobile={mobile} />
+          <HeaderItem items={HEADER_PERSON_OPTION} click={goPage} title="인물" isMobile={mobile} />
+        </div>
+        {!loginUser ? (
+          <div className="user-button-container">
+            <IconButton
+              iconName="Login"
+              iconSize={mobile ? 'medium' : 'small'}
+              iconPosition="back"
+              iconColor={Colors.grey_111}
+              fontColor={Colors.grey_111}
+              buttonBorder="transparent"
+              click={() =>
+                login({
+                  name: 'Login',
+                })
+              }
+            >
+              {!mobile ? t('app.button.login') : null}
+            </IconButton>
+            <IconButton
+              iconName="Signup"
+              iconSize={mobile ? 'medium' : 'small'}
+              iconPosition="back"
+              iconColor={Colors.grey_111}
+              fontColor={Colors.grey_111}
+              buttonBorder="transparent"
+              click={() =>
+                signup({
+                  name: 'Signup',
+                })
+              }
+            >
+              {!mobile ? t('app.button.signup') : null}
+            </IconButton>
+          </div>
+        ) : (
+          <div className="user-button-container">
+            <UserImage
+              imageUrl={loginUser.photoURL}
+              click={() =>
+                openUserStatusPopup({
+                  name: 'UserStatus',
+                  props: {
+                    logout,
+                  },
+                })
+              }
             />
           </div>
-          {!loginUser ? (
-            <div className="user-button-container">
-              <IconButton
-                iconName="Login"
-                iconSize={mobile ? 'medium' : 'small'}
-                iconPosition="back"
-                iconColor={Colors.grey_111}
-                fontColor={Colors.grey_111}
-                buttonBorder="transparent"
-                click={() =>
-                  login({
-                    name: 'Login',
-                  })
-                }
-              >
-                {!mobile ? t('app.button.login') : null}
-              </IconButton>
-              <IconButton
-                iconName="Signup"
-                iconSize={mobile ? 'medium' : 'small'}
-                iconPosition="back"
-                iconColor={Colors.grey_111}
-                fontColor={Colors.grey_111}
-                buttonBorder="transparent"
-                click={() =>
-                  signup({
-                    name: 'Signup',
-                  })
-                }
-              >
-                {!mobile ? t('app.button.signup') : null}
-              </IconButton>
-            </div>
-          ) : (
-            <div className="user-button-container">
-              <UserImage
-                imageUrl={loginUser.photoURL}
-                click={() =>
-                  openUserStatusPopup({
-                    name: 'UserStatus',
-                    props: {
-                      logout,
-                    },
-                  })
-                }
-              />
-            </div>
-          )}
-        </Navigation>
-        <Suspense fallback={<PageLoadingSpinner text="please wait a second" />}>
-          {!loading && <Outlet context={outletContext} />}
-        </Suspense>
-        <LoginPopupRouter />
-        <SignUpPopupRouter />
-        <UpCommingTrailerPopupRouter />
-        <UserStatusPopup />
-        {loading && <LoadingSpinner opacity={0.6} />}
-      </div>
+        )}
+      </Navigation>
+      <Suspense fallback={<PageLoadingSpinner text="please wait a second" />}>
+        {!loading && <Outlet context={outletContext} />}
+      </Suspense>
+      <LoginPopupRouter />
+      <SignUpPopupRouter />
+      <UpCommingTrailerPopupRouter />
+      <UserStatusPopup />
+
+      {loading ? <LoadingSpinner opacity={0.6} /> : <></>}
     </>
   )
 }

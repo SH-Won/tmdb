@@ -6,12 +6,15 @@
   display: grid;
   grid-template-columns: 1fr 1.95fr;
   gap: 16px;
-  &.mobile {
+  .mobile & {
     display: flex;
     flex-direction: column;
   }
   & > .actor-profile {
     & > .actor-explain {
+      & h3 {
+        margin: 0;
+      }
       padding: 16px 0;
       display: flex;
       flex-direction: column;

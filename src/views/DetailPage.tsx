@@ -1,4 +1,4 @@
-import { useBreakPoints, useQueryDetail, useQueryCredits, useI18nTypes, useUser } from '@/hooks'
+import { useQueryDetail, useQueryCredits, useI18nTypes, useUser } from '@/hooks'
 import { useLoaderData, useOutletContext } from 'react-router-dom'
 import { BaseCredits, BaseCrew, BaseItemDetail, IOutletContext } from 'types/interface'
 import '@/styles/DetailPage.scss'
@@ -14,7 +14,6 @@ const DetailPage = () => {
   const { login } = useOutletContext<IOutletContext>()
   const { loginUser, addFavorite, removeFavorite } = useUser()
   const { media_type, id } = useLoaderData() as { media_type: 'movie' | 'tv'; id: string }
-  const { breakPointsClass } = useBreakPoints()
   const { t } = useI18nTypes()
   const { data: item, isLoading } = useQueryDetail<BaseItemDetail>(media_type, parseInt(id))
   const { data: credits, isLoading: creditsLoading } = useQueryCredits<BaseCredits>(
@@ -45,7 +44,7 @@ const DetailPage = () => {
   // }
 
   return (
-    <div className={`detail-page ${breakPointsClass}`}>
+    <div className="detail-page">
       <Intro item={item!} crews={crews} />
       <div className="detail-content">
         <div className="content-cast-recommend">

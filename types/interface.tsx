@@ -32,6 +32,7 @@ export interface BaseItem {
   backdrop_path: string
   genre_ids: object
   id: number
+  credit_id?: string
   original_language: string
   original_title: string
   original_name?: string
