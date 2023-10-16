@@ -78,11 +78,8 @@ const App = () => {
 
   return (
     <>
-      {/* <ResponsiveWindow> */}
-      {/* <div className={`main-container ${breakPointsClass}`}> */}
       <Navigation
         title={t('app.dashboard.title')}
-        // isMobile={mobile}
         isMobile={mobile}
         back={isNotDashBoardPage ? goBack : undefined}
         fixed={true}
@@ -150,7 +147,6 @@ const App = () => {
       <UserStatusPopup />
 
       {loading ? <LoadingSpinner opacity={0.6} /> : <></>}
-      {/* </ResponsiveWindow> */}
     </>
   )
 }
