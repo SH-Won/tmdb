@@ -28,7 +28,8 @@ export default class PersonAPI extends FetchAPI implements BaseClassProps {
     return response.data
   }
   getCredits = async <T>(personId: number): Promise<T> => {
-    const url = this.urlPrefix + personId + '/combined_credits'
+    // api 주소 변경 됨 /combined_credits 에서 /credits 으로
+    const url = this.urlPrefix + personId + '/credits'
     const response = await this.fetch({
       method: 'GET',
       url,
