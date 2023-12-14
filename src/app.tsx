@@ -21,7 +21,6 @@ import '@/components/filter/Filter.scss'
 import userPopupConfig from './views/user_popup/userPopupConfig'
 import IconButton from './components/common/Iconbutton'
 import UserImage from './components/user/UserImage'
-import ResponsiveWindow from './layout/ResponsiveWindow'
 const App = () => {
   const { t } = useI18nTypes()
   const { breakPointsClass } = useBreakPoints()

@@ -64,6 +64,7 @@ const SearchPage = () => {
     setFilter((prevState) => ({
       ...prevState,
       [selected]: {
+        ...prevState[selected],
         page: pageNumber,
       },
     }))
