@@ -14,7 +14,7 @@
     "browserify-rsa": "^4.1.0",
     "firebase": "^9.21.0",
     "i18next": "^22.4.14",
-    "my-react-component": "https://github.com/SH-Won/react-component.git#099fbfa37755cad762be1f9cd11eaa611def7c52",
+    "my-react-component": "https://github.com/SH-Won/react-component.git#e606ac2ee37704b95233527f078701198773efd6",
     "node-stdlib-browser": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
